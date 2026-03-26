@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/beach_room.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2"]
@@ -6,34 +6,10 @@
 [ext_resource type="Script" path="res://scripts/inventory.gd" id="5"]
 [ext_resource type="Script" path="res://scripts/verb_panel.gd" id="7"]
 
-[sub_resource type="StyleBoxFlat" id="dialogue_style"]
-bg_color = Color(0.08, 0.05, 0.03, 0.98)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 0
-border_color = Color(0.55, 0.41, 0.1, 1.0)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
-content_margin_left = 12.0
-content_margin_top = 6.0
-content_margin_right = 12.0
-content_margin_bottom = 6.0
-
 [sub_resource type="StyleBoxFlat" id="bottom_panel_style"]
-bg_color = Color(0.08, 0.05, 0.03, 1.0)
-border_width_top = 2
-border_color = Color(0.45, 0.33, 0.1, 1.0)
-
-[sub_resource type="StyleBoxFlat" id="inv_slot_style"]
-bg_color = Color(0.15, 0.1, 0.06, 1.0)
-border_width_left = 1
+bg_color = Color(0, 0, 0, 0.75)
 border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.4, 0.3, 0.12, 0.8)
+border_color = Color(0.35, 0.28, 0.1, 1.0)
 
 [node name="Beach" type="Node2D"]
 script = ExtResource("1")
@@ -53,40 +29,43 @@ script = ExtResource("2")
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="HoverText" type="Label" parent="UI"]
+[node name="BottomPanel" type="PanelContainer" parent="UI"]
 offset_left = 0.0
-offset_top = 302.0
+offset_top = 372.0
 offset_right = 640.0
-offset_bottom = 318.0
-theme_override_colors/font_color = Color(1.0, 0.82, 0.35, 1.0)
-theme_override_colors/font_shadow_color = Color(0.05, 0.03, 0.01, 0.9)
+offset_bottom = 480.0
+theme_override_styles/panel = SubResource("bottom_panel_style")
+
+[node name="VBox" type="VBoxContainer" parent="UI/BottomPanel"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="HoverText" type="Label" parent="UI/BottomPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 16)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.4, 1.0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
 text = ""
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BottomPanel" type="PanelContainer" parent="UI"]
-offset_left = 0.0
-offset_top = 380.0
-offset_right = 640.0
-offset_bottom = 480.0
-theme_override_styles/panel = SubResource("bottom_panel_style")
-
-[node name="HBox" type="HBoxContainer" parent="UI/BottomPanel"]
+[node name="HBox" type="HBoxContainer" parent="UI/BottomPanel/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="VerbPanel" type="GridContainer" parent="UI/BottomPanel/HBox"]
+[node name="VerbPanel" type="GridContainer" parent="UI/BottomPanel/VBox/HBox"]
 layout_mode = 2
 size_flags_horizontal = 0
 custom_minimum_size = Vector2(240, 0)
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 columns = 3
 script = ExtResource("7")
 
-[node name="Inventory" type="GridContainer" parent="UI/BottomPanel/HBox"]
+[node name="Inventory" type="GridContainer" parent="UI/BottomPanel/VBox/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 2
@@ -94,38 +73,21 @@ theme_override_constants/v_separation = 2
 columns = 4
 script = ExtResource("5")
 
-[node name="DialogueBox" type="PanelContainer" parent="UI"]
-visible = false
-offset_left = 0.0
-offset_top = 330.0
-offset_right = 640.0
-offset_bottom = 380.0
-theme_override_styles/panel = SubResource("dialogue_style")
+[node name="DialogueBox" type="Control" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("4")
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/DialogueBox"]
-layout_mode = 2
-
-[node name="Label" type="RichTextLabel" parent="UI/DialogueBox/MarginContainer"]
-layout_mode = 2
-theme_override_colors/default_color = Color(0.95, 0.92, 0.85, 1.0)
-theme_override_font_sizes/normal_font_size = 13
-text = ""
-fit_content = true
-scroll_active = false
 
 [node name="DialogueNameLabel" type="Label" parent="UI"]
 visible = false
-offset_left = 8.0
-offset_top = 316.0
-offset_right = 200.0
-offset_bottom = 332.0
-theme_override_colors/font_color = Color(1.0, 0.82, 0.35, 1.0)
-theme_override_colors/font_shadow_color = Color(0.05, 0.03, 0.01, 0.9)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "ROWAN"
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
 
 [node name="FadeOverlay" type="ColorRect" parent="UI"]
 offset_left = 0.0
