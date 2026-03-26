@@ -1,6 +1,6 @@
 # TERMINAL 4: Act 3 Complete (Rooms 16-21 + Endings + Engine Extensions)
-# STATUS: NOT STARTED
-# CLAIMED BY: (write your terminal ID here when you start)
+# STATUS: COMPLETE
+# CLAIMED BY: Claude Terminal — gstack session 2
 
 ## Instructions
 1. Read `design/act3_script.md` for full dialogue and puzzle design
