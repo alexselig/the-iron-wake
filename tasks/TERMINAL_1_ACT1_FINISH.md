@@ -1,6 +1,6 @@
 # TERMINAL 1: Finish Act 1 (Rooms 7-8 + Act 1 Playtest)
-# STATUS: NOT STARTED
-# CLAIMED BY: (write your terminal ID here when you start)
+# STATUS: COMPLETE
+# CLAIMED BY: Claude Terminal — gstack session 2 (rooms by T3, connectivity verified)
 
 ## Instructions
 1. Read `design/act1_script.md` Scenes 7-8 for full dialogue and puzzle design
