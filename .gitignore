@@ -1,0 +1,22 @@
+# Godot
+.godot/
+*.import
+export_presets.cfg
+export_presets.cfg.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Archives (keep in repo but ignore future temp ones)
+*.tmp
+
+# Editor
+*.swp
+*.swo
+*~
