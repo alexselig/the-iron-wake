@@ -57,6 +57,11 @@ func _build_room() -> void:
 func _on_room_ready() -> void:
 	room_name = "customs_shack"
 
+	# Map speaker names to NPC node names for talk animations
+	speaker_to_node = {
+		"PINDLE": "PindleDesk"
+	}
+
 	pindle_desk = $Props/PindleDesk
 	permit_ledger = $Props/PermitLedger
 	ink_pad = $Props/InkPad

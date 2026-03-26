@@ -49,7 +49,7 @@ func add_item(item_name: String) -> void:
 
 func remove_item(item_name: String) -> void:
 	inventory_items.erase(item_name)
-	items_collected[item_name] = false
+	# Don't reset items_collected — it tracks "ever collected" history
 
 func has_item(item_name: String) -> bool:
 	return item_name in inventory_items
@@ -100,6 +100,7 @@ func has_seen_dialogue(dialogue_id: String) -> bool:
 func save_game() -> void:
 	var data := {
 		"current_room": current_room,
+		"previous_room": previous_room,
 		"visited_rooms": visited_rooms,
 		"inventory_items": inventory_items,
 		"flags": flags,
@@ -123,6 +124,7 @@ func load_game() -> bool:
 		return false
 	var data: Dictionary = json.data
 	current_room = data.get("current_room", "")
+	previous_room = data.get("previous_room", "")
 	visited_rooms = data.get("visited_rooms", {})
 	var loaded_items = data.get("inventory_items", [])
 	inventory_items.clear()

@@ -41,6 +41,8 @@ To create a new room:
 3. Override: `_load_room_background()`, `_build_room()`, `_on_room_ready()`, `_play_intro()`
 4. Build props/NPCs via `SceneBuilder` static methods
 5. Define verb handlers with match statements
+6. **IMPORTANT**: Set `speaker_to_node` dict in `_on_room_ready()` mapping speaker names to NPC node names (e.g., `speaker_to_node = {"PINDLE": "PindleDesk"}`) — without this, NPCs won't animate when talking
+7. Set `walkable_y_min`/`walkable_y_max` exports if the room needs a different walk zone (default: 200-350)
 
 ### Art Conventions
 - Backgrounds: `assets/backgrounds/{room_name}_full.png`
@@ -59,15 +61,10 @@ All scripts use `_load_texture()` with fallback for missing .import files. Alway
 - **Act 3 Script**: `design/act3_script.md`
 - **Implementation Plan**: `~/.claude/plans/wiggly-gliding-flask.md`
 
-## Known Issues
-- `npc.gd` is unused (SceneBuilder creates NPCs as Clickable nodes)
+## Known Issues (remaining)
 - `player.gd` has dead code: `speech_finished` signal, `is_talking` variable, stale "Elara Voss" comment
 - `clickable.gd` has unused `item_used` signal
 - Missing inventory icons for `blank_form` and `filled_form`
-- `customs_shack_room.gd` missing `speaker_to_node` mapping (Pindle won't animate)
-- `GameState.items_collected` semantics are broken (remove_item sets to false)
-- Hardcoded walkable y-range (200-350) in adventure_room.gd
-- `previous_room` not saved/loaded in GameState persistence
 
 ## Commands
 - Run game: Open in Godot 4.6, press F5

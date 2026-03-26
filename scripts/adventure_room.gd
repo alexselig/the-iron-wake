@@ -10,13 +10,17 @@ extends Node2D
 @export var room_name: String = ""
 @export var room_scene_path: String = ""  # res:// path to this room's .tscn
 
+# Walkable area bounds (override per room for different layouts)
+@export var walkable_y_min: float = 200.0
+@export var walkable_y_max: float = 350.0
+
 # UI references — set in _ready or by scene tree
 @onready var player: CharacterBody2D = $Player
-@onready var dialogue_box: PanelContainer = $UI/DialogueBox
-@onready var inventory: GridContainer = $UI/BottomPanel/HBox/Inventory
-@onready var hover_text: Label = $UI/HoverText
+@onready var dialogue_box = $UI/DialogueBox
+var inventory: GridContainer
+var hover_text: Label
 @onready var fade_overlay: ColorRect = $UI/FadeOverlay
-@onready var verb_panel: GridContainer = $UI/BottomPanel/HBox/VerbPanel
+var verb_panel
 
 var is_busy := false
 var _in_scripted_sequence := false
@@ -91,14 +95,23 @@ func _get_entry_position() -> Vector2:
 	return Vector2.ZERO
 
 func _connect_ui() -> void:
+	# Find UI nodes (layout: BottomPanel/VBox/HoverText + BottomPanel/VBox/HBox/Verb+Inv)
+	verb_panel = get_node_or_null("UI/BottomPanel/VBox/HBox/VerbPanel")
+	if not verb_panel:
+		verb_panel = get_node_or_null("UI/BottomPanel/HBox/VerbPanel")
+	inventory = get_node_or_null("UI/BottomPanel/VBox/HBox/Inventory")
+	if not inventory:
+		inventory = get_node_or_null("UI/BottomPanel/HBox/Inventory")
+	hover_text = get_node_or_null("UI/BottomPanel/VBox/HoverText")
+	if not hover_text:
+		hover_text = get_node_or_null("UI/HoverText")
+
 	if verb_panel:
 		verb_panel.verb_selected.connect(_on_verb_selected)
 	if inventory:
 		inventory.item_selected.connect(_on_inventory_item_selected)
 		inventory.item_deselected.connect(_on_inventory_item_deselected)
 		inventory.items_combined.connect(_on_items_combined)
-	if dialogue_box and has_node("UI/DialogueNameLabel"):
-		dialogue_box.name_label = $UI/DialogueNameLabel
 
 func _sync_inventory() -> void:
 	## Restore inventory from GameState
@@ -148,7 +161,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var mouse_pos := get_global_mouse_position()
-		if mouse_pos.y > 200 and mouse_pos.y < 350:
+		if mouse_pos.y > walkable_y_min and mouse_pos.y < walkable_y_max:
 			if selected_inventory_item == "" and current_verb != "use":
 				player.walk_to(mouse_pos)
 
@@ -290,9 +303,12 @@ func take_item(item_name: String) -> void:
 func _say(text: String) -> void:
 	if not dialogue_box:
 		return
-	dialogue_box.show_dialogue("ROWAN", text)
+	# Position overhead text above Rowan
 	if player:
+		dialogue_box.show_dialogue_at("ROWAN", text, player.global_position)
 		player._play_talk()
+	else:
+		dialogue_box.show_dialogue("ROWAN", text)
 	await dialogue_box.dialogue_finished
 	if player:
 		player._play_idle()
@@ -304,23 +320,28 @@ var speaker_to_node: Dictionary = {}
 func _say_as(speaker: String, text: String) -> void:
 	if not dialogue_box:
 		return
-	dialogue_box.show_dialogue(speaker, text)
 
-	# Animate the speaker
+	# Find the speaker's position for overhead text
 	var npc_sprite: AnimatedSprite2D = null
 	if speaker == "ROWAN" and player:
+		dialogue_box.show_dialogue_at(speaker, text, player.global_position)
 		player._play_talk()
 	elif speaker in speaker_to_node:
 		var node_name: String = speaker_to_node[speaker]
 		var npc := get_node_or_null("Props/" + node_name)
 		if npc:
+			dialogue_box.show_dialogue_at(speaker, text, npc.global_position)
 			npc_sprite = npc.get_node_or_null("AnimatedSprite2D")
 			if npc_sprite:
-				# Play talk animation matching current facing
 				var current_anim: String = npc_sprite.animation
 				var talk_anim := "talk_left" if "left" in current_anim else "talk_right"
 				if npc_sprite.sprite_frames.has_animation(talk_anim):
 					npc_sprite.play(talk_anim)
+		else:
+			dialogue_box.show_dialogue(speaker, text)
+	else:
+		# Unknown speaker — show centered
+		dialogue_box.show_dialogue_at(speaker, text, Vector2(320, 150))
 
 	await dialogue_box.dialogue_finished
 
