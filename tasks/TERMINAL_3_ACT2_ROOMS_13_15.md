@@ -1,6 +1,6 @@
 # TERMINAL 3: Act 2 Second Half (Rooms 13-15 + Act 2 Finale)
-# STATUS: NOT STARTED
-# CLAIMED BY: (write your terminal ID here when you start)
+# STATUS: COMPLETE
+# CLAIMED BY: Claude Terminal — gstack session 2
 
 ## Instructions
 1. Read `design/act2_script.md` Scenes 5-7 for full dialogue and puzzle design
