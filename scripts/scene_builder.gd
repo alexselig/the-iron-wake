@@ -181,7 +181,7 @@ static func build_all(scene: Node2D) -> void:
 	# Crowd (visible prop, non-collectible)
 	build_prop(props, "Crowd", Vector2(280, 270),
 		"the crowd", "res://assets/props/crowd.png",
-		Vector2(0, 20), false, false, Vector2(120, 50))
+		Vector2(0, 20), false, false, Vector2(140, 36))
 
 	# Tibbit NPC — animated sprite, facing right (toward relic)
 	build_npc(props, "TibbitNPC", Vector2(250, 285),
