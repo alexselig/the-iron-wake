@@ -178,9 +178,10 @@ static func build_all(scene: Node2D) -> void:
 		"a warning placard", "res://assets/props/cipher_plates.png",
 		Vector2(0, 40), false, false, Vector2(40, 24))
 
-	# Crowd (non-collectible, just clickable)
-	build_hotspot(props, "Crowd", Vector2(280, 270),
-		"the crowd", Vector2(0, 20), Vector2(80, 40))
+	# Crowd (visible prop, non-collectible)
+	build_prop(props, "Crowd", Vector2(280, 270),
+		"the crowd", "res://assets/props/crowd.png",
+		Vector2(0, 20), false, false, Vector2(80, 40))
 
 	# Tibbit NPC — animated sprite, facing right (toward relic)
 	build_npc(props, "TibbitNPC", Vector2(250, 285),
@@ -189,6 +190,11 @@ static func build_all(scene: Node2D) -> void:
 	# Pindle NPC — animated sprite, facing left (toward crowd)
 	build_npc(props, "PindleNPC", Vector2(380, 280),
 		"Dockmaster Pindle", "pindle", Vector2(-20, 5), true, Vector2(40, 50))
+
+	# Pindle's inspection stamp — on his desk/crate, starts hidden until he's distracted
+	build_prop(props, "StampProp", Vector2(395, 295),
+		"Pindle's inspection stamp", "res://assets/props/stamp.png",
+		Vector2(-10, -5), true, true, Vector2(20, 20))
 
 	# === HOTSPOTS ===
 
