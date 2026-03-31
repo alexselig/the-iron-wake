@@ -71,7 +71,11 @@ func _on_room_ready() -> void:
 			connect_clickable(node)
 
 func _get_entry_position() -> Vector2:
-	return Vector2(100, 290)
+	match GameState.previous_room:
+		"fogwound_ruins":
+			return Vector2(520, 285)
+		_:
+			return Vector2(100, 290)
 
 func _play_intro() -> void:
 	is_busy = true

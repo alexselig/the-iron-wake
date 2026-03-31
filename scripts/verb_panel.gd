@@ -23,12 +23,15 @@ const VERB_COLORS = {
 }
 
 func _ready() -> void:
+	columns = 3
+	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for verb_id in VERBS:
 		var btn := Button.new()
 		btn.text = VERBS[verb_id]
 		btn.name = verb_id
-		btn.custom_minimum_size = Vector2(76, 28)
-		btn.add_theme_font_size_override("font_size", 9)
+		btn.custom_minimum_size = Vector2(90, 36)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.add_theme_font_size_override("font_size", 11)
 		btn.add_theme_color_override("font_color", VERB_COLORS.normal)
 		btn.add_theme_color_override("font_hover_color", VERB_COLORS.hover)
 		btn.add_theme_color_override("font_pressed_color", VERB_COLORS.selected)

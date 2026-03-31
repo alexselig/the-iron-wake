@@ -14,20 +14,20 @@ A sarcastic drifter (Rowan Vale) follows washed-up ancient machines across a ste
 - `GameState` (`scripts/game_state.gd`) — global singleton for inventory, flags, room tracking, save/load
 
 ### Core Scripts (`scripts/`)
-- `adventure_room.gd` — base class for ALL rooms (verb handling, dialogue, inventory, transitions, hover text)
-- `dialogue_tree.gd` — branching NPC conversations (RefCounted, built in code with chainable API)
+- `adventure_room.gd` — base class for ALL rooms (verb handling, dialogue, inventory, transitions, hover text, dialogue tree runner)
+- `dialogue_tree.gd` — branching NPC conversations (RefCounted, chainable API, supports conditions/flags/items)
 - `cutscene_player.gd` — scripted sequences (walk, say, fade, give items) via builder pattern
-- `scene_builder.gd` — factory that builds all scene elements (player, props, hotspots, NPCs) in code
+- `scene_builder.gd` — factory: `build_prop()`, `build_hotspot()`, `build_npc()`, `build_player_sprite()`. Note: `build_all()` only works for beach room
 - `clickable.gd` — base for all interactive objects (click/hover detection, highlight, bobbing)
-- `player.gd` — CharacterBody2D, walk-to-target, facing, animation
-- `npc.gd` — NPC class (currently unused — SceneBuilder uses Clickable instead)
+- `player.gd` — CharacterBody2D, walk-to-target, facing, animation (sprite loaded from `assets/characters/frames/`)
+- `npc.gd` — NPC class (currently unused — SceneBuilder.build_npc uses Clickable with AnimatedSprite2D instead)
 - `verb_panel.gd` — 6-verb LucasArts-style panel (look, talk, pick up, use, open, push)
-- `dialogue_box.gd` — typewriter text display
-- `inventory.gd` — 8-slot grid with item icons and combination support
+- `dialogue_box.gd` — Popochiu-style overhead floating text with per-character colors, word-by-word reveal, semi-transparent background, black outline. NO dialogue box panel.
+- `inventory.gd` — 8-slot grid with item icons and combination support. Syncs with GameState on room load.
 
 ### Room Scripts
-- `beach_room.gd` — Room 1: Blackwake Harbor (intro, puzzles, Tibbit/Pindle NPCs)
-- `customs_shack_room.gd` — Room 2: Pindle's customs office (permit forging puzzle)
+- `beach_room.gd` — Room 1: Blackwake Harbor (full Puzzle 1: spyglass→dry sand→distract Pindle→steal stamp→scrape→medallion→steam valve→memory vision)
+- `customs_shack_room.gd` — Room 2: Pindle's customs office (Puzzle 2: forge a permit)
 
 ### Scene Structure
 - Each room is a full .tscn scene with its own UI copy
@@ -61,14 +61,46 @@ All scripts use `_load_texture()` with fallback for missing .import files. Alway
 - **Act 3 Script**: `design/act3_script.md`
 - **Implementation Plan**: `~/.claude/plans/wiggly-gliding-flask.md`
 
+## Parallel Development (4 Terminals)
+
+This project is built in parallel across 4 Claude terminal windows. Each terminal has a dedicated task file:
+
+- `tasks/TERMINAL_1_ROOMS_3_4.md` — Salvage Warehouse + Brass Bazaar
+- `tasks/TERMINAL_2_ROOMS_5_6.md` — Tibbit's Workshop + Harbor Cliffs
+- `tasks/TERMINAL_3_ROOMS_7_8.md` — Lighthouse Exterior + Chamber
+- `tasks/TERMINAL_4_ART_POLISH.md` — Art, inventory icons, NPC consistency, connectivity
+
+**When starting work:**
+1. Check `grep "STATUS:" tasks/TERMINAL_*.md` to see which are unclaimed
+2. Pick an unclaimed task file
+3. Update its STATUS to `IN PROGRESS` and CLAIMED BY to your terminal ID
+4. Follow the task list in that file
+5. Mark tasks with `[x]` as you complete them
+6. When done, set STATUS to `COMPLETE`
+
+**Rules:**
+- Do NOT work on another terminal's files
+- Each terminal creates independent room scripts — no merge conflicts
+- Shared files (`adventure_room.gd`, `scene_builder.gd`) are only edited by Terminal 4
+- Full plan: `PARALLEL_PLAN.md`
+
 ## Known Issues (remaining)
 - `player.gd` has dead code: `speech_finished` signal, `is_talking` variable, stale "Elara Voss" comment
 - `clickable.gd` has unused `item_used` signal
 - Missing inventory icons for `blank_form` and `filled_form`
 
 ## Commands
-- Run game: Open in Godot 4.6, press F5
-- Generate art: `python generate_characters.py` (requires Gemini API key)
+- Run game: `/Applications/Godot.app/Contents/MacOS/Godot --path ~/SteampunkBeachDemo`
+- Open editor (triggers reimport): `/Applications/Godot.app/Contents/MacOS/Godot --editor --path ~/SteampunkBeachDemo`
+- Generate character poses: `python3 generate_poses.py` (Gemini API, generates all 11 characters)
+- Fix character consistency: `python3 fix_rowan_poses.py` (uses idle.png as reference image)
+- Process poses into sprites: `python3 process_characters.py` (removes bg, crops, resizes, mirrors)
+- After adding new assets: must open Godot editor to trigger reimport, or clear `.godot/imported/`
+
+## GitHub
+- Repo: https://github.com/alexselig/the-iron-wake (personal account)
+- Push requires PAT (keychain defaults to corporate). Use: `git -c credential.helper= push`
+- Remote URL should NOT contain the PAT — pass it via credential helper override
 
 ## gstack
 Use the /browse skill from gstack for all web browsing. Available skills:

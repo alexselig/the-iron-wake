@@ -4,6 +4,7 @@ extends Control
 ## Popochiu-style: colored text with black outline, no background box.
 
 signal dialogue_finished()
+signal text_revealed()  # Emitted when word-by-word reveal completes
 
 var rich_text: RichTextLabel
 var is_showing := false
@@ -14,6 +15,7 @@ const WORD_SPEED := 0.08  # seconds per word
 var words: PackedStringArray = []
 var current_word_index := 0
 var skip_requested := false
+var _pitch_offset := 0  # Random start offset per dialogue line
 
 # Position tracking
 var target_screen_pos := Vector2.ZERO
@@ -36,8 +38,18 @@ const DEFAULT_COLOR := Color(0.9, 0.9, 0.9)
 var name_label: Label
 
 var bg_panel: PanelContainer
+var _blip_player: AudioStreamPlayer
 
 func _ready() -> void:
+	# Dialogue blip sound — subtle melodic pluck
+	_blip_player = AudioStreamPlayer.new()
+	_blip_player.bus = "Master"
+	_blip_player.volume_db = -21.0
+	add_child(_blip_player)
+	var blip_stream := _load_audio("res://assets/sfx/dialogue_blip.wav")
+	if blip_stream:
+		_blip_player.stream = blip_stream
+
 	# Semi-transparent background panel
 	bg_panel = PanelContainer.new()
 	bg_panel.name = "BgPanel"
@@ -81,14 +93,26 @@ func _process(delta: float) -> void:
 		skip_requested = false
 		return
 	word_timer += delta
+	var prev_index := current_word_index
 	while word_timer >= WORD_SPEED and current_word_index < words.size():
 		current_word_index += 1
 		word_timer -= WORD_SPEED
+	if current_word_index > prev_index and _blip_player and _blip_player.stream:
+		# Blip every 2nd word — balanced cadence
+		if current_word_index % 2 == 1:
+			var pitches := [0.75, 0.85, 0.9, 1.0, 1.1]
+			_blip_player.pitch_scale = pitches[(current_word_index + _pitch_offset) % pitches.size()]
+			_blip_player.play()
 	_update_display()
+
+var _text_revealed_emitted := false
 
 func _update_display() -> void:
 	var visible_text := " ".join(words.slice(0, current_word_index))
 	rich_text.text = "[center][color=%s]%s[/color][/center]" % [color_hex, visible_text]
+	if current_word_index >= words.size() and not _text_revealed_emitted:
+		_text_revealed_emitted = true
+		text_revealed.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_showing:
@@ -109,6 +133,7 @@ func show_dialogue(speaker: String, text: String) -> void:
 	var color: Color = SPEAKER_COLORS.get(speaker, DEFAULT_COLOR)
 	color_hex = "#" + color.to_html(false)
 	plain_text = text
+	_pitch_offset = randi() % 5  # Random starting note per line
 	words = PackedStringArray(text.split(" "))
 	current_word_index = 0
 	word_timer = 0.0
@@ -117,6 +142,7 @@ func show_dialogue(speaker: String, text: String) -> void:
 	bg_panel.visible = true
 	is_showing = true
 	skip_requested = false
+	_text_revealed_emitted = false
 
 	if name_label:
 		name_label.visible = false
@@ -154,3 +180,19 @@ func force_dismiss() -> void:
 # Legacy compat — old code checked .is_showing on the node directly
 func get_is_showing() -> bool:
 	return is_showing
+
+func _load_audio(res_path: String) -> AudioStream:
+	if ResourceLoader.exists(res_path):
+		return load(res_path)
+	var abs_path := ProjectSettings.globalize_path(res_path)
+	if FileAccess.file_exists(abs_path):
+		var stream := AudioStreamWAV.new()
+		var file := FileAccess.open(abs_path, FileAccess.READ)
+		if file:
+			file.seek(44)
+			stream.data = file.get_buffer(file.get_length() - 44)
+			stream.format = AudioStreamWAV.FORMAT_16_BITS
+			stream.mix_rate = 44100
+			stream.stereo = false
+			return stream
+	return null

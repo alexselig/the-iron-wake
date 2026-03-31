@@ -56,6 +56,9 @@ func _build_room() -> void:
 	SceneBuilder.build_hotspot(hotspots, "DoorLighthouse", Vector2(580, 260),
 		"the lighthouse path", Vector2(-30, 15), Vector2(40, 60))
 
+func _get_music_path() -> String:
+	return "res://assets/music/harbor_ambient.wav"
+
 func _on_room_ready() -> void:
 	room_name = "harbor_cliffs"
 
@@ -138,7 +141,7 @@ func _look_at(obj: Clickable) -> void:
 		"DoorLighthouse":
 			await _say("The path continues up to the Hushlight Lighthouse.")
 		_:
-			await _say("Nothing remarkable about that.")
+			await _say(_random_response(_LOOK_RESPONSES))
 
 func _talk_to(obj: Clickable) -> void:
 	match obj.name:
@@ -148,7 +151,7 @@ func _talk_to(obj: Clickable) -> void:
 		"BoundaryStone1", "BoundaryStone2":
 			await _say("The stones have plenty to say. None of it in any language I speak.")
 		_:
-			await _say("Talking to that seems optimistic.")
+			await _say(_random_response(_TALK_RESPONSES))
 
 func _pick_up(obj: Clickable) -> void:
 	match obj.name:
@@ -157,7 +160,7 @@ func _pick_up(obj: Clickable) -> void:
 		"IronRailings":
 			await _say("The railings are bolted down. And also the only thing between me and a long fall.")
 		_:
-			await _say("I can't pick that up.")
+			await _say(_random_response(_PICK_UP_RESPONSES))
 
 func _use(obj: Clickable) -> void:
 	match obj.name:
@@ -168,7 +171,7 @@ func _use(obj: Clickable) -> void:
 		"IronRailings":
 			await _say("I lean on the railing. It groans. I stop leaning.")
 		_:
-			await _say("I don't know how to use that on its own.")
+			await _say(_random_response(_USE_RESPONSES))
 
 func _open(obj: Clickable) -> void:
 	match obj.name:
@@ -177,7 +180,7 @@ func _open(obj: Clickable) -> void:
 		"DoorLighthouse":
 			go_to_room("res://scenes/rooms/lighthouse_exterior.tscn")
 		_:
-			await _say("That doesn't open.")
+			await _say(_random_response(_OPEN_RESPONSES))
 
 func _push(obj: Clickable) -> void:
 	match obj.name:
@@ -186,7 +189,7 @@ func _push(obj: Clickable) -> void:
 		"IronRailings":
 			await _say("I'd rather not test how well-anchored these are.")
 		_:
-			await _say("Pushing that accomplishes nothing except proving I tried.")
+			await _say(_random_response(_PUSH_RESPONSES))
 
 func _on_use_item(_item_name: String, _target: Clickable) -> bool:
 	return false

@@ -8,7 +8,17 @@ from google import genai
 from google.genai import types
 from PIL import Image
 
-API_KEY = "REDACTED"
+API_KEY = os.environ.get("GEMINI_API_KEY", "")
+
+# Load from .env if present
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if not API_KEY and os.path.exists(_env_path):
+    for _line in open(_env_path):
+        if _line.startswith("GEMINI_API_KEY="):
+            API_KEY = _line.strip().split("=", 1)[1]
+if not API_KEY:
+    print("ERROR: Set GEMINI_API_KEY in .env or environment. Never hardcode it.")
+    exit(1)
 MODEL = "gemini-2.5-flash-image"
 POSE_DIR = os.path.expanduser("~/SteampunkBeachDemo/design/character_poses/01_rowan")
 FRAMES_DIR = os.path.expanduser("~/SteampunkBeachDemo/assets/characters/frames")

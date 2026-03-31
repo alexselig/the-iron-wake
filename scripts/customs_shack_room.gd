@@ -54,6 +54,9 @@ func _build_room() -> void:
 	SceneBuilder.build_hotspot(hotspots, "DoorOut", Vector2(80, 260),
 		"the door outside", Vector2(30, 15), Vector2(40, 60))
 
+func _get_music_path() -> String:
+	return "res://assets/music/harbor_ambient.wav"
+
 func _on_room_ready() -> void:
 	room_name = "customs_shack"
 
@@ -123,7 +126,7 @@ func _look_at(obj: Clickable) -> void:
 		"DoorOut":
 			await _say("The door back to the harbor. Fresh air and fewer stamps.")
 		_:
-			await _say("Nothing remarkable about that.")
+			await _say(_random_response(_LOOK_RESPONSES))
 
 func _talk_to(obj: Clickable) -> void:
 	match obj.name:
@@ -131,7 +134,7 @@ func _talk_to(obj: Clickable) -> void:
 			var tree := _build_pindle_office_dialogue()
 			await run_dialogue_tree(tree)
 		_:
-			await _say("Talking to that seems optimistic.")
+			await _say(_random_response(_TALK_RESPONSES))
 
 func _pick_up(obj: Clickable) -> void:
 	match obj.name:
@@ -149,7 +152,7 @@ func _pick_up(obj: Clickable) -> void:
 		"SealPress":
 			await _say("Pindle would notice immediately. I need another approach.")
 		_:
-			await _say("I can't pick that up.")
+			await _say(_random_response(_PICK_UP_RESPONSES))
 
 func _use(obj: Clickable) -> void:
 	match obj.name:
@@ -165,7 +168,7 @@ func _use(obj: Clickable) -> void:
 			else:
 				await _say("I have nothing to seal.")
 		_:
-			await _say("I don't know how to use that on its own.")
+			await _say(_random_response(_USE_RESPONSES))
 
 func _open(obj: Clickable) -> void:
 	match obj.name:
@@ -174,14 +177,14 @@ func _open(obj: Clickable) -> void:
 		"DoorOut":
 			go_to_room("res://scenes/main.tscn")
 		_:
-			await _say("That doesn't open.")
+			await _say(_random_response(_OPEN_RESPONSES))
 
 func _push(obj: Clickable) -> void:
 	match obj.name:
 		"PindleDesk":
 			await _say("Pushing Pindle's desk would be satisfying but counterproductive.")
 		_:
-			await _say("Pushing that accomplishes nothing except proving I tried.")
+			await _say(_random_response(_PUSH_RESPONSES))
 
 func _on_use_item(item_name: String, target: Clickable) -> bool:
 	match target.name:

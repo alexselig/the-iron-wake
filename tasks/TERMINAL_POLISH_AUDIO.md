@@ -1,6 +1,6 @@
 # CROSS-CUTTING: Polish, Audio & QA (Run after all rooms are built)
-# STATUS: NOT STARTED
-# CLAIMED BY: (write your terminal ID here when you start)
+# STATUS: IN PROGRESS
+# CLAIMED BY: Claude Terminal — Main Window (Mar 31)
 
 ## Instructions
 1. This task list runs AFTER Terminals 1-4 complete their rooms

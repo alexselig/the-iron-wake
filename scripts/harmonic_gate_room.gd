@@ -51,7 +51,11 @@ func _on_room_ready() -> void:
 		if node: connect_clickable(node)
 
 func _get_entry_position() -> Vector2:
-	return Vector2(100, 290)
+	match GameState.previous_room:
+		"isle_auric":
+			return Vector2(100, 290)
+		_:
+			return Vector2(100, 290)
 
 func _play_intro() -> void:
 	is_busy = true; _in_scripted_sequence = true

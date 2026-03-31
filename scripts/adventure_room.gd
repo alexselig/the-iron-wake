@@ -27,11 +27,26 @@ var _in_scripted_sequence := false
 var selected_inventory_item: String = ""
 var current_verb: String = "look_at"
 
+# SFX players (loaded once, shared across rooms)
+var _sfx_pickup: AudioStreamPlayer
+var _sfx_door: AudioStreamPlayer
+var _sfx_puzzle: AudioStreamPlayer
+var _sfx_steam: AudioStreamPlayer
+var _sfx_combine: AudioStreamPlayer
+var _sfx_vision: AudioStreamPlayer
+var _sfx_ui_click: AudioStreamPlayer
+var _sfx_error: AudioStreamPlayer
+
+# Music player
+var _music_player: AudioStreamPlayer
+var _current_music: String = ""
+
 # ============================================================
 # LIFECYCLE
 # ============================================================
 
 func _ready() -> void:
+	_load_sfx()
 	_load_room_background()
 	_build_room()
 	_setup_player()
@@ -47,6 +62,11 @@ func _ready() -> void:
 
 	# Room-specific setup (before any fade/intro)
 	_on_room_ready()
+
+	# Start room music (deferred to avoid transition artifacts)
+	var music_path := _get_music_path()
+	if music_path != "":
+		_start_music_deferred.call_deferred(music_path)
 
 	# Start screen black for transition
 	if fade_overlay:
@@ -81,6 +101,85 @@ func _play_intro() -> void:
 
 func _on_room_entered() -> void:
 	pass
+
+func _get_music_path() -> String:
+	## Override to return ambient music path for this room
+	return ""
+
+func _load_sfx() -> void:
+	_sfx_pickup = _create_sfx_player("res://assets/sfx/pickup.wav", -6.0)
+	_sfx_door = _create_sfx_player("res://assets/sfx/door.wav", -4.0)
+	_sfx_puzzle = _create_sfx_player("res://assets/sfx/puzzle_solve.wav", -4.0)
+	_sfx_steam = _create_sfx_player("res://assets/sfx/steam_valve.wav", -6.0)
+	_sfx_combine = _create_sfx_player("res://assets/sfx/item_combine.wav", -6.0)
+	_sfx_vision = _create_sfx_player("res://assets/sfx/memory_vision.wav", -4.0)
+	_sfx_ui_click = _create_sfx_player("res://assets/sfx/ui_click.wav", -8.0)
+	_sfx_error = _create_sfx_player("res://assets/sfx/error_buzz.wav", -8.0)
+
+	# Music player
+	_music_player = AudioStreamPlayer.new()
+	_music_player.bus = "Master"
+	_music_player.volume_db = -12.0
+	add_child(_music_player)
+
+func _create_sfx_player(path: String, volume: float) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.bus = "Master"
+	player.volume_db = volume
+	add_child(player)
+	var stream := _load_audio(path)
+	if stream:
+		player.stream = stream
+	return player
+
+func _load_audio(res_path: String) -> AudioStream:
+	if ResourceLoader.exists(res_path):
+		return load(res_path)
+	# Fallback: load from absolute path
+	var abs_path := ProjectSettings.globalize_path(res_path)
+	if FileAccess.file_exists(abs_path):
+		var stream := AudioStreamWAV.new()
+		var file := FileAccess.open(abs_path, FileAccess.READ)
+		if file:
+			# Simple WAV loading — skip header, read PCM data
+			file.seek(44)  # Skip WAV header
+			stream.data = file.get_buffer(file.get_length() - 44)
+			stream.format = AudioStreamWAV.FORMAT_16_BITS
+			stream.mix_rate = 44100
+			stream.stereo = false
+			return stream
+	return null
+
+func play_sfx(sfx_player: AudioStreamPlayer) -> void:
+	if sfx_player and sfx_player.stream:
+		sfx_player.play()
+
+func _start_music_deferred(music_path: String) -> void:
+	await get_tree().create_timer(1.5).timeout
+	play_music(music_path)
+
+func play_music(music_path: String, volume_db: float = -12.0) -> void:
+	if _current_music == music_path:
+		return  # Already playing
+	_current_music = music_path
+	if _music_player:
+		_music_player.stop()
+		var stream := _load_audio(music_path)
+		if stream:
+			_music_player.stream = stream
+			# Fade in from silence to avoid abrupt start
+			_music_player.volume_db = -60.0
+			_music_player.play()
+			var tween := create_tween()
+			tween.tween_property(_music_player, "volume_db", volume_db, 2.0)
+
+func stop_music(fade_dur: float = 1.0) -> void:
+	if _music_player and _music_player.playing:
+		var tween := create_tween()
+		tween.tween_property(_music_player, "volume_db", -40.0, fade_dur)
+		await tween.finished
+		_music_player.stop()
+		_current_music = ""
 
 func _setup_player() -> void:
 	if player:
@@ -219,23 +318,94 @@ func _on_object_examined(obj: Clickable) -> void:
 	is_busy = false
 
 # Override these in subclasses for room-specific responses
-func _look_at(obj: Clickable) -> void:
-	await _say("Nothing remarkable about that.")
+func _look_at(_obj: Clickable) -> void:
+	await _say(_random_response(_LOOK_RESPONSES))
 
-func _talk_to(obj: Clickable) -> void:
-	await _say("Talking to that seems optimistic.")
+func _talk_to(_obj: Clickable) -> void:
+	await _say(_random_response(_TALK_RESPONSES))
 
-func _pick_up(obj: Clickable) -> void:
-	await _say("I can't pick that up.")
+func _pick_up(_obj: Clickable) -> void:
+	await _say(_random_response(_PICK_UP_RESPONSES))
 
-func _use(obj: Clickable) -> void:
-	await _say("I don't know how to use that on its own.")
+func _use(_obj: Clickable) -> void:
+	await _say(_random_response(_USE_RESPONSES))
 
-func _open(obj: Clickable) -> void:
-	await _say("That doesn't open.")
+func _open(_obj: Clickable) -> void:
+	await _say(_random_response(_OPEN_RESPONSES))
 
-func _push(obj: Clickable) -> void:
-	await _say("Pushing that accomplishes nothing except proving I tried.")
+func _push(_obj: Clickable) -> void:
+	await _say(_random_response(_PUSH_RESPONSES))
+
+# Randomized generic response pools — Rowan's sarcastic defaults
+const _LOOK_RESPONSES := [
+	"Nothing remarkable about that.",
+	"I've seen more interesting things at the bottom of a teacup.",
+	"It exists. I can confirm that much.",
+	"Unremarkable. Like Pindle's personality.",
+	"My eyes say no.",
+	"Exactly as boring as it looks.",
+]
+
+const _TALK_RESPONSES := [
+	"Talking to that seems optimistic.",
+	"It maintains a dignified silence.",
+	"I tried. It left me on read.",
+	"Even I have standards for conversation partners.",
+	"If it could talk, I suspect it would ask me to stop.",
+	"Surprisingly, no response. I'm devastated.",
+]
+
+const _PICK_UP_RESPONSES := [
+	"I can't pick that up.",
+	"My inventory has standards.",
+	"That's attached to the concept of 'staying put.'",
+	"Tibbit would name that impulse. Something like 'Acquisitive Folly Syndrome.'",
+	"Heavy. Bolted. Uncooperative. My three least favorite adjectives.",
+	"I could try, but my chiropractor would file a grievance.",
+]
+
+const _USE_RESPONSES := [
+	"I don't know how to use that on its own.",
+	"I stare at it purposefully. Nothing happens.",
+	"If there's a way to use that, it's been classified above my pay grade.",
+	"I could use it wrong, but where's the fun in that? Actually, everywhere.",
+	"The instruction manual for that is in a language I don't speak.",
+]
+
+const _OPEN_RESPONSES := [
+	"That doesn't open.",
+	"Sealed by either physics or spite.",
+	"Not everything opens. This is one of those things.",
+	"I pull, I push, I bargain. Nothing.",
+	"If Pindle had paperwork for opening that, I'd forge it.",
+]
+
+const _PUSH_RESPONSES := [
+	"Pushing that accomplishes nothing except proving I tried.",
+	"I push. It pushes back. We reach an impasse.",
+	"Unmoved. Like a customs inspector at a bribe.",
+	"I give it a shove. It gives me indifference.",
+	"My pushing technique is flawless. The object simply refuses to cooperate.",
+]
+
+const _WRONG_ITEM_RESPONSES := [
+	"I can't use that here.",
+	"That combination makes about as much sense as Pindle's filing system.",
+	"Interesting theory. Wrong, but interesting.",
+	"I tried. The universe said no.",
+	"Those two things have nothing to say to each other.",
+]
+
+const _WRONG_COMBINE_RESPONSES := [
+	"I don't think combining those will help.",
+	"Those don't go together. Like oil and Pindle's competence.",
+	"I hold them near each other. They maintain a professional distance.",
+	"Tibbit would call that 'creative engineering.' I call it nonsense.",
+	"One plus one does not always equal useful.",
+]
+
+func _random_response(responses: Array) -> String:
+	return responses[randi() % responses.size()]
 
 func _use_item_on(item_name: String, target: Clickable) -> void:
 	is_busy = true
@@ -245,7 +415,7 @@ func _use_item_on(item_name: String, target: Clickable) -> void:
 	# Subclasses override _on_use_item for room-specific logic
 	var handled := await _on_use_item(item_name, target)
 	if not handled:
-		await _say("I can't use that here.")
+		await _say(_random_response(_WRONG_ITEM_RESPONSES))
 
 	selected_inventory_item = ""
 	if inventory:
@@ -276,7 +446,7 @@ func _on_items_combined(item_a: String, item_b: String) -> void:
 	is_busy = true
 	var handled := await _on_combine_items(item_a, item_b)
 	if not handled:
-		await _say("I don't think combining those will help.")
+		await _say(_random_response(_WRONG_COMBINE_RESPONSES))
 	selected_inventory_item = ""
 	is_busy = false
 
@@ -289,6 +459,8 @@ func give_item(item_name: String) -> void:
 	if inventory:
 		inventory.items = GameState.get_items().duplicate()
 		inventory._rebuild_ui()
+	if _sfx_pickup and _sfx_pickup.stream:
+		_sfx_pickup.play()
 
 func take_item(item_name: String) -> void:
 	GameState.remove_item(item_name)
@@ -307,12 +479,20 @@ func _say(text: String) -> void:
 	if player:
 		dialogue_box.show_dialogue_at("ROWAN", text, player.global_position)
 		player._play_talk()
+		# Stop talk animation when text finishes revealing (not when dismissed)
+		if not dialogue_box.text_revealed.is_connected(_on_rowan_text_revealed):
+			dialogue_box.text_revealed.connect(_on_rowan_text_revealed, CONNECT_ONE_SHOT)
 	else:
 		dialogue_box.show_dialogue("ROWAN", text)
 	await dialogue_box.dialogue_finished
+	# Ensure idle in case text_revealed didn't fire (e.g. skip)
 	if player:
 		player._play_idle()
 	await get_tree().create_timer(0.1).timeout
+
+func _on_rowan_text_revealed() -> void:
+	if player:
+		player._play_idle()
 
 ## Map speaker names to NPC node names for talk animations
 var speaker_to_node: Dictionary = {}
@@ -326,6 +506,9 @@ func _say_as(speaker: String, text: String) -> void:
 	if speaker == "ROWAN" and player:
 		dialogue_box.show_dialogue_at(speaker, text, player.global_position)
 		player._play_talk()
+		# Stop talk when text finishes revealing
+		if not dialogue_box.text_revealed.is_connected(_on_rowan_text_revealed):
+			dialogue_box.text_revealed.connect(_on_rowan_text_revealed, CONNECT_ONE_SHOT)
 	elif speaker in speaker_to_node:
 		var node_name: String = speaker_to_node[speaker]
 		var npc := get_node_or_null("Props/" + node_name)
@@ -337,6 +520,12 @@ func _say_as(speaker: String, text: String) -> void:
 				var talk_anim := "talk_left" if "left" in current_anim else "talk_right"
 				if npc_sprite.sprite_frames.has_animation(talk_anim):
 					npc_sprite.play(talk_anim)
+				# Stop talk when text finishes revealing
+				var sprite_ref := npc_sprite
+				dialogue_box.text_revealed.connect(
+					func(): _stop_npc_talk(sprite_ref),
+					CONNECT_ONE_SHOT
+				)
 		else:
 			dialogue_box.show_dialogue(speaker, text)
 	else:
@@ -345,16 +534,21 @@ func _say_as(speaker: String, text: String) -> void:
 
 	await dialogue_box.dialogue_finished
 
-	# Return to idle
+	# Ensure idle in case text_revealed didn't fire (e.g. skip)
 	if speaker == "ROWAN" and player:
 		player._play_idle()
 	elif npc_sprite:
-		var current_anim: String = npc_sprite.animation
-		var idle_anim := "idle_left" if "left" in current_anim else "idle_right"
-		if npc_sprite.sprite_frames.has_animation(idle_anim):
-			npc_sprite.play(idle_anim)
+		_stop_npc_talk(npc_sprite)
 
 	await get_tree().create_timer(0.1).timeout
+
+func _stop_npc_talk(sprite: AnimatedSprite2D) -> void:
+	if not is_instance_valid(sprite):
+		return
+	var current_anim: String = sprite.animation
+	var idle_anim := "idle_left" if "left" in current_anim else "idle_right"
+	if sprite.sprite_frames.has_animation(idle_anim):
+		sprite.play(idle_anim)
 
 # ============================================================
 # DIALOGUE TREE RUNNER
@@ -369,6 +563,12 @@ func run_dialogue_tree(tree: DialogueTree, start_id: String = "") -> void:
 	var current_id := start_id
 	is_busy = true
 
+	# Track which choices have been picked this conversation
+	var picked_targets: Dictionary = {}
+	# The "hub" node — the node with topic choices that we return to
+	var hub_id: String = ""
+	var returning_to_hub := false
+
 	while current_id != "" and current_id in tree.nodes:
 		var node: DialogueTree.DialogueNode = tree.nodes[current_id]
 
@@ -378,29 +578,70 @@ func run_dialogue_tree(tree: DialogueTree, start_id: String = "") -> void:
 		if node.condition_not_flag != "" and GameState.has_flag(node.condition_not_flag):
 			break
 
-		# On-enter effects
-		if node.on_enter_flag != "":
-			GameState.set_flag(node.on_enter_flag)
-		if node.on_enter_item != "":
-			give_item(node.on_enter_item)
+		# On-enter effects (skip on hub return)
+		if not returning_to_hub:
+			if node.on_enter_flag != "":
+				GameState.set_flag(node.on_enter_flag)
+			if node.on_enter_item != "":
+				give_item(node.on_enter_item)
 
-		# Mark as seen
-		GameState.mark_dialogue_seen(node.id)
+			# Mark as seen
+			GameState.mark_dialogue_seen(node.id)
 
-		# Show the dialogue line
-		await _say_as(node.speaker, node.text)
+			# Show the dialogue line
+			await _say_as(node.speaker, node.text)
+
+		returning_to_hub = false
 
 		# Check for choices
 		var choices := tree.get_available_choices(current_id)
-		if choices.size() > 0:
-			var chosen := await _show_choices(choices)
+
+		# Filter out already-picked topics
+		var remaining: Array[DialogueTree.DialogueChoice] = []
+		for c in choices:
+			if c.target_id not in picked_targets:
+				remaining.append(c)
+
+		if remaining.size() > 0:
+			# This is a hub node — remember it for returning
+			if hub_id == "" or current_id == hub_id:
+				hub_id = current_id
+
+			# Add "That's all" exit option
+			var exit_choice := DialogueTree.DialogueChoice.new()
+			exit_choice.label = "That's all."
+			exit_choice.target_id = "_exit"
+			remaining.append(exit_choice)
+
+			var chosen := await _show_choices(remaining)
+
+			if chosen.target_id == "_exit":
+				break  # Player chose to end conversation
+
 			if chosen.set_flag != "":
 				GameState.set_flag(chosen.set_flag)
+
+			# Mark this topic as picked
+			picked_targets[chosen.target_id] = true
 			current_id = chosen.target_id
+
 		elif node.next_id != "":
 			current_id = node.next_id
+
 		else:
-			current_id = ""  # End of dialogue
+			# Branch ended — return to hub if we have one with remaining topics
+			if hub_id != "" and hub_id in tree.nodes:
+				var hub_choices := tree.get_available_choices(hub_id)
+				var hub_remaining: Array[DialogueTree.DialogueChoice] = []
+				for c in hub_choices:
+					if c.target_id not in picked_targets:
+						hub_remaining.append(c)
+				if hub_remaining.size() > 0:
+					current_id = hub_id
+					returning_to_hub = true
+					continue
+			# No hub or no remaining topics — conversation over
+			break
 
 	is_busy = false
 
@@ -472,6 +713,10 @@ func _show_choices(choices: Array[DialogueTree.DialogueChoice]) -> DialogueTree.
 func go_to_room(scene_path: String) -> void:
 	is_busy = true
 	_in_scripted_sequence = true
+
+	# Play door sound
+	if _sfx_door and _sfx_door.stream:
+		_sfx_door.play()
 
 	# Save inventory to GameState
 	if inventory:

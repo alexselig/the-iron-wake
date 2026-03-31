@@ -11,7 +11,7 @@ var selected_item: String = ""
 var item_textures: Dictionary = {}
 var item_buttons: Dictionary = {}
 
-const SLOT_SIZE := Vector2(36, 36)
+const SLOT_SIZE := Vector2(42, 42)
 const MAX_SLOTS := 8
 
 func _ready() -> void:
@@ -20,11 +20,24 @@ func _ready() -> void:
 		"magnifying_lens", "copper_wire", "oilskin_pouch",
 		"broken_gear", "seashell", "brass_key",
 		"cipher_plates", "repaired_gear",
-		# Act 1 items
-		"medallion", "spyglass", "inspection_stamp",
-		"brass_strip", "fake_permit", "focusing_disc",
-		"memory_lens", "relay_key", "map_plate",
-		"fancy_teacup", "guild_badge",
+		# Act 1 — Beach / Customs Shack
+		"medallion", "spyglass", "stamp",
+		"brass_strip", "blank_form", "filled_form", "fake_permit",
+		# Act 1 — Salvage Warehouse
+		"black_shard", "automaton_hand",
+		# Act 1 — Brass Bazaar
+		"fancy_teacup", "guild_badge", "focusing_disc",
+		# Act 1 — Tibbit's Workshop
+		"clock_spring", "whistle", "lens_frame", "memory_lens",
+		# Act 1 — Lighthouse
+		"relay_key", "map_plate", "salt_paste",
+		# Act 2 items
+		"ceramic_bottles", "transit_sigil_fragment", "tone_cylinder",
+		"message_strip", "second_relay_core", "aerial_transit_prism",
+		"white_civic_signet_half", "scaffold_pipe",
+		# Act 3 items
+		"reflective_cinderglass", "complete_civic_signet",
+		"inspection_stamp",
 	]
 	for icon_name in icon_names:
 		var path: String = icon_dir + icon_name + ".png"
@@ -59,6 +72,7 @@ func _rebuild_ui() -> void:
 	for i in range(MAX_SLOTS):
 		var slot := PanelContainer.new()
 		slot.custom_minimum_size = SLOT_SIZE
+		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 		var style := StyleBoxFlat.new()
 		style.bg_color = Color(0.15, 0.1, 0.06)
@@ -86,7 +100,7 @@ func _rebuild_ui() -> void:
 			slot.add_theme_stylebox_override("panel", style)
 
 			var btn := TextureButton.new()
-			btn.custom_minimum_size = Vector2(32, 32)
+			btn.custom_minimum_size = Vector2(38, 38)
 			btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 			btn.ignore_texture_size = true
 			btn.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

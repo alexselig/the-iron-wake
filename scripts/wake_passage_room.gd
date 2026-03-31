@@ -28,7 +28,11 @@ func _on_room_ready() -> void:
 		if node: connect_clickable(node)
 
 func _get_entry_position() -> Vector2:
-	return Vector2(320, 290)
+	match GameState.previous_room:
+		"undersea_transit":
+			return Vector2(100, 285)
+		_:
+			return Vector2(320, 290)
 
 func _play_intro() -> void:
 	is_busy = true; _in_scripted_sequence = true
