@@ -115,12 +115,24 @@ func _make_slot_style(selected: bool) -> StyleBox:
 		return s
 	var sb := StyleBoxTexture.new()
 	sb.texture = tex
-	for side in [SIDE_LEFT, SIDE_RIGHT, SIDE_TOP, SIDE_BOTTOM]:
-		sb.set_texture_margin(side, 6)
-		# Content margins must be set explicitly: otherwise the slot
-		# PanelContainer inherits the texture margins and inflates to
-		# (margin + icon + margin), overflowing the bar's bottom row.
-		sb.set_content_margin(side, 4)
+	if GameState.use_new_assets:
+		# Gold-framed copper slot matching the verb plates: thin frame with a
+		# slightly heavier bottom lip; icon centred on the copper face.
+		sb.set_texture_margin(SIDE_LEFT, 6)
+		sb.set_texture_margin(SIDE_RIGHT, 6)
+		sb.set_texture_margin(SIDE_TOP, 6)
+		sb.set_texture_margin(SIDE_BOTTOM, 9)
+		sb.set_content_margin(SIDE_LEFT, 6)
+		sb.set_content_margin(SIDE_RIGHT, 6)
+		sb.set_content_margin(SIDE_TOP, 6)
+		sb.set_content_margin(SIDE_BOTTOM, 8)
+	else:
+		for side in [SIDE_LEFT, SIDE_RIGHT, SIDE_TOP, SIDE_BOTTOM]:
+			sb.set_texture_margin(side, 6)
+			# Content margins must be set explicitly: otherwise the slot
+			# PanelContainer inherits the texture margins and inflates to
+			# (margin + icon + margin), overflowing the bar's bottom row.
+			sb.set_content_margin(side, 4)
 	return sb
 
 func _load_texture(res_path: String) -> Texture2D:

@@ -73,19 +73,24 @@ func _make_stylebox(selected: bool, brightness: float = 1.0) -> StyleBox:
 		return flat
 	var sb := StyleBoxTexture.new()
 	sb.texture = tex
-	sb.set_texture_margin(SIDE_LEFT, VERB_MARGIN.l)
-	sb.set_texture_margin(SIDE_RIGHT, VERB_MARGIN.r)
-	sb.set_texture_margin(SIDE_TOP, VERB_MARGIN.t)
-	sb.set_texture_margin(SIDE_BOTTOM, VERB_MARGIN.b)
-	# Keep the label clear of the corner rivets and centered on the copper face.
-	# Symmetric top/bottom margins so the text is vertically centred; the NEW
-	# forged plates have a thicker frame so the label is inset a little more.
+	# 9-slice border + label padding. The NEW plate is the gold-framed copper
+	# reference button (thin top rail, heavier bottom lip, angular side
+	# brackets), so its border is asymmetric; the original keeps its old margins.
 	if GameState.use_new_assets:
-		sb.set_content_margin(SIDE_LEFT, 13)
-		sb.set_content_margin(SIDE_RIGHT, 13)
-		sb.set_content_margin(SIDE_TOP, 7)
-		sb.set_content_margin(SIDE_BOTTOM, 7)
+		sb.set_texture_margin(SIDE_LEFT, 18)
+		sb.set_texture_margin(SIDE_RIGHT, 18)
+		sb.set_texture_margin(SIDE_TOP, 6)
+		sb.set_texture_margin(SIDE_BOTTOM, 9)
+		# Label centred on the copper face, clear of the gold corner brackets.
+		sb.set_content_margin(SIDE_LEFT, 20)
+		sb.set_content_margin(SIDE_RIGHT, 20)
+		sb.set_content_margin(SIDE_TOP, 6)
+		sb.set_content_margin(SIDE_BOTTOM, 10)
 	else:
+		sb.set_texture_margin(SIDE_LEFT, VERB_MARGIN.l)
+		sb.set_texture_margin(SIDE_RIGHT, VERB_MARGIN.r)
+		sb.set_texture_margin(SIDE_TOP, VERB_MARGIN.t)
+		sb.set_texture_margin(SIDE_BOTTOM, VERB_MARGIN.b)
 		sb.set_content_margin(SIDE_LEFT, 6)
 		sb.set_content_margin(SIDE_RIGHT, 6)
 		sb.set_content_margin(SIDE_TOP, 4)

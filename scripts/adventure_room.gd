@@ -235,11 +235,19 @@ func _style_control_bar() -> void:
 		return
 	var sb := StyleBoxTexture.new()
 	sb.texture = tex
-	sb.set_content_margin(SIDE_TOP, 11)
+	sb.set_content_margin(SIDE_TOP, 8)
 	sb.set_content_margin(SIDE_LEFT, 12)
 	sb.set_content_margin(SIDE_RIGHT, 12)
-	sb.set_content_margin(SIDE_BOTTOM, 8)
+	sb.set_content_margin(SIDE_BOTTOM, 6)
 	panel.add_theme_stylebox_override("panel", sb)
+
+	# The new gold plates have a heavier bottom lip, so two 36px button rows
+	# plus the hover label overflow the 108px bar and the bottom row gets
+	# clipped at the screen edge. Reclaim a few px (shorter hover label) so both
+	# rows sit fully above the panel's bottom border.
+	var hover := panel.get_node_or_null("VBox/HoverText")
+	if hover and hover is Control:
+		hover.custom_minimum_size.y = 13
 
 
 func _build_room() -> void:

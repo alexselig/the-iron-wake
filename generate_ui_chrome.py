@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Generate a cohesive, professional steampunk control-bar UI set.
+"""Generate the steampunk control-bar background chrome.
 
 Outputs (into assets_new/ui/ so they apply only in the NEW version):
   panel_bg.png        640x108  bar background: dark wood + brass top molding + rivets
-  verb_normal.png     190x46   riveted brass plaque (9-slice 14/14/12/15)
-  verb_selected.png   190x46   lit brass plaque
-  slot_normal.png     64x64    recessed brass-rimmed inventory socket (9-slice 6)
-  slot_selected.png   64x64    lit brass-rimmed socket
   hover_plate.png     200x24   subtle brass nameplate behind the hover text
+
+NOTE: the verb plates (verb_normal/selected.png) and inventory slots
+(slot_normal/selected.png) are owned by generate_ui_buttons.py, which bakes
+them from the reference plate in art_src/ref_button.png. Do not generate them
+here or they will clash.
 """
 import os, math, random
 from PIL import Image, ImageDraw, ImageFilter
@@ -163,8 +164,6 @@ def make_hover_plate():
     im.save(os.path.join(OUT, "hover_plate.png"))
 
 make_panel_bg()
-make_verb(False); make_verb(True)
-make_slot(False); make_slot(True)
 make_hover_plate()
 print("UI chrome written to", OUT)
 for f in sorted(os.listdir(OUT)):
