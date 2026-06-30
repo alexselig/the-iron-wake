@@ -91,6 +91,10 @@ static func get_ops() -> Dictionary:
 				"ChapelHandMirror": "chapel_hand_mirror",
 			},
 		},
+		# Room 11 — Relay Tower
+		"relay_tower": {
+			"hide": ["ToneForks"],
+		},
 		# Room 12 — Sunken Waystation
 		"sunken_waystation": {
 			"hide": ["TransitMapArch", "PumpMechanism", "VacuumLockers"],
