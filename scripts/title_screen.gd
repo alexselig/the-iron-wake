@@ -95,6 +95,7 @@ func _style_title_button(btn: Button) -> void:
 	btn.add_theme_color_override("font_hover_color", Color("ffe6a8"))
 	btn.add_theme_color_override("font_pressed_color", Color("fff0c8"))
 	btn.add_theme_font_size_override("font_size", 15)
+	btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 func _make_plaque(selected: bool) -> StyleBox:
 	var tex := _load_texture("res://assets_new/ui/%s" % ("verb_selected.png" if selected else "verb_normal.png"))
@@ -102,14 +103,19 @@ func _make_plaque(selected: bool) -> StyleBox:
 		return null
 	var sb := StyleBoxTexture.new()
 	sb.texture = tex
-	sb.set_texture_margin(SIDE_LEFT, 14)
-	sb.set_texture_margin(SIDE_RIGHT, 14)
-	sb.set_texture_margin(SIDE_TOP, 12)
-	sb.set_texture_margin(SIDE_BOTTOM, 15)
-	sb.set_content_margin(SIDE_LEFT, 26)
-	sb.set_content_margin(SIDE_RIGHT, 26)
-	sb.set_content_margin(SIDE_TOP, 9)
-	sb.set_content_margin(SIDE_BOTTOM, 11)
+	# Match the new baked plate's frame (thin top rail, heavier bottom lip,
+	# angular side brackets) so the 9-slice doesn't distort it.
+	sb.set_texture_margin(SIDE_LEFT, 18)
+	sb.set_texture_margin(SIDE_RIGHT, 18)
+	sb.set_texture_margin(SIDE_TOP, 6)
+	sb.set_texture_margin(SIDE_BOTTOM, 9)
+	# Symmetric L/R so the label is horizontally centred; the min button width
+	# stays under the title VBox so the plate doesn't drift right. Top < bottom
+	# nudges the label onto the copper face's visual centre (heavier bottom lip).
+	sb.set_content_margin(SIDE_LEFT, 16)
+	sb.set_content_margin(SIDE_RIGHT, 16)
+	sb.set_content_margin(SIDE_TOP, 4)
+	sb.set_content_margin(SIDE_BOTTOM, 13)
 	return sb
 
 func _load_texture(res_path: String) -> Texture2D:
