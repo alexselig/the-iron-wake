@@ -102,6 +102,7 @@ func get_verb_text() -> String:
 	return VERBS.get(current_verb, "")
 
 func _load_texture(res_path: String) -> Texture2D:
+	res_path = GameState.resolve_asset(res_path)
 	if ResourceLoader.exists(res_path):
 		return load(res_path)
 	var abs_path := ProjectSettings.globalize_path(res_path)

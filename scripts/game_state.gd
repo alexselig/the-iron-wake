@@ -26,6 +26,100 @@ var dialogue_seen: Dictionary = {}
 var room_entry_points: Dictionary = {}
 
 # ============================================================
+# VERSION TOGGLE — "original" vs "new" (design pass)
+# ============================================================
+# When use_new_assets is true, any texture path under res://assets/ is
+# transparently redirected to res://assets_new/ when a replacement exists.
+# This lets the whole game flip between the shipped ("original") art/layout
+# and the polished ("new") pass with a single key (F1), with zero changes to
+# call sites beyond routing every _load_texture() through resolve_asset().
+var use_new_assets: bool = true
+const VERSION_PREF_PATH := "user://version_pref.cfg"
+var _version_label: Label = null
+var _new_asset_cache: Dictionary = {}
+
+func _ready() -> void:
+	_load_version_pref()
+	_setup_version_indicator.call_deferred()
+
+func resolve_asset(res_path: String) -> String:
+	## Redirect an asset path to its "new" variant when the new version is
+	## active and a replacement file exists. Falls back to the original path.
+	if not use_new_assets:
+		return res_path
+	if not res_path.begins_with("res://assets/"):
+		return res_path
+	if _new_asset_cache.has(res_path):
+		return _new_asset_cache[res_path]
+	var candidate := res_path.replace("res://assets/", "res://assets_new/")
+	var resolved := candidate if _asset_exists(candidate) else res_path
+	_new_asset_cache[res_path] = resolved
+	return resolved
+
+func _asset_exists(res_path: String) -> bool:
+	if ResourceLoader.exists(res_path):
+		return true
+	return FileAccess.file_exists(ProjectSettings.globalize_path(res_path))
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F1:
+		toggle_version()
+
+func toggle_version() -> void:
+	use_new_assets = not use_new_assets
+	_new_asset_cache.clear()
+	_save_version_pref()
+	_update_version_label()
+	var tree := get_tree()
+	if tree and tree.current_scene:
+		tree.reload_current_scene()
+
+func _load_version_pref() -> void:
+	if not FileAccess.file_exists(VERSION_PREF_PATH):
+		return
+	var file := FileAccess.open(VERSION_PREF_PATH, FileAccess.READ)
+	if file:
+		use_new_assets = file.get_as_text().strip_edges() != "original"
+		file.close()
+
+func _save_version_pref() -> void:
+	var file := FileAccess.open(VERSION_PREF_PATH, FileAccess.WRITE)
+	if file:
+		file.store_string("new" if use_new_assets else "original")
+		file.close()
+
+func _setup_version_indicator() -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "VersionIndicator"
+	layer.layer = 128
+	add_child(layer)
+	var lbl := Label.new()
+	lbl.name = "VersionLabel"
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	lbl.offset_left = 6
+	lbl.offset_top = 4
+	lbl.offset_right = -6
+	lbl.add_theme_font_size_override("font_size", 11)
+	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	lbl.add_theme_constant_override("outline_size", 4)
+	layer.add_child(lbl)
+	_version_label = lbl
+	_update_version_label()
+
+func _update_version_label() -> void:
+	if not is_instance_valid(_version_label):
+		return
+	if use_new_assets:
+		_version_label.text = "NEW  ·  F1"
+		_version_label.add_theme_color_override("font_color", Color(0.55, 0.95, 0.55))
+	else:
+		_version_label.text = "ORIGINAL  ·  F1"
+		_version_label.add_theme_color_override("font_color", Color(0.95, 0.78, 0.35))
+
+# ============================================================
 # FLAGS
 # ============================================================
 

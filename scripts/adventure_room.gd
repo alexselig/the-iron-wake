@@ -77,6 +77,7 @@ var _current_music: String = ""
 func _ready() -> void:
 	_load_sfx()
 	_load_room_background()
+	_fit_background()
 	_build_room()
 	_setup_player()
 	_connect_ui()
@@ -118,6 +119,28 @@ func _ready() -> void:
 # Override these in subclasses
 func _load_room_background() -> void:
 	pass
+
+func _fit_background() -> void:
+	## Backgrounds are authored 640x360 but the viewport is 640x480 with a
+	## ~108px UI panel at the bottom. Native size leaves an unpainted band just
+	## above the panel. In the "new" version we scale the Background sprite so the
+	## art fills the entire play area (top of screen down to the panel), removing
+	## the black seam. The original version is left untouched for comparison.
+	var bg := get_node_or_null("Background")
+	if bg == null or not (bg is Sprite2D) or bg.texture == null:
+		return
+	if not GameState.use_new_assets:
+		bg.scale = Vector2.ONE
+		bg.position = Vector2.ZERO
+		return
+	var tex_size: Vector2 = bg.texture.get_size()
+	if tex_size.x <= 0 or tex_size.y <= 0:
+		return
+	# Fill the full viewport width and down to just past the panel top (372),
+	# so props/characters standing on the painted floor stay aligned.
+	const TARGET := Vector2(640, 376)
+	bg.position = Vector2.ZERO
+	bg.scale = Vector2(TARGET.x / tex_size.x, TARGET.y / tex_size.y)
 
 func _build_room() -> void:
 	pass
@@ -811,6 +834,7 @@ func connect_clickable(node: Area2D) -> void:
 # ============================================================
 
 func _load_texture(res_path: String) -> Texture2D:
+	res_path = GameState.resolve_asset(res_path)
 	if ResourceLoader.exists(res_path):
 		return load(res_path)
 	var abs_path := ProjectSettings.globalize_path(res_path)

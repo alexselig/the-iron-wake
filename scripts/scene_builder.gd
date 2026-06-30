@@ -141,6 +141,7 @@ static func build_npc(parent: Node2D, npc_name: String, pos: Vector2,
 	return npc
 
 static func _load_texture(res_path: String) -> Texture2D:
+	res_path = GameState.resolve_asset(res_path)
 	if ResourceLoader.exists(res_path):
 		return load(res_path)
 	var abs_path := ProjectSettings.globalize_path(res_path)
