@@ -13,6 +13,7 @@ var conductive_grooves: Area2D
 var salt_deposits: Area2D
 var signal_wires: Area2D
 var boundary_stones: Area2D
+var valve_pin_prop: Area2D
 var path_back: Area2D
 
 func _load_room_background() -> void:
@@ -52,6 +53,11 @@ func _build_room() -> void:
 	SceneBuilder.build_hotspot(props, "SignalWires", Vector2(460, 210),
 		"dead signal wires", Vector2(-10, 50), Vector2(40, 30))
 
+	# Valve pin — from the lighthouse mechanism
+	SceneBuilder.build_prop(props, "ValvePin", Vector2(540, 275),
+		"a brass valve pin", "res://assets/props/brass_key.png",
+		Vector2(-10, 10), true, false, Vector2(22, 22))
+
 	# Boundary stones with ancient markings
 	SceneBuilder.build_prop(props, "BoundaryStones", Vector2(220, 285),
 		"boundary stones", "res://assets/props/boundary_stone.png",
@@ -78,16 +84,21 @@ func _on_room_ready() -> void:
 	salt_deposits = $Props/SaltDeposits
 	signal_wires = $Props/SignalWires
 	boundary_stones = $Props/BoundaryStones
+	valve_pin_prop = $Props/ValvePin
 	path_back = $Hotspots/PathBack
 
 	for node in [marrow_npc, lighthouse_door, beacon_crank, conductive_grooves,
-				 salt_deposits, signal_wires, boundary_stones, path_back]:
+				 salt_deposits, signal_wires, boundary_stones, valve_pin_prop, path_back]:
 		if node:
 			connect_clickable(node)
 
 	# Hide salt deposits if already collected
 	if GameState.has_item("salt_paste") and salt_deposits:
 		salt_deposits.hide_object()
+
+	# Hide valve pin if already picked up
+	if GameState.has_item("valve_pin") and valve_pin_prop:
+		valve_pin_prop.hide_object()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -150,6 +161,8 @@ func _look_at(obj: Clickable) -> void:
 		"SignalWires":
 			await _say("Corroded copper. These once carried signals from the beacon to somewhere inland.")
 			await _say("Whatever network this was part of, it went dark a long time ago.")
+		"ValvePin":
+			await _say("A brass valve pin from the lighthouse mechanism. Thick and sturdy.")
 		"BoundaryStones":
 			await _say("Same symbol family as the brass strip. Either I'm on the right path or the entire coastline has started following me.")
 		"PathBack":
@@ -169,6 +182,13 @@ func _talk_to(obj: Clickable) -> void:
 
 func _pick_up(obj: Clickable) -> void:
 	match obj.name:
+		"ValvePin":
+			if not GameState.has_item("valve_pin"):
+				await _say("A valve pin. These old lighthouses are full of useful debris.")
+				give_item("valve_pin")
+				valve_pin_prop.hide_object()
+			else:
+				await _say("I already have one.")
 		"SaltDeposits":
 			if not GameState.has_item("salt_paste"):
 				await _say("I scrape the mineral deposits into a crude paste. Gritty, conductive, and deeply unpleasant.")

@@ -12,6 +12,8 @@ var standing_mirror_3: Area2D
 var bell_rope: Area2D
 var reed_skiff: Area2D
 var chapel_door: Area2D
+var brass_curtain_rod: Area2D
+var chapel_hand_mirror: Area2D
 var path_back: Area2D
 var path_forward: Area2D
 
@@ -52,6 +54,16 @@ func _build_room() -> void:
 		"a reed skiff", "res://assets/props/lighthouse_crate.png",
 		Vector2(10, 0), false, false, Vector2(44, 24))
 
+	# Brass curtain rod — leaning against the chapel wall
+	SceneBuilder.build_prop(props, "BrassCurtainRod", Vector2(130, 280),
+		"a brass curtain rod", "res://assets/props/brass_key.png",
+		Vector2(15, 5), true, false, Vector2(28, 20))
+
+	# Chapel hand mirror — on the chapel steps
+	SceneBuilder.build_prop(props, "ChapelHandMirror", Vector2(220, 285),
+		"a small hand mirror", "res://assets/props/black_shard.png",
+		Vector2(5, 5), true, false, Vector2(20, 20))
+
 	# Chapel door
 	SceneBuilder.build_hotspot(props, "ChapelDoor", Vector2(160, 250),
 		"the chapel", Vector2(20, 20), Vector2(40, 40))
@@ -77,6 +89,8 @@ func _on_room_ready() -> void:
 	bell_rope = $Props/BellRope
 	reed_skiff = $Props/ReedSkiff
 	chapel_door = $Props/ChapelDoor
+	brass_curtain_rod = $Props/BrassCurtainRod
+	chapel_hand_mirror = $Props/ChapelHandMirror
 	path_back = $Hotspots/PathBack
 	path_forward = $Hotspots/PathForward
 
@@ -85,9 +99,18 @@ func _on_room_ready() -> void:
 	}
 
 	for node in [caligo_npc, standing_mirror_1, standing_mirror_2, standing_mirror_3,
-				 bell_rope, reed_skiff, chapel_door, path_back, path_forward]:
+				 bell_rope, reed_skiff, chapel_door, brass_curtain_rod, chapel_hand_mirror,
+				 path_back, path_forward]:
 		if node:
 			connect_clickable(node)
+
+	# Hide brass curtain rod if already picked up
+	if GameState.has_item("brass_curtain_rod") and brass_curtain_rod:
+		brass_curtain_rod.hide_object()
+
+	# Hide chapel hand mirror if already picked up
+	if GameState.has_item("chapel_hand_mirror") and chapel_hand_mirror:
+		chapel_hand_mirror.hide_object()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -130,6 +153,10 @@ func _look_at(obj: Clickable) -> void:
 			await _say("A rope that says, in no uncertain terms, 'Do not make the marsh louder.'")
 		"ReedSkiff":
 			await _say("Small, damp, and deeply committed to not being a full boat.")
+		"BrassCurtainRod":
+			await _say("A brass curtain rod from the chapel. Sturdy and surprisingly well-polished.")
+		"ChapelHandMirror":
+			await _say("A small hand mirror. The chapel uses these for the fog lanterns.")
 		"ChapelDoor":
 			await _say("A small chapel on stilts, leaning over the marsh with theological determination.")
 		"PathBack":
@@ -149,6 +176,20 @@ func _talk_to(obj: Clickable) -> void:
 
 func _pick_up(obj: Clickable) -> void:
 	match obj.name:
+		"BrassCurtainRod":
+			if not GameState.has_item("brass_curtain_rod"):
+				await _say("Sister Caligo won't miss one curtain rod. The chapel has plenty.")
+				give_item("brass_curtain_rod")
+				brass_curtain_rod.hide_object()
+			else:
+				await _say("I already have one.")
+		"ChapelHandMirror":
+			if not GameState.has_item("chapel_hand_mirror"):
+				await _say("A hand mirror. Useful for fog navigation or checking my increasingly haunted expression.")
+				give_item("chapel_hand_mirror")
+				chapel_hand_mirror.hide_object()
+			else:
+				await _say("I already have one.")
 		"BellRope":
 			await _say("It's attached to a bell. Pulling it would ring it, not pocket it.")
 		"ReedSkiff":

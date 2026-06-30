@@ -10,6 +10,7 @@ var boundary_stone_2: Area2D
 var iron_railings: Area2D
 var sea_view: Area2D
 var marrow_npc: Area2D
+var lantern_prop: Area2D
 var door_workshop: Area2D
 var door_lighthouse: Area2D
 
@@ -48,6 +49,11 @@ func _build_room() -> void:
 	SceneBuilder.build_npc(props, "MarrowNPC", Vector2(520, 270),
 		"a hooded figure", "marrow", Vector2(-25, 5), true, Vector2(40, 50))
 
+	# Iron lantern — left by a cliff path walker
+	SceneBuilder.build_prop(props, "LanternProp", Vector2(350, 280),
+		"an old iron lantern", "res://assets/props/broken_gear.png",
+		Vector2(5, 5), true, false, Vector2(24, 28))
+
 	# Exit back to Tibbit's Workshop
 	SceneBuilder.build_hotspot(hotspots, "DoorWorkshop", Vector2(60, 270),
 		"the path back to the workshop", Vector2(30, 10), Vector2(40, 60))
@@ -67,6 +73,7 @@ func _on_room_ready() -> void:
 	iron_railings = $Props/IronRailings
 	sea_view = $Hotspots/SeaView
 	marrow_npc = $Props/MarrowNPC
+	lantern_prop = $Props/LanternProp
 	door_workshop = $Hotspots/DoorWorkshop
 	door_lighthouse = $Hotspots/DoorLighthouse
 
@@ -76,9 +83,13 @@ func _on_room_ready() -> void:
 	}
 
 	for node in [boundary_stone_1, boundary_stone_2, iron_railings, sea_view,
-				 marrow_npc, door_workshop, door_lighthouse]:
+				 marrow_npc, lantern_prop, door_workshop, door_lighthouse]:
 		if node:
 			connect_clickable(node)
+
+	# Hide lantern if already picked up
+	if GameState.has_item("lantern") and lantern_prop:
+		lantern_prop.hide_object()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -131,6 +142,8 @@ func _look_at(obj: Clickable) -> void:
 		"SeaView":
 			await _say("The sea churns below. Waves smash against the cliff face sending up columns of spray.")
 			await _say("It's beautiful in the way that things trying to kill you sometimes are.")
+		"LanternProp":
+			await _say("An old iron lantern left by a cliff path walker. Still has oil.")
 		"MarrowNPC":
 			if GameState.has_flag("met_marrow"):
 				await _say("Marrow Quill. Hooded, patient, and irritatingly cryptic.")
@@ -155,6 +168,13 @@ func _talk_to(obj: Clickable) -> void:
 
 func _pick_up(obj: Clickable) -> void:
 	match obj.name:
+		"LanternProp":
+			if not GameState.has_item("lantern"):
+				await _say("I take the lantern. Heavy, warm, and immediately useful-looking.")
+				give_item("lantern")
+				lantern_prop.hide_object()
+			else:
+				await _say("I already have one.")
 		"BoundaryStone1", "BoundaryStone2":
 			await _say("Ancient, sacred, and weighs more than my future. I'll leave it.")
 		"IronRailings":

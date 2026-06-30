@@ -11,6 +11,7 @@ var lamp_oil: Area2D
 var whistle: Area2D
 var lens_frame_prop: Area2D
 var burner_pot_prop: Area2D
+var coil_line: Area2D
 var door_bazaar: Area2D
 var door_cliffs: Area2D
 
@@ -62,6 +63,11 @@ func _build_room() -> void:
 		"a bubbling pot", "res://assets/props/burner_pot.png",
 		Vector2(15, 15), false, false, Vector2(28, 32))
 
+	# Coil of braided line — hanging from a hook
+	SceneBuilder.build_prop(props, "CoilLine", Vector2(180, 280),
+		"a coil of braided line", "res://assets/props/copper_wire.png",
+		Vector2(10, 5), true, false, Vector2(24, 24))
+
 	# Exit to Brass Bazaar
 	SceneBuilder.build_hotspot(hotspots, "DoorBazaar", Vector2(60, 260),
 		"the way back to the bazaar", Vector2(30, 15), Vector2(40, 60))
@@ -83,6 +89,7 @@ func _on_room_ready() -> void:
 	whistle = $Props/Whistle
 	lens_frame_prop = $Props/LensFrame
 	burner_pot_prop = $Props/BurnerPot
+	coil_line = $Props/CoilLine
 	door_bazaar = $Hotspots/DoorBazaar
 	door_cliffs = $Hotspots/DoorCliffs
 
@@ -92,9 +99,14 @@ func _on_room_ready() -> void:
 	}
 
 	for node in [tibbit_npc, workbench_prop, clock_spring, lamp_oil,
-				 whistle, lens_frame_prop, burner_pot_prop, door_bazaar, door_cliffs]:
+				 whistle, lens_frame_prop, burner_pot_prop, coil_line,
+				 door_bazaar, door_cliffs]:
 		if node:
 			connect_clickable(node)
+
+	# Hide coil line if already picked up
+	if GameState.has_item("coil_line") and coil_line:
+		coil_line.hide_object()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -142,6 +154,8 @@ func _look_at(obj: Clickable) -> void:
 			await _say("A tiny brass whistle. It has an absurd number of valves for something so small.")
 		"LensFrame":
 			await _say("An empty brass lens frame with adjustment screws. Needs a lens and some kind of focusing element.")
+		"CoilLine":
+			await _say("Braided line. Strong enough to hold a bridge, thin enough to steal.")
 		"BurnerPot":
 			await _say("A pot bubbles ominously. The sign says 'DO NOT TASTE AGAIN.'")
 			if not GameState.has_flag("read_pot_sign"):
@@ -187,6 +201,13 @@ func _pick_up(obj: Clickable) -> void:
 				obj.hide_object()
 			else:
 				await _say("I already have one.")
+		"CoilLine":
+			if not GameState.has_item("coil_line"):
+				await _say("I take Tibbit's coil line. He won't mind. Probably.")
+				give_item("coil_line")
+				coil_line.hide_object()
+			else:
+				await _say("I already have some.")
 		"LampOil":
 			await _say("I'll leave the lamp oil. My pockets have enough flammable things already.")
 		_:

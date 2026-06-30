@@ -178,21 +178,21 @@ static func build_all(scene: Node2D) -> void:
 		"a warning placard", "res://assets/props/cipher_plates.png",
 		Vector2(0, 40), false, false, Vector2(40, 24))
 
-	# Crowd (visible prop, non-collectible)
-	build_prop(props, "Crowd", Vector2(280, 270),
+	# Crowd (visible prop, non-collectible) — left of the relic so they don't overlap it
+	build_prop(props, "Crowd", Vector2(190, 270),
 		"the crowd", "res://assets/props/crowd.png",
-		Vector2(0, 20), false, false, Vector2(140, 36))
+		Vector2(0, 20), false, false, Vector2(110, 55))
 
-	# Tibbit NPC — animated sprite, facing right (toward relic)
-	build_npc(props, "TibbitNPC", Vector2(250, 285),
+	# Tibbit NPC — animated sprite, facing right (toward relic); near the relic so he overlaps less with the crowd
+	build_npc(props, "TibbitNPC", Vector2(290, 285),
 		"Tibbit Wrench", "tibbit", Vector2(20, 5), false, Vector2(40, 50))
 
 	# Pindle NPC — animated sprite, facing left (toward crowd)
 	build_npc(props, "PindleNPC", Vector2(380, 280),
 		"Dockmaster Pindle", "pindle", Vector2(-20, 5), true, Vector2(40, 50))
 
-	# Pindle's inspection stamp — on his desk/crate, starts hidden until he's distracted
-	build_prop(props, "StampProp", Vector2(395, 295),
+	# Pindle's inspection stamp — right of Pindle so it doesn't overlap him; starts hidden until he's distracted
+	build_prop(props, "StampProp", Vector2(430, 295),
 		"Pindle's inspection stamp", "res://assets/props/stamp.png",
 		Vector2(-10, -5), true, true, Vector2(20, 20))
 

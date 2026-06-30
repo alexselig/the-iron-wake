@@ -12,6 +12,8 @@ var lighthouse_crate: Area2D
 var automaton_hand: Area2D
 var chain_hoist: Area2D
 var relic_shelves: Area2D
+var copper_wire_coil: Area2D
+var broken_gear_prop: Area2D
 var door_out: Area2D
 var door_bazaar: Area2D
 
@@ -45,6 +47,16 @@ func _build_room() -> void:
 		"a broken automaton hand", "res://assets/props/broken_gear.png",
 		Vector2(15, 10), true, false, Vector2(30, 30))
 
+	# Copper wire coil — on a shelf
+	SceneBuilder.build_prop(props, "CopperWireCoil", Vector2(480, 285),
+		"a coil of copper wire", "res://assets/props/copper_wire.png",
+		Vector2(-10, 5), true, false, Vector2(24, 24))
+
+	# Broken gear — among salvage debris
+	SceneBuilder.build_prop(props, "BrokenGearProp", Vector2(350, 285),
+		"a broken gear", "res://assets/props/broken_gear.png",
+		Vector2(5, 5), true, false, Vector2(26, 26))
+
 	# Chain hoist
 	SceneBuilder.build_hotspot(props, "ChainHoist", Vector2(520, 240),
 		"the chain hoist", Vector2(-20, 30), Vector2(40, 50))
@@ -73,11 +85,14 @@ func _on_room_ready() -> void:
 	automaton_hand = $Props/AutomatonHand
 	chain_hoist = $Props/ChainHoist
 	relic_shelves = $Props/RelicShelves
+	copper_wire_coil = $Props/CopperWireCoil
+	broken_gear_prop = $Props/BrokenGearProp
 	door_out = $Hotspots/DoorOut
 	door_bazaar = $Hotspots/DoorBazaar
 
 	for node in [symbol_board, black_shard, lighthouse_crate, automaton_hand,
-				 chain_hoist, relic_shelves, door_out, door_bazaar]:
+				 chain_hoist, relic_shelves, copper_wire_coil, broken_gear_prop,
+				 door_out, door_bazaar]:
 		if node:
 			connect_clickable(node)
 
@@ -86,6 +101,14 @@ func _on_room_ready() -> void:
 	# Hide black shard if already picked up
 	if GameState.has_item("black_shard") and black_shard:
 		black_shard.hide_object()
+
+	# Hide copper wire coil if already picked up
+	if GameState.has_item("copper_wire") and copper_wire_coil:
+		copper_wire_coil.hide_object()
+
+	# Hide broken gear if already picked up
+	if GameState.has_item("broken_gear") and broken_gear_prop:
+		broken_gear_prop.hide_object()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -164,6 +187,10 @@ func _look_at(obj: Clickable) -> void:
 			await _say("'HUSHLIGHT LENS HOUSING - FRAGILE.' That feels relevant in the way danger often does.")
 		"AutomatonHand":
 			await _say("A metal hand. Helpful if I need a handshake from someone extremely committed to being dead.")
+		"CopperWireCoil":
+			await _say("A coil of copper wire. Tarnished but still conductive.")
+		"BrokenGearProp":
+			await _say("A cracked gear from some defunct machine. Teeth worn but the core is solid brass.")
 		"ChainHoist":
 			await _say("For moving heavy crates. Or dramatic escapes. Currently doing neither.")
 		"RelicShelves":
@@ -198,6 +225,20 @@ func _pick_up(obj: Clickable) -> void:
 				automaton_hand.hide_object()
 			else:
 				await _say("One disembodied hand is enough, thank you.")
+		"CopperWireCoil":
+			if not GameState.has_item("copper_wire"):
+				await _say("Copper wire. Always useful for jury-rigging.")
+				give_item("copper_wire")
+				copper_wire_coil.hide_object()
+			else:
+				await _say("I already have some.")
+		"BrokenGearProp":
+			if not GameState.has_item("broken_gear"):
+				await _say("A broken gear. Useless for clocks, but the right shape for improvising.")
+				give_item("broken_gear")
+				broken_gear_prop.hide_object()
+			else:
+				await _say("I already have one.")
 		"LighthouseCrate":
 			await _say("It's crate-sized. I'm person-sized. The math is unfavorable.")
 		_:

@@ -10,8 +10,10 @@ var items: Array[String] = []
 var selected_item: String = ""
 var item_textures: Dictionary = {}
 var item_buttons: Dictionary = {}
+var _slot_normal: Texture2D
+var _slot_selected: Texture2D
 
-const SLOT_SIZE := Vector2(42, 42)
+const SLOT_SIZE := Vector2(36, 36)
 const MAX_SLOTS := 8
 
 func _ready() -> void:
@@ -38,12 +40,18 @@ func _ready() -> void:
 		# Act 3 items
 		"reflective_cinderglass", "complete_civic_signet",
 		"inspection_stamp",
+		# Cross-act items
+		"coil_line", "brass_curtain_rod", "chapel_hand_mirror",
+		"lantern", "valve_pin",
 	]
 	for icon_name in icon_names:
 		var path: String = icon_dir + icon_name + ".png"
 		var tex := _load_texture(path)
 		if tex:
 			item_textures[icon_name] = tex
+
+	_slot_normal = _load_texture("res://assets/ui/slot_normal.png")
+	_slot_selected = _load_texture("res://assets/ui/slot_selected.png")
 
 	_rebuild_ui()
 
@@ -73,34 +81,14 @@ func _rebuild_ui() -> void:
 		var slot := PanelContainer.new()
 		slot.custom_minimum_size = SLOT_SIZE
 		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-		var style := StyleBoxFlat.new()
-		style.bg_color = Color(0.15, 0.1, 0.06)
-		style.border_width_left = 1
-		style.border_width_top = 1
-		style.border_width_right = 1
-		style.border_width_bottom = 1
-		style.border_color = Color(0.35, 0.25, 0.1)
-		style.corner_radius_top_left = 2
-		style.corner_radius_top_right = 2
-		style.corner_radius_bottom_right = 2
-		style.corner_radius_bottom_left = 2
+		slot.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 
 		if i < items.size():
 			var item_name: String = items[i]
-
-			# Highlight selected
-			if item_name == selected_item:
-				style.border_color = Color(0.9, 0.7, 0.2)
-				style.border_width_left = 2
-				style.border_width_top = 2
-				style.border_width_right = 2
-				style.border_width_bottom = 2
-
-			slot.add_theme_stylebox_override("panel", style)
+			slot.add_theme_stylebox_override("panel", _make_slot_style(item_name == selected_item))
 
 			var btn := TextureButton.new()
-			btn.custom_minimum_size = Vector2(38, 38)
+			btn.custom_minimum_size = Vector2(28, 28)
 			btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 			btn.ignore_texture_size = true
 			btn.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -111,9 +99,29 @@ func _rebuild_ui() -> void:
 			slot.add_child(btn)
 			item_buttons[item_name] = btn
 		else:
-			slot.add_theme_stylebox_override("panel", style)
+			slot.add_theme_stylebox_override("panel", _make_slot_style(false))
 
 		add_child(slot)
+
+func _make_slot_style(selected: bool) -> StyleBox:
+	var tex: Texture2D = _slot_selected if selected else _slot_normal
+	if tex == null:
+		# Fallback to flat styling if the textures are missing
+		var s := StyleBoxFlat.new()
+		s.bg_color = Color(0.15, 0.1, 0.06)
+		s.set_border_width_all(2 if selected else 1)
+		s.border_color = Color("f1c878") if selected else Color("5a4322")
+		s.set_corner_radius_all(2)
+		return s
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	for side in [SIDE_LEFT, SIDE_RIGHT, SIDE_TOP, SIDE_BOTTOM]:
+		sb.set_texture_margin(side, 6)
+		# Content margins must be set explicitly: otherwise the slot
+		# PanelContainer inherits the texture margins and inflates to
+		# (margin + icon + margin), overflowing the bar's bottom row.
+		sb.set_content_margin(side, 4)
+	return sb
 
 func _load_texture(res_path: String) -> Texture2D:
 	if ResourceLoader.exists(res_path):
