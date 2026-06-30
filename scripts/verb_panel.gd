@@ -43,6 +43,7 @@ func _ready() -> void:
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		btn.add_theme_font_size_override("font_size", 12)
+		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		btn.add_theme_color_override("font_color", COLOR_LABEL_IDLE)
 		btn.add_theme_color_override("font_hover_color", COLOR_LABEL_HOVER)
 		btn.add_theme_color_override("font_pressed_color", COLOR_LABEL_ACTIVE)
@@ -76,11 +77,19 @@ func _make_stylebox(selected: bool, brightness: float = 1.0) -> StyleBox:
 	sb.set_texture_margin(SIDE_RIGHT, VERB_MARGIN.r)
 	sb.set_texture_margin(SIDE_TOP, VERB_MARGIN.t)
 	sb.set_texture_margin(SIDE_BOTTOM, VERB_MARGIN.b)
-	# Keep the label clear of the corner rivets and the lit "lamp" glow.
-	sb.set_content_margin(SIDE_LEFT, 6)
-	sb.set_content_margin(SIDE_RIGHT, 6)
-	sb.set_content_margin(SIDE_TOP, 2)
-	sb.set_content_margin(SIDE_BOTTOM, 6)
+	# Keep the label clear of the corner rivets and centered on the copper face.
+	# Symmetric top/bottom margins so the text is vertically centred; the NEW
+	# forged plates have a thicker frame so the label is inset a little more.
+	if GameState.use_new_assets:
+		sb.set_content_margin(SIDE_LEFT, 13)
+		sb.set_content_margin(SIDE_RIGHT, 13)
+		sb.set_content_margin(SIDE_TOP, 7)
+		sb.set_content_margin(SIDE_BOTTOM, 7)
+	else:
+		sb.set_content_margin(SIDE_LEFT, 6)
+		sb.set_content_margin(SIDE_RIGHT, 6)
+		sb.set_content_margin(SIDE_TOP, 4)
+		sb.set_content_margin(SIDE_BOTTOM, 4)
 	if brightness != 1.0:
 		sb.modulate_color = Color(brightness, brightness, brightness)
 	return sb

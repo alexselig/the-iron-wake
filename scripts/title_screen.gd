@@ -23,6 +23,7 @@ func _ready() -> void:
 
 	# Connect buttons
 	$VBox/StartButton.pressed.connect(_on_start_pressed)
+	_style_title_button($VBox/StartButton)
 
 	# Add Continue button if save exists
 	if FileAccess.file_exists("user://savegame.dat"):
@@ -30,6 +31,7 @@ func _ready() -> void:
 		$VBox.add_child(continue_btn)
 		$VBox.move_child(continue_btn, 0)  # Put it above Start
 		continue_btn.pressed.connect(_on_continue_pressed)
+		_style_title_button(continue_btn)
 
 	# Title music
 	var music_player := AudioStreamPlayer.new()
@@ -78,6 +80,37 @@ func _make_button(text: String) -> Button:
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", hover)
 	return btn
+
+func _style_title_button(btn: Button) -> void:
+	if not GameState.use_new_assets:
+		return
+	var normal := _make_plaque(false)
+	var lit := _make_plaque(true)
+	if normal:
+		btn.add_theme_stylebox_override("normal", normal)
+	if lit:
+		btn.add_theme_stylebox_override("hover", lit)
+		btn.add_theme_stylebox_override("pressed", lit)
+	btn.add_theme_color_override("font_color", Color("e2be6e"))
+	btn.add_theme_color_override("font_hover_color", Color("ffe6a8"))
+	btn.add_theme_color_override("font_pressed_color", Color("fff0c8"))
+	btn.add_theme_font_size_override("font_size", 15)
+
+func _make_plaque(selected: bool) -> StyleBox:
+	var tex := _load_texture("res://assets_new/ui/%s" % ("verb_selected.png" if selected else "verb_normal.png"))
+	if tex == null:
+		return null
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.set_texture_margin(SIDE_LEFT, 14)
+	sb.set_texture_margin(SIDE_RIGHT, 14)
+	sb.set_texture_margin(SIDE_TOP, 12)
+	sb.set_texture_margin(SIDE_BOTTOM, 15)
+	sb.set_content_margin(SIDE_LEFT, 26)
+	sb.set_content_margin(SIDE_RIGHT, 26)
+	sb.set_content_margin(SIDE_TOP, 9)
+	sb.set_content_margin(SIDE_BOTTOM, 11)
+	return sb
 
 func _load_texture(res_path: String) -> Texture2D:
 	res_path = GameState.resolve_asset(res_path)

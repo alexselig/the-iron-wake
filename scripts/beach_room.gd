@@ -51,6 +51,65 @@ func _update_relic_visual() -> void:
 	var s := target_w / tex.get_size().x
 	spr.scale = Vector2(s, s)
 	spr.position = Vector2(0, -10)
+	_setup_relic_fx(_relic_state())
+
+var _relic_pulse: Tween
+var _relic_fx: CPUParticles2D
+
+func _make_dot_texture() -> Texture2D:
+	var img := Image.create(8, 8, false, Image.FORMAT_RGBA8)
+	for y in range(8):
+		for x in range(8):
+			var d := Vector2(x - 3.5, y - 3.5).length() / 4.0
+			img.set_pixel(x, y, Color(1, 1, 1, clampf(1.0 - d, 0.0, 1.0)))
+	return ImageTexture.create_from_image(img)
+
+func _setup_relic_fx(state: String) -> void:
+	if not GameState.use_new_assets or not ancient_relic:
+		return
+	var spr: Sprite2D = ancient_relic.get_node_or_null("Sprite")
+	if spr == null:
+		return
+	if _relic_pulse and _relic_pulse.is_valid():
+		_relic_pulse.kill()
+	spr.modulate = Color.WHITE
+	if _relic_fx == null:
+		_relic_fx = CPUParticles2D.new()
+		_relic_fx.name = "RelicFX"
+		_relic_fx.position = Vector2(0, -16)
+		_relic_fx.texture = _make_dot_texture()
+		_relic_fx.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		_relic_fx.emitting = false
+		_relic_fx.lifetime = 1.7
+		_relic_fx.direction = Vector2(0, -1)
+		_relic_fx.spread = 32.0
+		_relic_fx.gravity = Vector2(0, -16)
+		_relic_fx.initial_velocity_min = 8.0
+		_relic_fx.initial_velocity_max = 22.0
+		_relic_fx.scale_amount_min = 1.0
+		_relic_fx.scale_amount_max = 2.4
+		_relic_fx.emission_shape = CPUParticles2D.EMISSION_SHAPE_SPHERE
+		_relic_fx.emission_sphere_radius = 11.0
+		var ramp := Gradient.new()
+		ramp.set_color(0, Color(0.75, 0.92, 1.0, 0.95))
+		ramp.set_color(1, Color(0.5, 0.8, 1.0, 0.0))
+		_relic_fx.color_ramp = ramp
+		ancient_relic.add_child(_relic_fx)
+	match state:
+		"active":
+			_relic_fx.amount = 24
+			_relic_fx.emitting = true
+			_relic_pulse = create_tween().set_loops()
+			_relic_pulse.tween_property(spr, "modulate", Color(1.3, 1.35, 1.5), 0.85).set_trans(Tween.TRANS_SINE)
+			_relic_pulse.tween_property(spr, "modulate", Color(0.95, 1.0, 1.08), 0.85).set_trans(Tween.TRANS_SINE)
+		"medallion":
+			_relic_fx.amount = 9
+			_relic_fx.emitting = true
+			_relic_pulse = create_tween().set_loops()
+			_relic_pulse.tween_property(spr, "modulate", Color(1.12, 1.15, 1.22), 1.5).set_trans(Tween.TRANS_SINE)
+			_relic_pulse.tween_property(spr, "modulate", Color(1.0, 1.0, 1.0), 1.5).set_trans(Tween.TRANS_SINE)
+		_:
+			_relic_fx.emitting = false
 
 # Room-specific clickables
 var ancient_relic: Area2D
