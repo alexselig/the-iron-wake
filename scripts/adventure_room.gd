@@ -81,6 +81,7 @@ func _ready() -> void:
 	_build_room()
 	_setup_player()
 	_connect_ui()
+	_style_control_bar()
 	_sync_inventory()
 
 	# Check if first visit BEFORE registering
@@ -92,6 +93,12 @@ func _ready() -> void:
 
 	# Room-specific setup (before any fade/intro)
 	_on_room_ready()
+
+	# Apply the "new" design pass (clean placeholder overlays, reskin pickups to
+	# match inventory icons, fix overlaps). Original version is left untouched so
+	# F1 toggles a true before/after.
+	if GameState.use_new_assets:
+		_apply_new_polish()
 
 	# Start room music (deferred to avoid transition artifacts)
 	var music_path := _get_music_path()
@@ -141,6 +148,99 @@ func _fit_background() -> void:
 	const TARGET := Vector2(640, 376)
 	bg.position = Vector2.ZERO
 	bg.scale = Vector2(TARGET.x / tex_size.x, TARGET.y / tex_size.y)
+
+# ============================================================
+# "NEW" DESIGN PASS (gated on GameState.use_new_assets)
+# ============================================================
+const PolishData = preload("res://scripts/polish_data.gd")
+
+func _apply_new_polish() -> void:
+	var room_id := String(get_scene_file_path().get_file().get_basename())
+	var ops: Dictionary = PolishData.get_ops().get(room_id, {})
+	if ops.is_empty():
+		return
+	# Make clashing placeholder scenery invisible — keep the Area2D so the
+	# object is still hoverable/clickable as a hotspot over the painted art.
+	for n in ops.get("hide", []):
+		var node := _find_built_node(n)
+		if node:
+			var spr := node.get_node_or_null("Sprite")
+			if spr:
+				spr.visible = false
+			if node is Clickable:
+				node._bob_enabled = false
+	# Reskin pickup items to their inventory icon so the scene item visibly
+	# matches what lands in the inventory bar.
+	for n in ops.get("reskin", {}).keys():
+		_reskin_prop(node_path_name(n), ops["reskin"][n])
+	# Reposition to remove overlaps / floating-over-water.
+	for n in ops.get("move", {}).keys():
+		_move_built_node(n, ops["move"][n])
+	# Optional per-node scale tweaks.
+	for n in ops.get("scale", {}).keys():
+		var node := _find_built_node(n)
+		if node:
+			var spr := node.get_node_or_null("Sprite")
+			if spr:
+				spr.scale *= float(ops["scale"][n])
+
+func node_path_name(n: String) -> String:
+	return n
+
+func _find_built_node(node_name: String) -> Node:
+	for parent_name in ["Props", "Hotspots"]:
+		var p := get_node_or_null(parent_name)
+		if p and p.has_node(node_name):
+			return p.get_node(node_name)
+	if has_node(node_name):
+		return get_node(node_name)
+	return null
+
+func _reskin_prop(node_name: String, icon_base: String, target_h: float = 34.0) -> void:
+	var node := _find_built_node(node_name)
+	if node == null:
+		return
+	var spr: Sprite2D = node.get_node_or_null("Sprite")
+	if spr == null:
+		return
+	var tex := _load_texture("res://assets/inventory_icons/%s.png" % icon_base)
+	if tex == null:
+		return
+	spr.texture = tex
+	var h: float = tex.get_size().y
+	if h > 0.0:
+		var s := target_h / h
+		spr.scale = Vector2(s, s)
+	spr.visible = true
+
+func _move_built_node(node_name: String, pos: Vector2) -> void:
+	var node := _find_built_node(node_name)
+	if node == null:
+		return
+	node.position = pos
+	if node is Clickable:
+		node._base_y = pos.y
+
+# ============================================================
+# CONTROL BAR (professional brass/wood styling, NEW version only)
+# ============================================================
+func _style_control_bar() -> void:
+	if not GameState.use_new_assets:
+		return
+	var panel := get_node_or_null("UI/BottomPanel")
+	if panel == null:
+		return
+	var tex := _load_texture("res://assets_new/ui/panel_bg.png")
+	if tex == null:
+		return
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.set_content_margin(SIDE_TOP, 11)
+	sb.set_content_margin(SIDE_LEFT, 12)
+	sb.set_content_margin(SIDE_RIGHT, 12)
+	sb.set_content_margin(SIDE_BOTTOM, 8)
+	panel.add_theme_stylebox_override("panel", sb)
+
 
 func _build_room() -> void:
 	pass

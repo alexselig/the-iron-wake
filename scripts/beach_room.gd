@@ -14,6 +14,44 @@ extends AdventureRoom
 
 const SceneBuilder = preload("res://scripts/scene_builder.gd")
 
+# NEW version: the ancient relic shows a distinct visual for each story beat so
+# the player can read the puzzle's progress at a glance. (Original keeps the
+# single static capsule sprite.)
+const RELIC_STATES := {
+	"dormant": "res://assets_new/props/relic/dormant.png",
+	"dried": "res://assets_new/props/relic/dried.png",
+	"scraped": "res://assets_new/props/relic/scraped.png",
+	"medallion": "res://assets_new/props/relic/medallion.png",
+	"active": "res://assets_new/props/relic/active.png",
+}
+
+func _relic_state() -> String:
+	if GameState.has_flag("relic_activated"):
+		return "active"
+	if GameState.has_flag("medallion_inserted"):
+		return "medallion"
+	if GameState.has_flag("recess_scraped"):
+		return "scraped"
+	if GameState.has_flag("relic_dried"):
+		return "dried"
+	return "dormant"
+
+func _update_relic_visual() -> void:
+	if not GameState.use_new_assets or not ancient_relic:
+		return
+	var spr: Sprite2D = ancient_relic.get_node_or_null("Sprite")
+	if spr == null:
+		return
+	var tex := _load_texture(RELIC_STATES[_relic_state()])
+	if tex == null:
+		return
+	spr.texture = tex
+	# Size the relic to sit over the painted dome in the background.
+	var target_w := 152.0
+	var s := target_w / tex.get_size().x
+	spr.scale = Vector2(s, s)
+	spr.position = Vector2(0, -10)
+
 # Room-specific clickables
 var ancient_relic: Area2D
 var spyglass_crate: Area2D
@@ -84,6 +122,9 @@ func _on_room_ready() -> void:
 	# Give player the medallion at start (it's Rowan's)
 	if not GameState.has_item("medallion") and not GameState.has_flag("medallion_inserted"):
 		give_item("medallion")
+
+	# NEW: set the relic to the right story-state visual (also restores it on revisit).
+	_update_relic_visual()
 
 func _get_entry_position() -> Vector2:
 	match GameState.previous_room:
@@ -392,6 +433,7 @@ func _on_use_item(item_name: String, target: Clickable) -> bool:
 						await _say("The cracked lens focuses the morning sun onto the wet sand in the recess.")
 						await _say("It starts to dry and crack. Good.")
 						GameState.set_flag("relic_dried")
+						_update_relic_visual()
 						return true
 					else:
 						await _say("The sand is already dry. I need to scrape it out now.")
@@ -401,6 +443,7 @@ func _on_use_item(item_name: String, target: Clickable) -> bool:
 						await _say("The flat edge of the stamp handle scrapes the dried sand out of the recess perfectly.")
 						await _say("Underneath: a circular groove with geometric patterns. My medallion would fit.")
 						GameState.set_flag("recess_scraped")
+						_update_relic_visual()
 						return true
 					elif not GameState.has_flag("relic_dried"):
 						await _say("The sand is still wet. The stamp just smears it around. I need to dry it first.")
@@ -416,6 +459,7 @@ func _on_use_item(item_name: String, target: Clickable) -> bool:
 						await _say("Something I've apparently been meant to do since childhood.")
 						GameState.set_flag("medallion_inserted")
 						take_item("medallion")
+						_update_relic_visual()
 						return true
 					elif GameState.has_flag("relic_dried"):
 						await _say("I'm not grinding a mystery heirloom into dried sand. I should scrape the recess clean first.")
@@ -457,6 +501,7 @@ func _play_relic_activation() -> void:
 	await _say_as("TIBBIT", "It's humming! That's either progress or a countdown.")
 
 	GameState.set_flag("relic_activated")
+	_update_relic_visual()
 
 	# Relic opens — memory vision
 	await get_tree().create_timer(0.5).timeout

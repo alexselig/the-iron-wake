@@ -78,6 +78,18 @@ func _on_room_ready() -> void:
 		if node:
 			connect_clickable(node)
 
+	# NEW version: Pindle was invisible (only a desk hotspot). Give the office an
+	# actual clerk standing behind the desk and route his talk animation to him.
+	if GameState.use_new_assets and not $Props.has_node("PindleClerk"):
+		var SB = preload("res://scripts/scene_builder.gd")
+		var clerk: Area2D = SB.build_npc($Props, "PindleClerk", Vector2(345, 196),
+			"Dockmaster Pindle", "pindle", Vector2(-40, 60), true, Vector2(40, 50))
+		# Decorative + talk-anim target only — the desk hotspot handles clicks.
+		clerk.input_pickable = false
+		clerk.set_deferred("monitoring", false)
+		clerk.set_deferred("monitorable", false)
+		speaker_to_node["PINDLE"] = "PindleClerk"
+
 func _get_entry_position() -> Vector2:
 	return Vector2(100, 290)
 

@@ -47,6 +47,10 @@ func _ready() -> void:
 		modes = ["orig", "new"]
 
 	# Hide the on-screen version indicator so it never covers room art.
+	# (It is created via call_deferred in GameState._ready, so wait a couple
+	# frames for it to exist before hiding.)
+	await get_tree().process_frame
+	await get_tree().process_frame
 	var indicator := GameState.get_node_or_null("VersionIndicator")
 	if indicator:
 		indicator.visible = false

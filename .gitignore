@@ -22,3 +22,7 @@ __pycache__/
 *~
 .gstack/
 shots/
+_shot.gd
+_shot.tscn
+_relic_shot.gd
+_relic_shot.tscn
