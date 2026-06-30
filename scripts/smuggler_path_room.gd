@@ -88,7 +88,7 @@ func _get_entry_position() -> Vector2:
 		"brackmarsh":
 			return Vector2(550, 285)
 		_:
-			return Vector2(100, 290)
+			return Vector2(120, 290)
 
 func _play_intro() -> void:
 	is_busy = true

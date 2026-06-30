@@ -14,6 +14,35 @@ extends Node2D
 @export var walkable_y_min: float = 200.0
 @export var walkable_y_max: float = 350.0
 
+# The character sprite is 96px tall and centered on its position, so the feet
+# rest at position.y + 48. PLAYER_FEET_OFFSET converts a desired floor line into
+# a position.y. ROOM_FLOOR maps each room (scene file basename) to the spot where
+# the character should stand: x = default spawn column, y = floor line under the feet.
+const PLAYER_FEET_OFFSET := 48.0
+const ROOM_FLOOR := {
+	"main": Vector2(150, 332),
+	"customs_shack": Vector2(110, 348),
+	"ironwind_airdock": Vector2(185, 340),
+	"brass_bazaar": Vector2(110, 342),
+	"salvage_warehouse": Vector2(110, 345),
+	"tibbit_workshop": Vector2(110, 348),
+	"lighthouse_exterior": Vector2(110, 338),
+	"harbor_cliffs": Vector2(110, 345),
+	"isle_auric": Vector2(120, 342),
+	"lighthouse_chamber": Vector2(110, 348),
+	"brackmarsh": Vector2(110, 345),
+	"cinderglass_valley": Vector2(110, 345),
+	"fogwound_ruins": Vector2(110, 348),
+	"harmonic_gate": Vector2(110, 348),
+	"mountain_breach": Vector2(110, 342),
+	"relay_tower": Vector2(110, 345),
+	"smuggler_path": Vector2(120, 335),
+	"sunken_waystation": Vector2(110, 345),
+	"transit_vault": Vector2(110, 348),
+	"undersea_transit": Vector2(110, 345),
+	"wake_passage": Vector2(110, 345),
+}
+
 # UI references — set in _ready or by scene tree
 @onready var player: CharacterBody2D = $Player
 @onready var dialogue_box = $UI/DialogueBox
@@ -186,8 +215,18 @@ func _setup_player() -> void:
 		player.init_sprite()
 		# Position player based on which room we came from
 		var entry := _get_entry_position()
-		if entry != Vector2.ZERO:
-			player.global_position = entry
+		if entry == Vector2.ZERO:
+			entry = player.global_position
+		# Drop the feet onto the room's floor line so the character is never floating.
+		# On a fresh entry (no door we came through) use the room's default standing
+		# column; when arriving through a specific door keep that door's column.
+		var room_id := String(get_scene_file_path().get_file().get_basename())
+		if ROOM_FLOOR.has(room_id):
+			var f: Vector2 = ROOM_FLOOR[room_id]
+			var fresh := String(GameState.previous_room) == ""
+			var fx: float = f.x if fresh else entry.x
+			entry = Vector2(fx, f.y - PLAYER_FEET_OFFSET)
+		player.global_position = entry
 
 func _get_entry_position() -> Vector2:
 	## Override to return spawn position based on GameState.previous_room
@@ -204,6 +243,30 @@ func _connect_ui() -> void:
 	hover_text = get_node_or_null("UI/BottomPanel/VBox/HoverText")
 	if not hover_text:
 		hover_text = get_node_or_null("UI/HoverText")
+
+	# Apply the steampunk command-bar background (brass molding + body).
+	var bottom_panel := get_node_or_null("UI/BottomPanel")
+	if bottom_panel is Control:
+		var bar_tex := _load_texture("res://assets/ui/panel_bar.png")
+		if bar_tex:
+			var bar_style := StyleBoxTexture.new()
+			bar_style.texture = bar_tex
+			bar_style.set_texture_margin(SIDE_LEFT, 10)
+			bar_style.set_texture_margin(SIDE_RIGHT, 10)
+			bar_style.set_texture_margin(SIDE_TOP, 38)
+			bar_style.set_texture_margin(SIDE_BOTTOM, 6)
+			# Content margins must be set explicitly: a StyleBoxTexture
+			# otherwise inherits the (38px) texture margins, which would push
+			# the verb/inventory rows down and clip the bottom row off the bar.
+			bar_style.set_content_margin(SIDE_LEFT, 10)
+			bar_style.set_content_margin(SIDE_RIGHT, 10)
+			bar_style.set_content_margin(SIDE_TOP, 4)
+			bar_style.set_content_margin(SIDE_BOTTOM, 2)
+			(bottom_panel as Control).texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+			bottom_panel.add_theme_stylebox_override("panel", bar_style)
+	if hover_text:
+		# Sentence-line amber (GODOT_INTEGRATION.md §2)
+		hover_text.add_theme_color_override("font_color", Color("f3c873"))
 
 	if verb_panel:
 		verb_panel.verb_selected.connect(_on_verb_selected)
@@ -718,9 +781,10 @@ func go_to_room(scene_path: String) -> void:
 	if _sfx_door and _sfx_door.stream:
 		_sfx_door.play()
 
-	# Save inventory to GameState
+	# Save inventory to GameState and auto-save
 	if inventory:
 		GameState.inventory_items = inventory.items.duplicate()
+	GameState.save_game()
 
 	# Fade out
 	if fade_overlay:

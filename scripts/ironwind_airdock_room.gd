@@ -77,7 +77,7 @@ func _get_entry_position() -> Vector2:
 		"fogwound_ruins":
 			return Vector2(520, 290)
 		_:
-			return Vector2(100, 290)
+			return Vector2(185, 290)
 
 func _play_intro() -> void:
 	is_busy = true

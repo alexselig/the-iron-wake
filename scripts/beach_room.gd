@@ -171,12 +171,16 @@ func _show_controls_tutorial() -> void:
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 6)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 
 	var title := Label.new()
-	title.text = "THE IRON WAKE"
+	title.text = "HOW TO PLAY"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_color_override("font_color", Color(0.83, 0.66, 0.25))
-	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_color_override("font_color", Color(0.95, 0.8, 0.35))
+	title.add_theme_font_size_override("font_size", 20)
+	# Fake-bold: matching outline thickens the strokes (project has no bold font)
+	title.add_theme_constant_override("outline_size", 4)
+	title.add_theme_color_override("font_outline_color", Color(0.95, 0.8, 0.35))
 	vbox.add_child(title)
 
 	for line in ["Select a VERB then click an object",
@@ -483,9 +487,10 @@ func _play_relic_activation() -> void:
 	await _say("I was standing right here.")
 	await _say_as("TIBBIT", "Physically, yes. Spiritually, your expression went somewhere expensive.")
 
-	# Receive brass strip
+	# Relic ejects items
 	give_item("brass_strip")
-	await _say("An engraved brass strip ejects from the relic. Symbols match the map fragment.")
+	give_item("medallion")
+	await _say("The relic ejects the medallion and an engraved brass strip. Symbols match the map fragment.")
 	await _say("Good. The sea has started giving me homework.")
 
 	await _say_as("TIBBIT", "The warehouse has salvage records. We might find a match for those symbols.")
