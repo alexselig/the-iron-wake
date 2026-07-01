@@ -33,17 +33,17 @@ func _build_room() -> void:
 		"Sister Caligo", "caligo", Vector2(25, 5), false, Vector2(40, 50))
 
 	# Standing mirrors in the marsh
-	SceneBuilder.build_prop(props, "StandingMirror1", Vector2(350, 255),
-		"a standing mirror", "res://assets/props/black_shard.png",
-		Vector2(0, 20), false, false, Vector2(24, 48))
+	SceneBuilder.build_prop(props, "StandingMirror1", Vector2(300, 226),
+		"a standing mirror", "res://assets/props/standing_mirror.png",
+		Vector2(0, 30), false, false, Vector2(24, 48))
 
-	SceneBuilder.build_prop(props, "StandingMirror2", Vector2(430, 245),
-		"a standing mirror", "res://assets/props/black_shard.png",
-		Vector2(0, 25), false, false, Vector2(24, 48))
+	SceneBuilder.build_prop(props, "StandingMirror2", Vector2(410, 223),
+		"a standing mirror", "res://assets/props/standing_mirror.png",
+		Vector2(0, 30), false, false, Vector2(24, 48))
 
-	SceneBuilder.build_prop(props, "StandingMirror3", Vector2(500, 260),
-		"a standing mirror", "res://assets/props/black_shard.png",
-		Vector2(-15, 15), false, false, Vector2(24, 48))
+	SceneBuilder.build_prop(props, "StandingMirror3", Vector2(505, 243),
+		"a standing mirror", "res://assets/props/standing_mirror.png",
+		Vector2(-15, 30), false, false, Vector2(24, 48))
 
 	# Bell rope at the chapel
 	SceneBuilder.build_hotspot(props, "BellRope", Vector2(170, 210),
@@ -51,17 +51,17 @@ func _build_room() -> void:
 
 	# Reed skiff in the marsh
 	SceneBuilder.build_prop(props, "ReedSkiff", Vector2(300, 290),
-		"a reed skiff", "res://assets/props/lighthouse_crate.png",
+		"a reed skiff", "res://assets/props/reed_skiff.png",
 		Vector2(10, 0), false, false, Vector2(44, 24))
 
 	# Brass curtain rod — leaning against the chapel wall
 	SceneBuilder.build_prop(props, "BrassCurtainRod", Vector2(130, 280),
-		"a brass curtain rod", "res://assets/props/brass_key.png",
+		"a brass curtain rod", "res://assets/props/brass_curtain_rod.png",
 		Vector2(15, 5), true, false, Vector2(28, 20))
 
 	# Chapel hand mirror — on the chapel steps
 	SceneBuilder.build_prop(props, "ChapelHandMirror", Vector2(220, 285),
-		"a small hand mirror", "res://assets/props/black_shard.png",
+		"a small hand mirror", "res://assets/props/hand_mirror.png",
 		Vector2(5, 5), true, false, Vector2(20, 20))
 
 	# Chapel door

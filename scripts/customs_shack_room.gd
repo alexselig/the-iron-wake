@@ -31,23 +31,23 @@ func _build_room() -> void:
 		"Dockmaster Pindle", Vector2(-30, 20), Vector2(60, 60))
 
 	# Props around the office
-	SceneBuilder.build_prop(props, "PermitLedger", Vector2(380, 240),
-		"a permit ledger", "res://assets/props/cipher_plates.png",
+	SceneBuilder.build_prop(props, "PermitLedger", Vector2(400, 203),
+		"a permit ledger", "res://assets/props/permit_ledger.png",
 		Vector2(-20, 30), false, false, Vector2(36, 28))
 
-	SceneBuilder.build_prop(props, "InkPad", Vector2(280, 250),
-		"an ink pad", "res://assets/props/oilskin_pouch.png",
+	SceneBuilder.build_prop(props, "InkPad", Vector2(210, 207),
+		"an ink pad", "res://assets/props/ink_pad.png",
 		Vector2(0, 20), false, false, Vector2(24, 24))
 
 	SceneBuilder.build_hotspot(props, "WallNotices", Vector2(200, 200),
 		"wall notices", Vector2(20, 50), Vector2(60, 40))
 
-	SceneBuilder.build_prop(props, "SealPress", Vector2(440, 255),
-		"a wax seal press", "res://assets/props/broken_gear.png",
+	SceneBuilder.build_prop(props, "SealPress", Vector2(445, 200),
+		"a wax seal press", "res://assets/props/seal_press.png",
 		Vector2(-15, 20), false, false, Vector2(28, 28))
 
-	SceneBuilder.build_prop(props, "BlankForms", Vector2(160, 260),
-		"blank forms", "res://assets/props/magnifying_lens.png",
+	SceneBuilder.build_prop(props, "BlankForms", Vector2(175, 205),
+		"blank forms", "res://assets/props/blank_forms_prop.png",
 		Vector2(20, 15), true, false, Vector2(32, 24))
 
 	# Exit door

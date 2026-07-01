@@ -34,17 +34,17 @@ func _build_room() -> void:
 
 	# Suspiciously polished black shard
 	SceneBuilder.build_prop(props, "BlackShard", Vector2(200, 270),
-		"a polished black shard", "res://assets/props/cipher_plates.png",
+		"a polished black shard", "res://assets/props/black_shard.png",
 		Vector2(15, 15), true, false, Vector2(28, 28))
 
 	# Lighthouse transfer crate
 	SceneBuilder.build_prop(props, "LighthouseCrate", Vector2(450, 275),
-		"a crate marked 'Lighthouse Transfer'", "res://assets/props/capsule_frames/closed.png",
+		"a crate marked 'Lighthouse Transfer'", "res://assets/props/lighthouse_crate.png",
 		Vector2(-15, 10), false, false, Vector2(50, 40))
 
 	# Broken automaton hand
 	SceneBuilder.build_prop(props, "AutomatonHand", Vector2(140, 280),
-		"a broken automaton hand", "res://assets/props/broken_gear.png",
+		"a broken automaton hand", "res://assets/props/automaton_hand.png",
 		Vector2(15, 10), true, false, Vector2(30, 30))
 
 	# Copper wire coil — on a shelf

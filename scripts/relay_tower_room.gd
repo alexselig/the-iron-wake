@@ -27,7 +27,7 @@ func _build_room() -> void:
 	SceneBuilder.build_player_sprite($Player)
 
 	SceneBuilder.build_prop(props, "RelayPedestal", Vector2(320, 260),
-		"the relay pedestal", "res://assets/props/door_mechanism.png",
+		"the relay pedestal", "res://assets/props/lens_pedestal.png",
 		Vector2(0, 15), false, false, Vector2(52, 44))
 
 	SceneBuilder.build_hotspot(props, "Socket1", Vector2(280, 255),
@@ -40,7 +40,7 @@ func _build_room() -> void:
 		"the third socket", Vector2(-15, 15), Vector2(24, 24))
 
 	SceneBuilder.build_prop(props, "ToneForks", Vector2(450, 250),
-		"embedded tone forks", "res://assets/props/copper_wire.png",
+		"embedded tone forks", "res://assets/props/tone_forks.png",
 		Vector2(-20, 20), false, false, Vector2(36, 28))
 
 	SceneBuilder.build_hotspot(props, "TowerGrooves", Vector2(320, 200),

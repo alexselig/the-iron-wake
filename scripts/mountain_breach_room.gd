@@ -26,7 +26,7 @@ func _build_room() -> void:
 	SceneBuilder.build_hotspot(props, "AuxiliaryPanel", Vector2(400, 255),
 		"an auxiliary panel", Vector2(-15, 15), Vector2(36, 28))
 	SceneBuilder.build_prop(props, "ScaffoldPipe", Vector2(200, 270),
-		"a scaffold pipe", "res://assets/props/copper_wire.png",
+		"a scaffold pipe", "res://assets/props/scaffold_pipe.png",
 		Vector2(15, 10), true, false, Vector2(40, 20))
 	SceneBuilder.build_hotspot(props, "SurveyEquipment", Vector2(480, 260),
 		"Rook's survey equipment", Vector2(-20, 15), Vector2(40, 30))

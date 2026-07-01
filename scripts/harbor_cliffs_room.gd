@@ -51,7 +51,7 @@ func _build_room() -> void:
 
 	# Iron lantern — left by a cliff path walker
 	SceneBuilder.build_prop(props, "LanternProp", Vector2(350, 280),
-		"an old iron lantern", "res://assets/props/broken_gear.png",
+		"an old iron lantern", "res://assets/props/iron_lantern.png",
 		Vector2(5, 5), true, false, Vector2(24, 28))
 
 	# Exit back to Tibbit's Workshop

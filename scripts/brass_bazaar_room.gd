@@ -45,12 +45,12 @@ func _build_room() -> void:
 
 	# Broken guild badge — on the ground near a stall
 	SceneBuilder.build_prop(props, "GuildBadge", Vector2(140, 290),
-		"a broken guild badge", "res://assets/props/broken_gear.png",
+		"a broken guild badge", "res://assets/props/guild_badge.png",
 		Vector2(15, 0), true, false, Vector2(24, 24))
 
 	# Fancy teacup — on a merchant's table
 	SceneBuilder.build_prop(props, "FancyTeacup", Vector2(500, 260),
-		"a fancy teacup", "res://assets/props/oilskin_pouch.png",
+		"a fancy teacup", "res://assets/props/fancy_teacup.png",
 		Vector2(-15, 15), true, false, Vector2(24, 24))
 
 	# Noble stall — eavesdropping spot

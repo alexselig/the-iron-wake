@@ -26,11 +26,11 @@ func _build_room() -> void:
 	SceneBuilder.build_player_sprite($Player)
 
 	SceneBuilder.build_prop(props, "CliffLift", Vector2(380, 250),
-		"the cliff lift", "res://assets/props/broken_gear.png",
+		"the cliff lift", "res://assets/props/chain_hoist.png",
 		Vector2(-20, 25), false, false, Vector2(44, 50))
 
 	SceneBuilder.build_prop(props, "SignalLantern", Vector2(200, 240),
-		"a signal lantern", "res://assets/props/brass_key.png",
+		"a signal lantern", "res://assets/props/signal_lantern.png",
 		Vector2(15, 30), false, false, Vector2(28, 36))
 
 	SceneBuilder.build_prop(props, "ContrabandCrate", Vector2(140, 275),

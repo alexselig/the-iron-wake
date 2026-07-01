@@ -171,12 +171,12 @@ static func build_all(scene: Node2D) -> void:
 
 	# Steam valve on seawall
 	build_prop(props, "SteamValve", Vector2(520, 250),
-		"the steam valve", "res://assets/props/broken_gear.png",
+		"the steam valve", "res://assets/props/steam_valve.png",
 		Vector2(-15, 30), false, false, Vector2(36, 36))
 
 	# Warning placard
 	build_prop(props, "WarningPlacard", Vector2(440, 230),
-		"a warning placard", "res://assets/props/cipher_plates.png",
+		"a warning placard", "res://assets/props/warning_placard.png",
 		Vector2(0, 40), false, false, Vector2(40, 24))
 
 	# Crowd (visible prop, non-collectible) — left of the relic so they don't overlap it

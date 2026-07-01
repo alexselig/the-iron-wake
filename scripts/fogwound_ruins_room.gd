@@ -34,7 +34,7 @@ func _build_room() -> void:
 		"Rook's scaffolding", Vector2(-20, 35), Vector2(50, 40))
 
 	SceneBuilder.build_prop(props, "CampNote", Vector2(460, 270),
-		"a camp note", "res://assets/props/cipher_plates.png",
+		"a camp note", "res://assets/props/blank_forms_prop.png",
 		Vector2(-15, 10), true, false, Vector2(28, 20))
 
 	SceneBuilder.build_hotspot(props, "LanternPlinth", Vector2(270, 260),

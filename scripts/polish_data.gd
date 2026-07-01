@@ -27,7 +27,7 @@ static func get_ops() -> Dictionary:
 		"customs_shack": {
 			"hide": ["PermitLedger", "InkPad", "SealPress"],
 			"reskin": {"BlankForms": "blank_form"},
-			"move": {"BlankForms": Vector2(205, 250)},
+			"move": {"BlankForms": Vector2(188, 201)},
 		},
 		# Room 3 — Salvage Warehouse
 		"salvage_warehouse": {
@@ -46,7 +46,7 @@ static func get_ops() -> Dictionary:
 		# Room 4 — Brass Bazaar
 		"brass_bazaar": {
 			"reskin": {"GuildBadge": "guild_badge", "FancyTeacup": "fancy_teacup"},
-			"move": {"GuildBadge": Vector2(120, 250)},
+			"move": {"GuildBadge": Vector2(165, 300)},
 		},
 		# Room 5 — Tibbit's Workshop
 		"tibbit_workshop": {
