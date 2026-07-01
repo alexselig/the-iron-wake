@@ -1,0 +1,38 @@
+{
+  "_comment": "Voice casting for The Iron Wake. Maps speaker names (as passed to _say_as / dialogue_box.show_dialogue) to ElevenLabs premade voice IDs. Premade voices work with a TTS-only key (no voices_read permission needed). Edit voice_ids to recast. This file contains NO secrets and is safe to commit.",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.0,
+    "use_speaker_boost": true
+  },
+  "default_voice": "ErXwobaYiN019PkySvjV",
+  "speakers": {
+    "ROWAN": "ErXwobaYiN019PkySvjV",
+    "TIBBIT": "TxGEqnHWrfWFTfGW9XjX",
+    "PINDLE": "pNInz6obpgDQGcFmaJgB",
+    "MARROW": "VR6AewLTigWG4xSOukaG",
+    "ROOK": "yoZ06aMxZJJ28mfd3POQ",
+    "CALIGO": "IKne3meq5aSn9XLyUdCD",
+    "BRAM": "onwK4e9ZLuTAKqWW03F9",
+    "MIRELLE": "21m00Tcm4TlvDq8ikWAM",
+    "SERAPHINE": "AZnzlk1XvdvUeBnXmlld",
+    "NARRATOR": "VR6AewLTigWG4xSOukaG",
+    "MAN": "VR6AewLTigWG4xSOukaG",
+    "WOMAN": "21m00Tcm4TlvDq8ikWAM"
+  },
+  "_casting_notes": {
+    "ROWAN": "Antoni \u2014 versatile mid male, dry sarcasm (protagonist)",
+    "TIBBIT": "Josh \u2014 brighter young male, enthusiastic tinkerer",
+    "PINDLE": "Adam \u2014 deep authoritative male, pompous bureaucrat",
+    "MARROW": "Arnold \u2014 crisp, oracular",
+    "ROOK": "Sam \u2014 raspy, rough antagonist",
+    "CALIGO": "Charlie \u2014 smooth accented, the velvet-voiced rival",
+    "BRAM": "Daniel \u2014 British mature",
+    "MIRELLE": "Rachel \u2014 calm female",
+    "SERAPHINE": "Domi \u2014 strong female",
+    "NARRATOR": "Arnold \u2014 neutral narration"
+  }
+}

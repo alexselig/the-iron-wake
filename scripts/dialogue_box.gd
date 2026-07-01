@@ -39,8 +39,12 @@ var name_label: Label
 
 var bg_panel: PanelContainer
 var _blip_player: AudioStreamPlayer
+var _voice: Node  # VoiceOver autoload (may be null if disabled)
 
 func _ready() -> void:
+	# VoiceOver autoload — plays pre-generated dialogue clips (no-op if missing)
+	_voice = get_node_or_null("/root/VoiceOver")
+
 	# Dialogue blip sound — subtle melodic pluck
 	_blip_player = AudioStreamPlayer.new()
 	_blip_player.bus = "Master"
@@ -144,6 +148,10 @@ func show_dialogue(speaker: String, text: String) -> void:
 	skip_requested = false
 	_text_revealed_emitted = false
 
+	# Speak the line (pre-generated ElevenLabs clip, if one exists)
+	if _voice:
+		_voice.play(speaker, text)
+
 	if name_label:
 		name_label.visible = false
 
@@ -166,6 +174,8 @@ func _reposition() -> void:
 	bg_panel.position = Vector2(x, y)
 
 func hide_dialogue() -> void:
+	if _voice:
+		_voice.stop()
 	bg_panel.visible = false
 	is_showing = false
 	dialogue_finished.emit()

@@ -1,0 +1,891 @@
+{
+  "82f0854b21b5ffdee17f3b3ff531aa5ee025410a": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 70,
+    "text": "It's open now. Geometric patterns pulse softly. It looks... expectant.",
+    "file": "assets/voice/82f0854b21b5ffdee17f3b3ff531aa5ee025410a.mp3"
+  },
+  "68ad2c0b802ffae567ce9687bad837987bc69893": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 75,
+    "text": "The medallion is in place. The relic hums faintly but needs something more.",
+    "file": "assets/voice/68ad2c0b802ffae567ce9687bad837987bc69893.mp3"
+  },
+  "01f8637641b36766706ced581c768bc26452d134": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 78,
+    "text": "The recess is clean. Something circular fits here. Something old and familiar.",
+    "file": "assets/voice/01f8637641b36766706ced581c768bc26452d134.mp3"
+  },
+  "a023a6fad9fc641d1a4683efd6d5577ea1176df4": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 71,
+    "text": "The sand is dry and cracked. I could scrape it out with something flat.",
+    "file": "assets/voice/a023a6fad9fc641d1a4683efd6d5577ea1176df4.mp3"
+  },
+  "c0af74033ec0c2375295b0b21c5ca8cfd2693355": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 76,
+    "text": "Smooth, seamless, and smug. I've met wealthy people less polished than this.",
+    "file": "assets/voice/c0af74033ec0c2375295b0b21c5ca8cfd2693355.mp3"
+  },
+  "ef633f15ff0882740804fc99687067e41ee5b032": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 67,
+    "text": "There's a circular recess packed with wet sand and fine salt crust.",
+    "file": "assets/voice/ef633f15ff0882740804fc99687067e41ee5b032.mp3"
+  },
+  "48f4d3a3b4a6b368a320b6f4e09f1593c823cbd1": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 91,
+    "text": "A sailor's spyglass. Lens cracked, brass cheap, still more trustworthy than most officials.",
+    "file": "assets/voice/48f4d3a3b4a6b368a320b6f4e09f1593c823cbd1.mp3"
+  },
+  "67478c1fcb166083acb493c886743ae448030519": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 68,
+    "text": "One of Blackwake's many wheels for deciding whether pipes are happy.",
+    "file": "assets/voice/67478c1fcb166083acb493c886743ae448030519.mp3"
+  },
+  "f0e11fbec4b3a63ed248852a1d267564a94a0c60": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 78,
+    "text": "'NO UNAUTHORIZED RESONANCE EVENTS.' That's not reassuring. That's advertising.",
+    "file": "assets/voice/f0e11fbec4b3a63ed248852a1d267564a94a0c60.mp3"
+  },
+  "ed2253da9caae1bedfd6ed66dcdbbf015157b74e": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 69,
+    "text": "Fishing boats and salvage barges. The two honest trades of Blackwake.",
+    "file": "assets/voice/ed2253da9caae1bedfd6ed66dcdbbf015157b74e.mp3"
+  },
+  "fcb16a5b2f89d619c3c6bc40a7d8139e70662f1a": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 70,
+    "text": "A shack small enough to be humble but official enough to be dangerous.",
+    "file": "assets/voice/fcb16a5b2f89d619c3c6bc40a7d8139e70662f1a.mp3"
+  },
+  "7ae665c4ead134138c2b66cd15504763e6a94bb6": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 57,
+    "text": "Brick, steam, and ambition holding back the tide. Barely.",
+    "file": "assets/voice/7ae665c4ead134138c2b66cd15504763e6a94bb6.mp3"
+  },
+  "9188db77d0d3f31a908be4f6fe3444aa49d7fcc5": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 63,
+    "text": "A man whose hair appears to be having an independent adventure.",
+    "file": "assets/voice/9188db77d0d3f31a908be4f6fe3444aa49d7fcc5.mp3"
+  },
+  "064d252cdde8e3813e019f73b0a5bc9eeec47bce": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 62,
+    "text": "Pindle is deep in a furious debate about fish ownership. Good.",
+    "file": "assets/voice/064d252cdde8e3813e019f73b0a5bc9eeec47bce.mp3"
+  },
+  "1da0b57db6d49219b714da3ed24cc8864f2df6c8": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 67,
+    "text": "A uniform containing a small man and a large sense of jurisdiction.",
+    "file": "assets/voice/1da0b57db6d49219b714da3ed24cc8864f2df6c8.mp3"
+  },
+  "ee879e4ab40151c84321aafaf7b73e0f785a6276": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 66,
+    "text": "Opportunists, mystics, and people pretending they were here first.",
+    "file": "assets/voice/ee879e4ab40151c84321aafaf7b73e0f785a6276.mp3"
+  },
+  "0e49cbc563f7143902852543cea1c81a00715456": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 59,
+    "text": "A fishmonger near the front looks particularly territorial.",
+    "file": "assets/voice/0e49cbc563f7143902852543cea1c81a00715456.mp3"
+  },
+  "9c208d0c69f422db22ada616920ab65ed759d2d9": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 93,
+    "text": "Pindle's inspection stamp. A block of wood on a handle. The chosen scepter of tiny authority.",
+    "file": "assets/voice/9c208d0c69f422db22ada616920ab65ed759d2d9.mp3"
+  },
+  "4adf626b77fe0a1b8eb3b8ae6118188a660f3ed3": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 63,
+    "text": "Pindle's stamp is sitting unattended on his crate. Interesting.",
+    "file": "assets/voice/4adf626b77fe0a1b8eb3b8ae6118188a660f3ed3.mp3"
+  },
+  "750a70115496d452a6641feb583bb260cc3b6ece": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 78,
+    "text": "The crowd is enjoying the Pindle-Fishmonger show. Best entertainment all week.",
+    "file": "assets/voice/750a70115496d452a6641feb583bb260cc3b6ece.mp3"
+  },
+  "96d6cef37144c894633e2d9f467961dadde67be9": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 73,
+    "text": "I'm not saying it bit me. I'm saying we now have a hostile understanding.",
+    "file": "assets/voice/96d6cef37144c894633e2d9f467961dadde67be9.mp3"
+  },
+  "47c579284373a26e0bd924f17fa2af62a741bae1": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 64,
+    "text": "A cracked spyglass. Might still focus enough light to be useful.",
+    "file": "assets/voice/47c579284373a26e0bd924f17fa2af62a741bae1.mp3"
+  },
+  "860ae3278cdc3c8496868dc5965f5f515b30db2f": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 18,
+    "text": "I already have it.",
+    "file": "assets/voice/860ae3278cdc3c8496868dc5965f5f515b30db2f.mp3"
+  },
+  "46a20ec0e0018ad2c0b37426635d484893d2ed73": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 98,
+    "text": "It's bolted to the seawall. Blackwake takes its warnings very seriously and its safety not at all.",
+    "file": "assets/voice/46a20ec0e0018ad2c0b37426635d484893d2ed73.mp3"
+  },
+  "f85c33991018db7455f7f6a02aacf81f9e7b5b68": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 78,
+    "text": "It's the size of a horse and embedded in sand. I'll need a different approach.",
+    "file": "assets/voice/f85c33991018db7455f7f6a02aacf81f9e7b5b68.mp3"
+  },
+  "6d2075c65d25af45d4c393e6af610b35ac3a7a8c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 75,
+    "text": "I grab the stamp while Pindle's busy arguing. He won't miss it for minutes.",
+    "file": "assets/voice/6d2075c65d25af45d4c393e6af610b35ac3a7a8c.mp3"
+  },
+  "2052d1f1d654153906b8f7f6f2910a26e8b57c8d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 54,
+    "text": "I can't pick up an entire bureaucrat. Tempting though.",
+    "file": "assets/voice/2052d1f1d654153906b8f7f6f2910a26e8b57c8d.mp3"
+  },
+  "b25a887642f42e7570797712f92f180a33900e00": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 36,
+    "text": "Time to check the salvage warehouse.",
+    "file": "assets/voice/b25a887642f42e7570797712f92f180a33900e00.mp3"
+  },
+  "59169d0d0d7014eea93875a18e58f21c5d839b44": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 67,
+    "text": "The docks lead to the salvage warehouse, but I need a permit first.",
+    "file": "assets/voice/59169d0d0d7014eea93875a18e58f21c5d839b44.mp3"
+  },
+  "c78b9642481264d0a6196d10f97359800eb2917f": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 39,
+    "text": "Let's see if a resonance tone wakes it.",
+    "file": "assets/voice/c78b9642481264d0a6196d10f97359800eb2917f.mp3"
+  },
+  "29dff1380577293e76c2daa1d6c3177bcaefbf90": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 101,
+    "text": "The valve blares. The relic shudders but nothing happens. Something needs to go in that recess first.",
+    "file": "assets/voice/29dff1380577293e76c2daa1d6c3177bcaefbf90.mp3"
+  },
+  "defafaba365dd9c449c5450bb8976e83b2e44748": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 59,
+    "text": "The crane horn blares. Gulls scatter. Nothing else happens.",
+    "file": "assets/voice/defafaba365dd9c449c5450bb8976e83b2e44748.mp3"
+  },
+  "40fbd5a0c217c2e475d7bcfe9ed847fa7d233f22": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 52,
+    "text": "Use what on it? I should pick a specific item first.",
+    "file": "assets/voice/40fbd5a0c217c2e475d7bcfe9ed847fa7d233f22.mp3"
+  },
+  "744b7b9951b553c5f816adcb3d3475d6f95f0512": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 79,
+    "text": "Inside the crate: a cracked spyglass and the lingering scent of disappointment.",
+    "file": "assets/voice/744b7b9951b553c5f816adcb3d3475d6f95f0512.mp3"
+  },
+  "dc43b2a507b9e2205bea30cfa0bf38feee16e85c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 21,
+    "text": "Already emptied that.",
+    "file": "assets/voice/dc43b2a507b9e2205bea30cfa0bf38feee16e85c.mp3"
+  },
+  "c84eb22bbb1553743c8389999702ae441f6a2d38": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 37,
+    "text": "It doesn't have a lid. It has intent.",
+    "file": "assets/voice/c84eb22bbb1553743c8389999702ae441f6a2d38.mp3"
+  },
+  "0833ecb0970ca6db9aa1467b79624f49fbe98fe4": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 39,
+    "text": "That was for confidence. Mine, not its.",
+    "file": "assets/voice/0833ecb0970ca6db9aa1467b79624f49fbe98fe4.mp3"
+  },
+  "157e7742efd1a4be1d16cf6b70182e7fcb2bfbd3": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 67,
+    "text": "Tempting, but assault on officials requires paperwork I don't have.",
+    "file": "assets/voice/157e7742efd1a4be1d16cf6b70182e7fcb2bfbd3.mp3"
+  },
+  "b8f9688de7a48487673615a5cbcbdf81853e50df": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 58,
+    "text": "Pushing through this lot would require a permit. Probably.",
+    "file": "assets/voice/b8f9688de7a48487673615a5cbcbdf81853e50df.mp3"
+  },
+  "dd47a42fef6fb6ec889625146a494cbf34c58540": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 73,
+    "text": "The cracked lens focuses the morning sun onto the wet sand in the recess.",
+    "file": "assets/voice/dd47a42fef6fb6ec889625146a494cbf34c58540.mp3"
+  },
+  "413e5f8212be204f457ef74dc776bfb6ae374395": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 33,
+    "text": "It starts to dry and crack. Good.",
+    "file": "assets/voice/413e5f8212be204f457ef74dc776bfb6ae374395.mp3"
+  },
+  "a4e637fcfab5bb684c6f9583cc787ff56101d4f2": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 53,
+    "text": "The sand is already dry. I need to scrape it out now.",
+    "file": "assets/voice/a4e637fcfab5bb684c6f9583cc787ff56101d4f2.mp3"
+  },
+  "3879a225ee01591f926afb37a2561d7f4eaefc7d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 85,
+    "text": "The flat edge of the stamp handle scrapes the dried sand out of the recess perfectly.",
+    "file": "assets/voice/3879a225ee01591f926afb37a2561d7f4eaefc7d.mp3"
+  },
+  "a7bc92878b8a5ec498fe8c017f81a785fbd3ba9c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 78,
+    "text": "Underneath: a circular groove with geometric patterns. My medallion would fit.",
+    "file": "assets/voice/a7bc92878b8a5ec498fe8c017f81a785fbd3ba9c.mp3"
+  },
+  "04eab9a042a1b0e63dbb3b207e36cae968f6e59c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 79,
+    "text": "The sand is still wet. The stamp just smears it around. I need to dry it first.",
+    "file": "assets/voice/04eab9a042a1b0e63dbb3b207e36cae968f6e59c.mp3"
+  },
+  "79ab0bdd80037fc57ce565c11f9ac103596b5644": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 28,
+    "text": "The recess is already clean.",
+    "file": "assets/voice/79ab0bdd80037fc57ce565c11f9ac103596b5644.mp3"
+  },
+  "fdfe1b4fd3963f985d048a4e4628daf049d9ad76": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 61,
+    "text": "The medallion slides into the groove with a satisfying click.",
+    "file": "assets/voice/fdfe1b4fd3963f985d048a4e4628daf049d9ad76.mp3"
+  },
+  "b9c06ffc78c57903d25576dff561289bee3dee15": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 73,
+    "text": "The relic hums. Faint lines of blue-white light trace across its surface.",
+    "file": "assets/voice/b9c06ffc78c57903d25576dff561289bee3dee15.mp3"
+  },
+  "865703fe79a59a3df7851cdb95ccdfbcd73a5eea": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 59,
+    "text": "Something I've apparently been meant to do since childhood.",
+    "file": "assets/voice/865703fe79a59a3df7851cdb95ccdfbcd73a5eea.mp3"
+  },
+  "26b788e7e39369c247666f2b4fb294d8ce4ef95f": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 92,
+    "text": "I'm not grinding a mystery heirloom into dried sand. I should scrape the recess clean first.",
+    "file": "assets/voice/26b788e7e39369c247666f2b4fb294d8ce4ef95f.mp3"
+  },
+  "601a682012ff8b6f266726474e597cc92d6e748d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 57,
+    "text": "I'm not grinding a mystery heirloom into wet beach paste.",
+    "file": "assets/voice/601a682012ff8b6f266726474e597cc92d6e748d.mp3"
+  },
+  "d8f5c482237c4ea1b656939306514feddd2cb908": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 34,
+    "text": "The relic doesn't respond to that.",
+    "file": "assets/voice/d8f5c482237c4ea1b656939306514feddd2cb908.mp3"
+  },
+  "04a572f6d481fc9bca8d467c640f06799c651eae": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 51,
+    "text": "The valve works on its own. I just need to pull it.",
+    "file": "assets/voice/04a572f6d481fc9bca8d467c640f06799c651eae.mp3"
+  },
+  "05b8a4b3673c44be1eae8bd4b2ec2650e288c8ab": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 47,
+    "text": "Let's see if Pindle respects his own paperwork.",
+    "file": "assets/voice/05b8a4b3673c44be1eae8bd4b2ec2650e288c8ab.mp3"
+  },
+  "c4a8f66f6cb7017d7563a3ae827d2e035197ebae": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 39,
+    "text": "Giving it back seems counterproductive.",
+    "file": "assets/voice/c4a8f66f6cb7017d7563a3ae827d2e035197ebae.mp3"
+  },
+  "6ca10329f3c9519760405ad14ecb0bfca6e2eedf": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 79,
+    "text": "The relic unfolds. White lines spiral outward. A hovering map fragment appears.",
+    "file": "assets/voice/6ca10329f3c9519760405ad14ecb0bfca6e2eedf.mp3"
+  },
+  "b4902d02b041ba94a79c0c3fe5880469aeabb706": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 82,
+    "text": "White stone steps. Children running. A woman fastens the medallion on young Rowan.",
+    "file": "assets/voice/b4902d02b041ba94a79c0c3fe5880469aeabb706.mp3"
+  },
+  "1ec3afa3d282f83be1a73c642f5b4625712d5a69": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 42,
+    "text": "'When the sea remembers, you must return.'",
+    "file": "assets/voice/1ec3afa3d282f83be1a73c642f5b4625712d5a69.mp3"
+  },
+  "c6e4cfc55715e3061c8b828ddef4d41e2f428577": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 26,
+    "text": "I was standing right here.",
+    "file": "assets/voice/c6e4cfc55715e3061c8b828ddef4d41e2f428577.mp3"
+  },
+  "768ca7c85d0f07d9a17bdb9921e9afc82d241c7d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 91,
+    "text": "The relic ejects the medallion and an engraved brass strip. Symbols match the map fragment.",
+    "file": "assets/voice/768ca7c85d0f07d9a17bdb9921e9afc82d241c7d.mp3"
+  },
+  "c2fc1c7d20ec1927f8f05b5016556ad18cf505b7": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 45,
+    "text": "Good. The sea has started giving me homework.",
+    "file": "assets/voice/c2fc1c7d20ec1927f8f05b5016556ad18cf505b7.mp3"
+  },
+  "1caa4295bd3fe7c19288e6c48afc75bdb522d8f7": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 35,
+    "text": "So I need to make my own. Charming.",
+    "file": "assets/voice/1caa4295bd3fe7c19288e6c48afc75bdb522d8f7.mp3"
+  },
+  "d2132ee47303a63ad4bbbad91db36561bed03b6e": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 108,
+    "text": "Stand back! No one is to touch the object until it has been documented, classified, categorized, and denied!",
+    "file": "assets/voice/d2132ee47303a63ad4bbbad91db36561bed03b6e.mp3"
+  },
+  "a0f427daac3a42972eee1b9f652251a67d99a033": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 17,
+    "text": "That's a machine.",
+    "file": "assets/voice/a0f427daac3a42972eee1b9f652251a67d99a033.mp3"
+  },
+  "23e8aa2d61fc546c04325563d3590789d32d7606": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 19,
+    "text": "That's a liability.",
+    "file": "assets/voice/23e8aa2d61fc546c04325563d3590789d32d7606.mp3"
+  },
+  "01bf887eb58f6e26275dce1076ff0686c9cf516f": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 16,
+    "text": "What's all this?",
+    "file": "assets/voice/01bf887eb58f6e26275dce1076ff0686c9cf516f.mp3"
+  },
+  "dcbaa61231da15fca60bb8cfed5da5ba993a9fe9": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 55,
+    "text": "Mystery. Bureaucracy. Possibly treasure. In that order.",
+    "file": "assets/voice/dcbaa61231da15fca60bb8cfed5da5ba993a9fe9.mp3"
+  },
+  "0bb3bc03c38da65714e580c3f8a26ebcb693c07a": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 35,
+    "text": "Citizen, step away from the object.",
+    "file": "assets/voice/0bb3bc03c38da65714e580c3f8a26ebcb693c07a.mp3"
+  },
+  "00d56eac3bb792046ffabb38ff69e6870f653c26": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 28,
+    "text": "I wasn't stepping toward it.",
+    "file": "assets/voice/00d56eac3bb792046ffabb38ff69e6870f653c26.mp3"
+  },
+  "e4c3330a0723876fe852fda9141c33f6573dbdd8": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 42,
+    "text": "That seems like a flaw in your profession.",
+    "file": "assets/voice/e4c3330a0723876fe852fda9141c33f6573dbdd8.mp3"
+  },
+  "be828d5d759b028a3b1fb86d9268757bb8d311d8": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 20,
+    "text": "It is a cornerstone.",
+    "file": "assets/voice/be828d5d759b028a3b1fb86d9268757bb8d311d8.mp3"
+  },
+  "96849a0e2ae805041338e45bd7d8cde101fffd06": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 43,
+    "text": "...I've had this thing since I was a child.",
+    "file": "assets/voice/96849a0e2ae805041338e45bd7d8cde101fffd06.mp3"
+  },
+  "33ef71c5c1fa172e251b3c28960d3c487abf5995": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 108,
+    "text": "Excellent. Then under salvage law, you are now personally responsible for whatever catastrophe this becomes.",
+    "file": "assets/voice/33ef71c5c1fa172e251b3c28960d3c487abf5995.mp3"
+  },
+  "a567733acd7894002be516de547f5cea40d1cfdc": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 10,
+    "text": "Marvelous.",
+    "file": "assets/voice/a567733acd7894002be516de547f5cea40d1cfdc.mp3"
+  },
+  "6dbf4f7f6243b31db5f0909c5110745d3e884fa1": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 51,
+    "text": "NOT NOW! This man claims fish have property rights!",
+    "file": "assets/voice/6dbf4f7f6243b31db5f0909c5110745d3e884fa1.mp3"
+  },
+  "4c44eddeefbee35964451a5b4a378270d27a0086": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 53,
+    "text": "Excellent. We have successfully alarmed the seagulls.",
+    "file": "assets/voice/4c44eddeefbee35964451a5b4a378270d27a0086.mp3"
+  },
+  "0ab4b6a4a4e02405d0931977ad52d23a71f16be4": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 58,
+    "text": "That shack is for authorized personnel. Which you are not.",
+    "file": "assets/voice/0ab4b6a4a4e02405d0931977ad52d23a71f16be4.mp3"
+  },
+  "0e1ee2f5647c860fb8ae608718a3c49d54dc59b8": {
+    "speaker": "PINDLE",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "chars": 41,
+    "text": "Door stays shut until paperwork opens it.",
+    "file": "assets/voice/0e1ee2f5647c860fb8ae608718a3c49d54dc59b8.mp3"
+  },
+  "89c90efca879afa82ee08550ddf2088581f509d8": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 45,
+    "text": "That's new! That's very new! What did you do?",
+    "file": "assets/voice/89c90efca879afa82ee08550ddf2088581f509d8.mp3"
+  },
+  "fb706156ad2a03d139b8eff93f12724b6cb0eda6": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 52,
+    "text": "It's humming! That's either progress or a countdown.",
+    "file": "assets/voice/fb706156ad2a03d139b8eff93f12724b6cb0eda6.mp3"
+  },
+  "f99c0b2c4d5bfcb3c0740e8762e18df989d9442f": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 26,
+    "text": "You vanished for a second.",
+    "file": "assets/voice/f99c0b2c4d5bfcb3c0740e8762e18df989d9442f.mp3"
+  },
+  "1053c019bb3f8971b361092b3310b4fe4300bfbb": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 71,
+    "text": "Physically, yes. Spiritually, your expression went somewhere expensive.",
+    "file": "assets/voice/1053c019bb3f8971b361092b3310b4fe4300bfbb.mp3"
+  },
+  "a7c7ec098c5d7c9441032a0231a0bdc8d47eb85b": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 75,
+    "text": "The warehouse has salvage records. We might find a match for those symbols.",
+    "file": "assets/voice/a7c7ec098c5d7c9441032a0231a0bdc8d47eb85b.mp3"
+  },
+  "f3364a6aee577d7e4e3c36958f9e20ecf692ef8f": {
+    "speaker": "TIBBIT",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "chars": 75,
+    "text": "But Pindle won't let you in without a permit. Which he also won't give you.",
+    "file": "assets/voice/f3364a6aee577d7e4e3c36958f9e20ecf692ef8f.mp3"
+  },
+  "19b1cb34544e1f9824a26aa17e10da8b9a4092ea": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 30,
+    "text": "Nothing remarkable about that.",
+    "file": "assets/voice/19b1cb34544e1f9824a26aa17e10da8b9a4092ea.mp3"
+  },
+  "0f345192e12cf7d5c3e2c58959b27e6b963c1b01": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 60,
+    "text": "I've seen more interesting things at the bottom of a teacup.",
+    "file": "assets/voice/0f345192e12cf7d5c3e2c58959b27e6b963c1b01.mp3"
+  },
+  "01e3611e5a74b2d28ddc72b75885becc25110731": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 35,
+    "text": "It exists. I can confirm that much.",
+    "file": "assets/voice/01e3611e5a74b2d28ddc72b75885becc25110731.mp3"
+  },
+  "ce25844dc216b059b0e70cb4c50c7cc83077bfd4": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 40,
+    "text": "Unremarkable. Like Pindle's personality.",
+    "file": "assets/voice/ce25844dc216b059b0e70cb4c50c7cc83077bfd4.mp3"
+  },
+  "ae24cad06c49efa983682f8d9d5c953b309ea361": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 15,
+    "text": "My eyes say no.",
+    "file": "assets/voice/ae24cad06c49efa983682f8d9d5c953b309ea361.mp3"
+  },
+  "7f7cbf6fcb63cbc687a845409f245dd8106822a9": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 30,
+    "text": "Exactly as boring as it looks.",
+    "file": "assets/voice/7f7cbf6fcb63cbc687a845409f245dd8106822a9.mp3"
+  },
+  "26aced7ce1ff17dd80b75efa4a3dd9045ce21632": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 33,
+    "text": "Talking to that seems optimistic.",
+    "file": "assets/voice/26aced7ce1ff17dd80b75efa4a3dd9045ce21632.mp3"
+  },
+  "b37c5ca113a5ecaa333263a4c9e8f0c4dbc63a7c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 33,
+    "text": "It maintains a dignified silence.",
+    "file": "assets/voice/b37c5ca113a5ecaa333263a4c9e8f0c4dbc63a7c.mp3"
+  },
+  "63378bf1f562ff274a30f1a572fa458589393155": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 28,
+    "text": "I tried. It left me on read.",
+    "file": "assets/voice/63378bf1f562ff274a30f1a572fa458589393155.mp3"
+  },
+  "a371ec6296690ddfa243ce0b4f407f9d58467af2": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 48,
+    "text": "Even I have standards for conversation partners.",
+    "file": "assets/voice/a371ec6296690ddfa243ce0b4f407f9d58467af2.mp3"
+  },
+  "365f2dcee1dd432054acd43510a7840c1ec1760a": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 52,
+    "text": "If it could talk, I suspect it would ask me to stop.",
+    "file": "assets/voice/365f2dcee1dd432054acd43510a7840c1ec1760a.mp3"
+  },
+  "97aab7e48ac0d3b2e8c723c86185f577920098ef": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 42,
+    "text": "Surprisingly, no response. I'm devastated.",
+    "file": "assets/voice/97aab7e48ac0d3b2e8c723c86185f577920098ef.mp3"
+  },
+  "2a5237f1bff0fa85a973a5409d04d75dca64dab8": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 21,
+    "text": "I can't pick that up.",
+    "file": "assets/voice/2a5237f1bff0fa85a973a5409d04d75dca64dab8.mp3"
+  },
+  "739ead315a98f6abadb8629dee770f24ce593a66": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 27,
+    "text": "My inventory has standards.",
+    "file": "assets/voice/739ead315a98f6abadb8629dee770f24ce593a66.mp3"
+  },
+  "1e3b1334473d8a04dd994c118b5433e377a43fd4": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 48,
+    "text": "That's attached to the concept of 'staying put.'",
+    "file": "assets/voice/1e3b1334473d8a04dd994c118b5433e377a43fd4.mp3"
+  },
+  "5cf230b53c5a32f4b08661ea50ef8aecbe99703b": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 76,
+    "text": "Tibbit would name that impulse. Something like 'Acquisitive Folly Syndrome.'",
+    "file": "assets/voice/5cf230b53c5a32f4b08661ea50ef8aecbe99703b.mp3"
+  },
+  "e528d514944229b259bf724779a80d2561a546a1": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 65,
+    "text": "Heavy. Bolted. Uncooperative. My three least favorite adjectives.",
+    "file": "assets/voice/e528d514944229b259bf724779a80d2561a546a1.mp3"
+  },
+  "792cf47572bc98cc5334bd0c1867ee227884d3a9": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 56,
+    "text": "I could try, but my chiropractor would file a grievance.",
+    "file": "assets/voice/792cf47572bc98cc5334bd0c1867ee227884d3a9.mp3"
+  },
+  "7a0d80fb3fe9c5953d1f4c76b21b58006ada5063": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 40,
+    "text": "I don't know how to use that on its own.",
+    "file": "assets/voice/7a0d80fb3fe9c5953d1f4c76b21b58006ada5063.mp3"
+  },
+  "0c383cdb947fcf91defe168f064fb3fa9da47643": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 44,
+    "text": "I stare at it purposefully. Nothing happens.",
+    "file": "assets/voice/0c383cdb947fcf91defe168f064fb3fa9da47643.mp3"
+  },
+  "1524664c6af1ba8229d8564c62ad696b2a112ef3": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 70,
+    "text": "If there's a way to use that, it's been classified above my pay grade.",
+    "file": "assets/voice/1524664c6af1ba8229d8564c62ad696b2a112ef3.mp3"
+  },
+  "bf31055804309265636a62003624a197ca5e6df0": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 72,
+    "text": "I could use it wrong, but where's the fun in that? Actually, everywhere.",
+    "file": "assets/voice/bf31055804309265636a62003624a197ca5e6df0.mp3"
+  },
+  "f4ae244c78810fdb65a9bdc85c5754a32d2848d1": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 63,
+    "text": "The instruction manual for that is in a language I don't speak.",
+    "file": "assets/voice/f4ae244c78810fdb65a9bdc85c5754a32d2848d1.mp3"
+  },
+  "46d6f453e8369617b5f16644c49455881306e086": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 18,
+    "text": "That doesn't open.",
+    "file": "assets/voice/46d6f453e8369617b5f16644c49455881306e086.mp3"
+  },
+  "774e0889cb0d58afa2c13c3070210ad9cf048975": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 34,
+    "text": "Sealed by either physics or spite.",
+    "file": "assets/voice/774e0889cb0d58afa2c13c3070210ad9cf048975.mp3"
+  },
+  "affe18331cf83eeed19a8f3e5a15acf75e119106": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 50,
+    "text": "Not everything opens. This is one of those things.",
+    "file": "assets/voice/affe18331cf83eeed19a8f3e5a15acf75e119106.mp3"
+  },
+  "1cae40ecaa2562fdb46e209130a06083e72ab71e": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 35,
+    "text": "I pull, I push, I bargain. Nothing.",
+    "file": "assets/voice/1cae40ecaa2562fdb46e209130a06083e72ab71e.mp3"
+  },
+  "6c57dfb27ccf2dc730be600752d572e6aa1ebdc0": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 55,
+    "text": "If Pindle had paperwork for opening that, I'd forge it.",
+    "file": "assets/voice/6c57dfb27ccf2dc730be600752d572e6aa1ebdc0.mp3"
+  },
+  "20909f2c7d0ecbe485786b6d2b91e4501eadaed3": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 57,
+    "text": "Pushing that accomplishes nothing except proving I tried.",
+    "file": "assets/voice/20909f2c7d0ecbe485786b6d2b91e4501eadaed3.mp3"
+  },
+  "8f3a2b78cf8812640633c50768618876d25edab3": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 44,
+    "text": "I push. It pushes back. We reach an impasse.",
+    "file": "assets/voice/8f3a2b78cf8812640633c50768618876d25edab3.mp3"
+  },
+  "5fa148149e80b6a1bcbce46abf019688fd11608c": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 45,
+    "text": "Unmoved. Like a customs inspector at a bribe.",
+    "file": "assets/voice/5fa148149e80b6a1bcbce46abf019688fd11608c.mp3"
+  },
+  "536c1e94a998747fa36c1d7803235d3f89c5c0d9": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 44,
+    "text": "I give it a shove. It gives me indifference.",
+    "file": "assets/voice/536c1e94a998747fa36c1d7803235d3f89c5c0d9.mp3"
+  },
+  "39bb74ba1b2ba8ec2f4719091569fbe64afc1372": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 73,
+    "text": "My pushing technique is flawless. The object simply refuses to cooperate.",
+    "file": "assets/voice/39bb74ba1b2ba8ec2f4719091569fbe64afc1372.mp3"
+  },
+  "c2fcfe42a5245c88092fcfee5038045ec1686778": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 22,
+    "text": "I can't use that here.",
+    "file": "assets/voice/c2fcfe42a5245c88092fcfee5038045ec1686778.mp3"
+  },
+  "a6857ea2a5c402bbd760acf1f7b797c31d4e8389": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 69,
+    "text": "That combination makes about as much sense as Pindle's filing system.",
+    "file": "assets/voice/a6857ea2a5c402bbd760acf1f7b797c31d4e8389.mp3"
+  },
+  "af71f4401c21a3a8c48729252f458e7f8af3e248": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 43,
+    "text": "Interesting theory. Wrong, but interesting.",
+    "file": "assets/voice/af71f4401c21a3a8c48729252f458e7f8af3e248.mp3"
+  },
+  "ba9d8861b361d332581327d5503328989e7bece6": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 30,
+    "text": "I tried. The universe said no.",
+    "file": "assets/voice/ba9d8861b361d332581327d5503328989e7bece6.mp3"
+  },
+  "185b33777a84d10b3991908bc17412793d629b39": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 51,
+    "text": "Those two things have nothing to say to each other.",
+    "file": "assets/voice/185b33777a84d10b3991908bc17412793d629b39.mp3"
+  },
+  "6c9fab77cb6e585a8d0856cbfd13654de2aadc5d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 40,
+    "text": "I don't think combining those will help.",
+    "file": "assets/voice/6c9fab77cb6e585a8d0856cbfd13654de2aadc5d.mp3"
+  },
+  "cdf6b96e56e964fc1dea7be67c3a96dac4a4cf9d": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 58,
+    "text": "Those don't go together. Like oil and Pindle's competence.",
+    "file": "assets/voice/cdf6b96e56e964fc1dea7be67c3a96dac4a4cf9d.mp3"
+  },
+  "b750de393412833af9b459f189929adbd61b4669": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 67,
+    "text": "I hold them near each other. They maintain a professional distance.",
+    "file": "assets/voice/b750de393412833af9b459f189929adbd61b4669.mp3"
+  },
+  "b124d026dbac53044692b7af52d765a29e9170ce": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 66,
+    "text": "Tibbit would call that 'creative engineering.' I call it nonsense.",
+    "file": "assets/voice/b124d026dbac53044692b7af52d765a29e9170ce.mp3"
+  },
+  "53becb748062f40ed30866b6be1798da06c8427b": {
+    "speaker": "ROWAN",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "chars": 42,
+    "text": "One plus one does not always equal useful.",
+    "file": "assets/voice/53becb748062f40ed30866b6be1798da06c8427b.mp3"
+  }
+}

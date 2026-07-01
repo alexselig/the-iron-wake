@@ -12,6 +12,7 @@ A sarcastic drifter (Rowan Vale) follows washed-up ancient machines across a ste
 
 ### Autoloads
 - `GameState` (`scripts/game_state.gd`) — global singleton for inventory, flags, room tracking, save/load
+- `VoiceOver` (`scripts/voice_over.gd`) — plays pre-generated ElevenLabs dialogue clips by content hash. No-op if a clip is missing. Press **V** in-game to mute/unmute.
 
 ### Core Scripts (`scripts/`)
 - `adventure_room.gd` — base class for ALL rooms (verb handling, dialogue, inventory, transitions, hover text, dialogue tree runner)
@@ -24,6 +25,7 @@ A sarcastic drifter (Rowan Vale) follows washed-up ancient machines across a ste
 - `verb_panel.gd` — 6-verb LucasArts-style panel (look, talk, pick up, use, open, push)
 - `dialogue_box.gd` — Popochiu-style overhead floating text with per-character colors, word-by-word reveal, semi-transparent background, black outline. NO dialogue box panel.
 - `inventory.gd` — 8-slot grid with item icons and combination support. Syncs with GameState on room load.
+- `voice_over.gd` — `VoiceOver` autoload; `dialogue_box.gd` calls `VoiceOver.play(speaker, text)` when a line shows and `.stop()` when it dismisses.
 
 ### Room Scripts
 - `beach_room.gd` — Room 1: Blackwake Harbor (full Puzzle 1: spyglass→dry sand→distract Pindle→steal stamp→scrape→medallion→steam valve→memory vision)
@@ -88,6 +90,21 @@ This project is built in parallel across 4 Claude terminal windows. Each termina
 - `player.gd` has dead code: `speech_finished` signal, `is_talking` variable, stale "Elara Voss" comment
 - `clickable.gd` has unused `item_used` signal
 - Missing inventory icons for `blank_form` and `filled_form`
+
+## Voiceover (ElevenLabs)
+Dialogue is voiced with **pre-generated** ElevenLabs TTS. The API key is used only
+by the build-time generator and **never ships in the game** — only the resulting
+`.mp3` files do. Full docs: `tools/README.md`.
+
+- **Key**: `tools/.env` → `ELEVENLABS_API_KEY=...` (gitignored — NEVER commit the key).
+- **Casting**: `tools/voice_config.json` maps speaker → premade voice ID (no secrets).
+- **Generate**: `python3 tools/generate_voiceover.py` (default = opening + beach room).
+  `--dry-run` previews lines/char count; `--all` does every room; `--force` re-renders.
+  Idempotent — existing clips are skipped.
+- **Runtime**: clips live at `assets/voice/<sha1(speaker|text)>.mp3`. `VoiceOver`
+  recomputes the same hash to find them. The hash/normalization in
+  `scripts/voice_over.gd` (`line_hash`) MUST stay identical to `normalize()` in
+  `tools/generate_voiceover.py`. Missing clip = silent (text-only), nothing breaks.
 
 ## Commands
 - Run game: `/Applications/Godot.app/Contents/MacOS/Godot --path ~/SteampunkBeachDemo`
