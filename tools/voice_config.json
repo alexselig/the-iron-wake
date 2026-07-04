@@ -3,10 +3,17 @@
   "model_id": "eleven_multilingual_v2",
   "output_format": "mp3_44100_128",
   "voice_settings": {
-    "stability": 0.5,
+    "stability": 0.4,
     "similarity_boost": 0.75,
-    "style": 0.0,
+    "style": 0.45,
     "use_speaker_boost": true
+  },
+  "_speaker_settings_comment": "Optional per-speaker overrides merged over voice_settings. Tune each character by ear: lower stability = more emotional variation, higher style = more expressive delivery.",
+  "speaker_settings": {
+    "ROWAN": { "stability": 0.35, "style": 0.55 },
+    "PINDLE": { "stability": 0.55, "style": 0.30 },
+    "TIBBIT": { "stability": 0.35, "style": 0.60 },
+    "CALIGO": { "stability": 0.30, "style": 0.60 }
   },
   "default_voice": "ErXwobaYiN019PkySvjV",
   "speakers": {
