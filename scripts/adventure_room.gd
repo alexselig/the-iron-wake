@@ -669,15 +669,17 @@ func take_item(item_name: String) -> void:
 func _say(text: String) -> void:
 	if not dialogue_box:
 		return
-	# Position overhead text above Rowan
+	# Rowan's narration/observations. Voiced with his ROWAN_VO voice-key (same
+	# ElevenLabs voice as ROWAN, steadier "voiceover" style) while still shown in
+	# Rowan's colour. Must match NARRATION_SPEAKER in tools/generate_voiceover.py.
 	if player:
-		dialogue_box.show_dialogue_at("ROWAN", text, player.global_position)
+		dialogue_box.show_dialogue_at("ROWAN", text, player.global_position, "ROWAN_VO")
 		player._play_talk()
 		# Stop talk animation when text finishes revealing (not when dismissed)
 		if not dialogue_box.text_revealed.is_connected(_on_rowan_text_revealed):
 			dialogue_box.text_revealed.connect(_on_rowan_text_revealed, CONNECT_ONE_SHOT)
 	else:
-		dialogue_box.show_dialogue("ROWAN", text)
+		dialogue_box.show_dialogue("ROWAN", text, "ROWAN_VO")
 	await dialogue_box.dialogue_finished
 	# Ensure idle in case text_revealed didn't fire (e.g. skip)
 	if player:

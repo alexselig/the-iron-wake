@@ -44,11 +44,26 @@ API_BASE = "https://api.elevenlabs.io/v1/text-to-speech"
 DEFAULT_FILES = ["scripts/beach_room.gd"]
 RESPONSE_FILES = ["scripts/adventure_room.gd"]
 
+# Rowan's narration (_say lines + the shared verb-response arrays) is voiced with
+# a separate voice-key: the SAME ElevenLabs voice as ROWAN but a distinct
+# "voiceover" style. Runtime side: _say() in adventure_room.gd passes "ROWAN_VO"
+# to dialogue_box. These two literals MUST stay in sync.
+NARRATION_SPEAKER = "ROWAN_VO"
+
 # ---- extraction --------------------------------------------------------------
 
 _RE_SAY = re.compile(r"""_say\(\s*(["'])((?:\\.|(?!\1).)*)\1\s*\)""")
 _RE_SAY_AS = re.compile(
     r"""_say_as\(\s*(["'])([A-Z_]+)\1\s*,\s*(["'])((?:\\.|(?!\3).)*)\3\s*\)"""
+)
+# Branching-dialogue lines: `tree.add_node("id", "SPEAKER", "text"[, "next_id"])`.
+# run_dialogue_tree() speaks each node via _say_as(node.speaker, node.text), so
+# these need clips too — they were previously missed. Groups: 3=speaker, 5=text.
+_RE_ADD_NODE = re.compile(
+    r"""add_node\(\s*"""
+    r"""(["'])(?:\\.|(?!\1).)*\1\s*,\s*"""      # node id (ignored)
+    r"""(["'])([A-Z_]+)\2\s*,\s*"""             # speaker  -> group 3
+    r"""(["'])((?:\\.|(?!\4).)*)\4"""           # text     -> group 5
 )
 _RE_RESPONSE_BLOCK = re.compile(
     r"""const\s+_[A-Z_]*RESPONSES\s*:=\s*\[(.*?)\]""", re.DOTALL
@@ -108,6 +123,15 @@ def _sample_lines(lines, n):
     return picked
 
 
+def _strip_full_line_comments(src: str) -> str:
+    """Blank out whole-line comments so example calls inside doc blocks (e.g.
+    dialogue_tree.gd's ## usage snippet) aren't mistaken for real dialogue.
+    Inline `#` is left alone to avoid corrupting strings that contain it."""
+    return "\n".join(
+        "" if ln.lstrip().startswith("#") else ln for ln in src.splitlines()
+    )
+
+
 def extract_ordered(rel_files, include_responses):
     """Return the full, source-ordered list of (speaker, text) pairs (with
     duplicates). Source order matters for request stitching — a line's spoken
@@ -124,12 +148,18 @@ def extract_ordered(rel_files, include_responses):
         if not os.path.isfile(path):
             print(f"  ! skip missing file: {rel}", file=sys.stderr)
             continue
-        src = open(path, encoding="utf-8").read()
-        # Merge _say (Rowan) and _say_as (named) matches by source position so the
-        # sequence reflects true script order, not "all _say then all _say_as".
-        matches = [(m.start(), "ROWAN", m.group(2)) for m in _RE_SAY.finditer(src)]
+        src = _strip_full_line_comments(open(path, encoding="utf-8").read())
+        # Merge _say (Rowan), _say_as (named), and add_node (dialogue-tree) matches
+        # by source position so the sequence reflects true script order, not "all
+        # _say then all _say_as".
+        matches = [
+            (m.start(), NARRATION_SPEAKER, m.group(2)) for m in _RE_SAY.finditer(src)
+        ]
         matches += [
             (m.start(), m.group(2), m.group(4)) for m in _RE_SAY_AS.finditer(src)
+        ]
+        matches += [
+            (m.start(), m.group(3), m.group(5)) for m in _RE_ADD_NODE.finditer(src)
         ]
         matches.sort(key=lambda x: x[0])
         for _, spk, body in matches:
@@ -143,7 +173,7 @@ def extract_ordered(rel_files, include_responses):
             src = open(path, encoding="utf-8").read()
             for block in _RE_RESPONSE_BLOCK.finditer(src):
                 for sm in _RE_STRING.finditer(block.group(1)):
-                    add("ROWAN", sm.group(2))
+                    add(NARRATION_SPEAKER, sm.group(2))
     return seq
 
 

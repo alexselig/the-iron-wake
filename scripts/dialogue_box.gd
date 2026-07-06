@@ -133,7 +133,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			hide_dialogue()
 		get_viewport().set_input_as_handled()
 
-func show_dialogue(speaker: String, text: String) -> void:
+func show_dialogue(speaker: String, text: String, voice_speaker: String = "") -> void:
 	var color: Color = SPEAKER_COLORS.get(speaker, DEFAULT_COLOR)
 	color_hex = "#" + color.to_html(false)
 	plain_text = text
@@ -148,18 +148,21 @@ func show_dialogue(speaker: String, text: String) -> void:
 	skip_requested = false
 	_text_revealed_emitted = false
 
-	# Speak the line (pre-generated ElevenLabs clip, if one exists)
+	# Speak the line (pre-generated ElevenLabs clip, if one exists). voice_speaker
+	# lets one on-screen character use a different voice/style for some lines while
+	# keeping the same name colour — e.g. Rowan's narration (ROWAN_VO) vs his
+	# spoken dialogue (ROWAN). Falls back to the display speaker when unset.
 	if _voice:
-		_voice.play(speaker, text)
+		_voice.play(voice_speaker if voice_speaker != "" else speaker, text)
 
 	if name_label:
 		name_label.visible = false
 
 	_reposition()
 
-func show_dialogue_at(speaker: String, text: String, world_pos: Vector2) -> void:
+func show_dialogue_at(speaker: String, text: String, world_pos: Vector2, voice_speaker: String = "") -> void:
 	target_screen_pos = world_pos - Vector2(0, 60)
-	show_dialogue(speaker, text)
+	show_dialogue(speaker, text, voice_speaker)
 
 func _reposition() -> void:
 	if not bg_panel:
