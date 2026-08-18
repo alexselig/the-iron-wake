@@ -1,0 +1,213 @@
+{
+  "_comment": "Per-line voice picks for The Iron Wake, written by tools/voice_studio.py. Keyed by sha1(speaker|normalized_text) (same hash the game uses at runtime). Each entry: {speaker, text, voice_id, voice_settings, picked_at}. The shipping generator (generate_voiceover.py) layers these over per-character casting in tools/voice_config.json. Safe to commit — contains NO secrets.",
+  "d2132ee47303a63ad4bbbad91db36561bed03b6e": {
+    "speaker": "PINDLE",
+    "text": "Stand back! No one is to touch the object until it has been documented, classified, categorized, and denied!",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "voice_settings": {
+      "stability": 0.05,
+      "style": 0.05
+    },
+    "picked_at": "2026-07-09T14:22:08"
+  },
+  "a0f427daac3a42972eee1b9f652251a67d99a033": {
+    "speaker": "TIBBIT",
+    "text": "That's a machine.",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "voice_settings": {
+      "stability": 0,
+      "style": 0
+    },
+    "picked_at": "2026-07-09T14:22:47"
+  },
+  "23e8aa2d61fc546c04325563d3590789d32d7606": {
+    "speaker": "PINDLE",
+    "text": "That's a liability.",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "voice_settings": {
+      "stability": 0.5,
+      "style": 0
+    },
+    "picked_at": "2026-07-09T14:22:55"
+  },
+  "01bf887eb58f6e26275dce1076ff0686c9cf516f": {
+    "speaker": "ROWAN",
+    "text": "What's all this?",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "voice_settings": {
+      "stability": 0.05,
+      "style": 0.25
+    },
+    "picked_at": "2026-07-09T14:24:19"
+  },
+  "dcbaa61231da15fca60bb8cfed5da5ba993a9fe9": {
+    "speaker": "TIBBIT",
+    "text": "Mystery. Bureaucracy. Possibly treasure. In that order.",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "voice_settings": {
+      "stability": 0.05,
+      "style": 0.6
+    },
+    "picked_at": "2026-07-09T14:24:42"
+  },
+  "0bb3bc03c38da65714e580c3f8a26ebcb693c07a": {
+    "speaker": "PINDLE",
+    "text": "Citizen, step away from the object.",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "voice_settings": {
+      "stability": 0.05,
+      "style": 0.85
+    },
+    "picked_at": "2026-07-09T14:25:09"
+  },
+  "00d56eac3bb792046ffabb38ff69e6870f653c26": {
+    "speaker": "ROWAN",
+    "text": "I wasn't stepping toward it.",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "voice_settings": {
+      "stability": 0,
+      "style": 0.45
+    },
+    "picked_at": "2026-07-09T14:25:55"
+  },
+  "e4c3330a0723876fe852fda9141c33f6573dbdd8": {
+    "speaker": "ROWAN",
+    "text": "That seems like a flaw in your profession.",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "voice_settings": {
+      "stability": 0.4,
+      "style": 0.45
+    },
+    "picked_at": "2026-07-09T14:26:08"
+  },
+  "be828d5d759b028a3b1fb86d9268757bb8d311d8": {
+    "speaker": "PINDLE",
+    "text": "It is a cornerstone.",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "voice_settings": {
+      "stability": 0,
+      "style": 0
+    },
+    "picked_at": "2026-07-09T14:26:33"
+  },
+  "96849a0e2ae805041338e45bd7d8cde101fffd06": {
+    "speaker": "ROWAN",
+    "text": "...I've had this thing since I was a child.",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "voice_settings": {
+      "stability": 0,
+      "style": 0.45
+    },
+    "picked_at": "2026-07-09T14:26:46"
+  },
+  "33ef71c5c1fa172e251b3c28960d3c487abf5995": {
+    "speaker": "PINDLE",
+    "text": "Excellent. Then under salvage law, you are now personally responsible for whatever catastrophe this becomes.",
+    "voice_id": "pNInz6obpgDQGcFmaJgB",
+    "voice_settings": {
+      "stability": 0.05,
+      "style": 0.2
+    },
+    "picked_at": "2026-07-09T14:27:40"
+  },
+  "a567733acd7894002be516de547f5cea40d1cfdc": {
+    "speaker": "ROWAN",
+    "text": "Marvelous.",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "voice_settings": {
+      "stability": 0.55,
+      "style": 0
+    },
+    "picked_at": "2026-07-09T14:28:19"
+  },
+  "4dfef38956adb5179e3657297a53827d2c4e29ff": {
+    "speaker": "ROWAN_VO",
+    "text": "It's open now. Geometric patterns pulse softly. It looks... expectant.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:29:27"
+  },
+  "126226bf438537f099bed75da65964bfd71a933c": {
+    "speaker": "ROWAN_VO",
+    "text": "The medallion is in place. The relic hums faintly but needs something more.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:29:47"
+  },
+  "5181fa127e6d3407e9ba6cc51429df32207eb6c4": {
+    "speaker": "ROWAN_VO",
+    "text": "The recess is clean. Something circular fits here. Something old and familiar.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:30:03"
+  },
+  "ec3368eb8bddca4a4f57d586316b1ce4bc07e818": {
+    "speaker": "ROWAN_VO",
+    "text": "The sand is dry and cracked. I could scrape it out with something flat.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:30:18"
+  },
+  "e141f5bc4cdc36a2cd98de108606cce1108dd4f6": {
+    "speaker": "ROWAN_VO",
+    "text": "Smooth, seamless, and smug. I've met wealthy people less polished than this.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:30:25"
+  },
+  "ad7b2511c317518c6ff0609abf982cf63b671548": {
+    "speaker": "ROWAN_VO",
+    "text": "There's a circular recess packed with wet sand and fine salt crust.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:30:34"
+  },
+  "fe996a4f0440d107bb584d2c706c411f60105e1d": {
+    "speaker": "ROWAN_VO",
+    "text": "A sailor's spyglass. Lens cracked, brass cheap, still more trustworthy than most officials.",
+    "voice_id": "ErXwobaYiN019PkySvjV",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.4
+    },
+    "picked_at": "2026-07-09T14:30:41"
+  },
+  "89c90efca879afa82ee08550ddf2088581f509d8": {
+    "speaker": "TIBBIT",
+    "text": "That's new! That's very new! What did you do?",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "voice_settings": {
+      "stability": 0,
+      "style": 1
+    },
+    "picked_at": "2026-07-09T14:31:32"
+  },
+  "fb706156ad2a03d139b8eff93f12724b6cb0eda6": {
+    "speaker": "TIBBIT",
+    "text": "It's humming! That's either progress or a countdown.",
+    "voice_id": "TxGEqnHWrfWFTfGW9XjX",
+    "voice_settings": {
+      "stability": 0.45,
+      "style": 0.6
+    },
+    "picked_at": "2026-07-09T14:32:03"
+  }
+}

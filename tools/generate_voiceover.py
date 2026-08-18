@@ -36,6 +36,9 @@ VOICE_DIR = os.path.join(ROOT, "assets", "voice")
 CONFIG_PATH = os.path.join(ROOT, "tools", "voice_config.json")
 ENV_PATH = os.path.join(ROOT, "tools", ".env")
 MANIFEST_PATH = os.path.join(VOICE_DIR, "manifest.json")
+# Per-line voice picks written by tools/voice_studio.py. Keyed by line_hash ->
+# {voice_id?, voice_settings?, ...}. Safe to commit (no secrets).
+OVERRIDES_PATH = os.path.join(ROOT, "tools", "voice_overrides.json")
 
 API_BASE = "https://api.elevenlabs.io/v1/text-to-speech"
 
@@ -44,10 +47,12 @@ API_BASE = "https://api.elevenlabs.io/v1/text-to-speech"
 DEFAULT_FILES = ["scripts/beach_room.gd"]
 RESPONSE_FILES = ["scripts/adventure_room.gd"]
 
-# Rowan's narration (_say lines + the shared verb-response arrays) is voiced with
-# a separate voice-key: the SAME ElevenLabs voice as ROWAN but a distinct
-# "voiceover" style. Runtime side: _say() in adventure_room.gd passes "ROWAN_VO"
-# to dialogue_box. These two literals MUST stay in sync.
+# Rowan's narration (_say lines + the shared verb-response arrays) is voiced under
+# a separate speaker-key ("ROWAN_VO") so it can use its own voice/style, decoupled
+# from his spoken-dialogue casting. This split is DELIBERATE (confirmed 2026-07-09):
+# spoken ROWAN = Daniel, ROWAN_VO narration = Antoni. Runtime side: _say() in
+# adventure_room.gd passes "ROWAN_VO" to dialogue_box. These two literals MUST
+# stay in sync.
 NARRATION_SPEAKER = "ROWAN_VO"
 
 # ---- extraction --------------------------------------------------------------
@@ -239,11 +244,28 @@ def load_config():
     return cfg
 
 
-def settings_for(cfg, speaker, cli_overrides):
-    """Effective voice_settings for a speaker: base <- per-speaker <- CLI.
-    CLI overrides win (they exist for A/B testing across all speakers)."""
+def load_overrides():
+    """Per-line voice picks from tools/voice_overrides.json (written by the
+    voice studio). Keyed by line_hash -> {voice_id?, voice_settings?, ...}.
+    Absent or malformed = no overrides (never fatal)."""
+    if os.path.isfile(OVERRIDES_PATH):
+        try:
+            data = json.load(open(OVERRIDES_PATH, encoding="utf-8"))
+            if isinstance(data, dict):
+                return data
+        except Exception as e:
+            print(f"  ! ignoring bad voice_overrides.json: {e}", file=sys.stderr)
+    return {}
+
+
+def settings_for(cfg, speaker, cli_overrides, line_settings=None):
+    """Effective voice_settings: base <- per-speaker <- per-line pick <- CLI.
+    Per-line picks (voice_studio) override character casting; CLI still wins on
+    top so global A/B sweeps keep working."""
     merged = dict(cfg["voice_settings"])
     merged.update(cfg["speaker_settings"].get(speaker, {}))
+    if line_settings:
+        merged.update(line_settings)
     merged.update(cli_overrides)
     return merged
 
@@ -294,6 +316,40 @@ def synth(api_key, voice_id, text, cfg, voice_settings, previous_text="", next_t
     raise RuntimeError("exhausted retries")
 
 
+def voice_for(cfg, overrides, speaker, text):
+    """The voice_id a line will use: per-line pick wins over character casting."""
+    ov = overrides.get(line_hash(speaker, text), {})
+    return ov.get("voice_id") or cfg["speakers"].get(speaker, cfg["default_voice"])
+
+
+def render_one(api_key, cfg, overrides, context, speaker, text, out_dir,
+               cli_overrides=None, force=False):
+    """Render one shipping clip (honoring any per-line pick) and return
+    (status, hash, manifest_entry) where status is 'skipped' or 'generated'.
+    Raises RuntimeError on synth failure. Shared by the CLI loop and
+    voice_studio.py so hashing / paths / settings precedence never drift."""
+    cli_overrides = cli_overrides or {}
+    h = line_hash(speaker, text)
+    out_path = os.path.join(out_dir, h + ".mp3")
+    ov = overrides.get(h, {})
+    voice_id = ov.get("voice_id") or cfg["speakers"].get(speaker, cfg["default_voice"])
+    entry = {
+        "speaker": speaker,
+        "voice_id": voice_id,
+        "chars": len(text),
+        "text": text,
+        "file": f"{os.path.basename(out_dir)}/{h}.mp3",
+    }
+    if os.path.isfile(out_path) and not force:
+        return "skipped", h, entry
+    prev_text, next_text = context.get((speaker, text), ("", ""))
+    vsettings = settings_for(cfg, speaker, cli_overrides, ov.get("voice_settings"))
+    audio = synth(api_key, voice_id, text, cfg, vsettings, prev_text, next_text)
+    with open(out_path, "wb") as f:
+        f.write(audio)
+    return "generated", h, entry
+
+
 def main():
     ap = argparse.ArgumentParser(description="Generate Iron Wake voiceover clips.")
     ap.add_argument("--all", action="store_true", help="every scripts/*.gd file")
@@ -326,8 +382,7 @@ def main():
     args = ap.parse_args()
 
     cfg = load_config()
-
-    # CLI overrides for A/B (win over base + per-speaker settings).
+    overrides = load_overrides()
     cli_overrides = {}
     if args.stability is not None:
         cli_overrides["stability"] = args.stability
@@ -365,8 +420,11 @@ def main():
         by_speaker[spk][1] += len(t)
 
     stitch = "off" if args.no_stitch else f"{sum(1 for v in context.values() if v[0] or v[1])} ctx"
+    n_picks = sum(1 for s, t in lines if line_hash(s, t) in overrides)
     print(f"Scope: {', '.join(files)} (+ shared verb responses)")
     print(f"Lines: {len(lines)}  |  Characters: {total_chars}  |  stitch: {stitch}")
+    if n_picks:
+        print(f"Per-line picks in scope: {n_picks}  (from voice_overrides.json)")
     print(f"Model: {cfg['model_id']}")
     if out_dir != VOICE_DIR:
         print(f"Out dir: {out_dir}  (preview — shipping clips untouched)")
@@ -395,34 +453,24 @@ def main():
     generated = skipped = failed = 0
     print()
     for spk, text in lines:
-        h = line_hash(spk, text)
-        out_path = os.path.join(out_dir, h + ".mp3")
-        voice_id = cfg["speakers"].get(spk, cfg["default_voice"])
-        entry = {
-            "speaker": spk,
-            "voice_id": voice_id,
-            "chars": len(text),
-            "text": text,
-            "file": f"{os.path.basename(out_dir)}/{h}.mp3",
-        }
-        if os.path.isfile(out_path) and not args.force:
-            manifest[h] = entry
-            skipped += 1
-            continue
         preview = text if len(text) <= 48 else text[:45] + "..."
-        prev_text, next_text = context.get((spk, text), ("", ""))
-        vsettings = settings_for(cfg, spk, cli_overrides)
         try:
-            audio = synth(api_key, voice_id, text, cfg, vsettings, prev_text, next_text)
-            with open(out_path, "wb") as f:
-                f.write(audio)
-            manifest[h] = entry
-            generated += 1
-            print(f"  [{spk}] {preview}  ({len(audio)} bytes)")
-            time.sleep(0.25)  # be gentle on rate limits
+            status, h, entry = render_one(
+                api_key, cfg, overrides, context, spk, text, out_dir,
+                cli_overrides, args.force,
+            )
         except RuntimeError as e:
             failed += 1
             print(f"  ! FAILED [{spk}] {preview}\n      {e}", file=sys.stderr)
+            continue
+        manifest[h] = entry
+        if status == "skipped":
+            skipped += 1
+            continue
+        generated += 1
+        tag = " [pick]" if h in overrides else ""
+        print(f"  [{spk}]{tag} {preview}")
+        time.sleep(0.25)  # be gentle on rate limits
 
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2, ensure_ascii=False)

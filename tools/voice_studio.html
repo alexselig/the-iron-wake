@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iron Wake — Voice Casting Studio</title>
+<style>
+  :root {
+    --bg:#12100d; --panel:#1c1812; --panel2:#241f18; --line:#352c20;
+    --text:#efe7d8; --dim:#a99a80; --accent:#c8905a; --accent2:#e0b070;
+    --good:#5fbf7f; --bad:#d16a52; --pick:#e0b070;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; }
+  a { color:var(--accent2); }
+  header { position:sticky; top:0; z-index:10; background:rgba(18,16,13,.96);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+    padding:12px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  h1 { font-size:16px; margin:0; font-weight:700; letter-spacing:.2px; }
+  h1 .em { color:var(--accent2); }
+  .grow { flex:1; }
+  .pill { font-size:12px; color:var(--dim); background:var(--panel); border:1px solid var(--line);
+    padding:4px 10px; border-radius:20px; white-space:nowrap; }
+  .warn { color:#0d0b08; background:var(--bad); border-color:var(--bad); font-weight:600; }
+  select, input[type=text], input[type=search] { background:var(--panel2); color:var(--text);
+    border:1px solid var(--line); border-radius:7px; padding:6px 8px; font:inherit; }
+  .btn { background:var(--accent); color:#160f07; border:none; border-radius:8px;
+    padding:8px 14px; font-weight:650; cursor:pointer; font-size:13px; }
+  .btn:hover { background:var(--accent2); }
+  .btn:disabled { opacity:.35; cursor:not-allowed; }
+  .btn.ghost { background:transparent; color:var(--dim); border:1px solid var(--line); }
+  .btn.ghost:hover { color:var(--text); border-color:var(--accent); }
+  .btn.gen { background:var(--good); color:#08130c; }
+  .btn.gen:hover { filter:brightness(1.1); }
+  .wrap { max-width:900px; margin:0 auto; padding:18px 20px 120px; }
+  .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px; }
+  .toolbar label { font-size:13px; color:var(--dim); display:flex; align-items:center; gap:6px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; margin-bottom:14px; }
+  .card.picked { border-color:var(--pick); box-shadow:inset 0 0 0 1px rgba(224,176,112,.35); }
+  .row1 { display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+  .spk { font-size:11px; letter-spacing:.6px; text-transform:uppercase; font-weight:700;
+    padding:3px 9px; border-radius:6px; color:#120f0a; }
+  .src { font-size:11px; color:var(--dim); }
+  .chip { font-size:10.5px; letter-spacing:.4px; text-transform:uppercase; padding:2px 7px;
+    border-radius:20px; border:1px solid var(--line); color:var(--dim); }
+  .chip.ship { color:var(--good); border-color:rgba(95,191,127,.5); }
+  .chip.pk { color:var(--pick); border-color:rgba(224,176,112,.5); }
+  .chip.stale { color:var(--bad); border-color:rgba(209,106,82,.5); }
+  .line { font-size:16px; margin:2px 0 12px; }
+  .ctl { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  .ctl .grp { display:flex; align-items:center; gap:8px; }
+  .ctl label { font-size:12px; color:var(--dim); }
+  input[type=range] { width:130px; accent-color:var(--accent); }
+  .val { font-variant-numeric:tabular-nums; font-size:12px; color:var(--text); width:30px; }
+  .acts { display:flex; gap:8px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+  .status { font-size:12px; color:var(--dim); margin-left:auto; }
+  .takes { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .take { display:flex; align-items:center; gap:6px; background:var(--panel2);
+    border:1px solid var(--line); border-radius:20px; padding:3px 6px 3px 3px; font-size:11.5px; }
+  .take button { background:var(--accent); color:#160f07; border:none; border-radius:50%;
+    width:22px; height:22px; cursor:pointer; font-size:11px; line-height:1; }
+  .take button.playing { background:var(--good); }
+  .take .use { background:transparent; color:var(--dim); border:none; cursor:pointer;
+    text-decoration:underline; padding:0 2px; width:auto; height:auto; }
+  .take .use:hover { color:var(--accent2); }
+  .spin { display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,.3);
+    border-top-color:var(--accent2); border-radius:50%; animation:sp .7s linear infinite;
+    vertical-align:-2px; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+  .genbar { position:fixed; left:0; right:0; bottom:0; z-index:10; background:rgba(18,16,13,.97);
+    border-top:1px solid var(--line); padding:12px 20px; display:flex; gap:14px; align-items:center; }
+  .genbar .msg { color:var(--dim); font-size:13px; }
+  .hidden { display:none !important; }
+  .custom { margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎙 Iron Wake — <span class="em">Voice Casting Studio</span></h1>
+  <span class="pill" id="scopePill">…</span>
+  <span class="pill" id="progressPill">…</span>
+  <span class="grow"></span>
+  <span class="pill warn hidden" id="keyPill">no API key — preview disabled</span>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <label>Speaker
+      <select id="fSpeaker"><option value="">all</option></select>
+    </label>
+    <label>Room
+      <select id="fSource"><option value="">all</option></select>
+    </label>
+    <label><input type="checkbox" id="fPicked"> picked only</label>
+    <label><input type="checkbox" id="fUnship"> needs generate</label>
+    <input type="search" id="fSearch" placeholder="search text…" style="min-width:180px">
+    <span class="grow"></span>
+    <span class="pill" id="shownPill"></span>
+  </div>
+  <div id="list"></div>
+</div>
+
+<div class="genbar">
+  <button class="btn gen" id="genBtn">Generate picked clips</button>
+  <span class="msg" id="genMsg">Picks are saved instantly. Generate writes the shipping .mp3s.</span>
+  <span class="grow"></span>
+  <button class="btn ghost" id="reload">Reload</button>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+let STATE = null;
+const audio = new Audio();
+let playingBtn = null;
+
+function speakerColor(spk){
+  let h=0; for (const c of spk) h=(h*31+c.charCodeAt(0))%360;
+  return `hsl(${h} 55% 68%)`;
+}
+function fmt(v){ return (v==null?'–':(+v).toFixed(2)); }
+
+function playURL(url, btn){
+  document.querySelectorAll('.take button.playing').forEach(b=>b.classList.remove('playing'));
+  if (playingBtn) playingBtn.classList.remove('playing');
+  audio.pause(); audio.src=url; audio.currentTime=0; audio.play();
+  if (btn){ btn.classList.add('playing'); playingBtn=btn;
+    audio.onended=()=>btn.classList.remove('playing'); }
+}
+
+async function load(){
+  const r = await fetch('/api/state');
+  STATE = await r.json();
+  $('#scopePill').textContent = STATE.files.map(f=>f.split('/').pop().replace('.gd','')).join(', ');
+  $('#keyPill').classList.toggle('hidden', STATE.have_key);
+  // populate filters
+  const spks=[...new Set(STATE.lines.map(l=>l.speaker))].sort();
+  const srcs=[...new Set(STATE.lines.map(l=>l.source))].sort();
+  fillSelect($('#fSpeaker'), spks);
+  fillSelect($('#fSource'), srcs);
+  render();
+}
+function fillSelect(sel, vals){
+  const keep=sel.value;
+  sel.innerHTML='<option value="">all</option>'+vals.map(v=>`<option>${v}</option>`).join('');
+  sel.value=keep;
+}
+
+function voiceName(id){
+  const v=STATE.voices.find(v=>v.id===id); return v?v.name:id;
+}
+
+function lineState(l){
+  // effective current pick (override) or cast default
+  const ov=l.override;
+  return {
+    voice_id: ov?.voice_id ?? l.cast_voice_id,
+    stability: ov?.voice_settings?.stability ?? l.cast_settings.stability,
+    style: ov?.voice_settings?.style ?? l.cast_settings.style,
+    picked: !!ov,
+  };
+}
+
+function render(){
+  const fSpk=$('#fSpeaker').value, fSrc=$('#fSource').value;
+  const fPk=$('#fPicked').checked, fUn=$('#fUnship').checked;
+  const q=$('#fSearch').value.trim().toLowerCase();
+  const list=$('#list'); list.innerHTML='';
+  let shown=0;
+  for (const l of STATE.lines){
+    if (fSpk && l.speaker!==fSpk) continue;
+    if (fSrc && l.source!==fSrc) continue;
+    if (fPk && !l.override) continue;
+    if (fUn && !(l.override && !l.clip_exists)) continue;
+    if (q && !l.text.toLowerCase().includes(q)) continue;
+    list.appendChild(card(l)); shown++;
+  }
+  $('#shownPill').textContent=`${shown} shown`;
+  const picks=STATE.lines.filter(l=>l.override).length;
+  const ship=STATE.lines.filter(l=>l.clip_exists).length;
+  $('#progressPill').textContent=`${picks} picked · ${ship} shipping · ${STATE.lines.length} lines`;
+  const needGen=STATE.lines.filter(l=>l.override && !l.clip_exists).length;
+  $('#genBtn').disabled=picks===0 || !STATE.have_key;
+  $('#genBtn').textContent = needGen ? `Generate ${needGen} new pick(s)` : `Regenerate ${picks} pick(s)`;
+}
+
+function card(l){
+  const st=lineState(l);
+  const el=document.createElement('div');
+  el.className='card'+(l.override?' picked':'');
+  const badge=`<span class="spk" style="background:${speakerColor(l.speaker)}">${l.speaker}</span>`;
+  const chips=[];
+  if (l.clip_exists) chips.push('<span class="chip ship">shipping</span>');
+  if (l.override && !l.clip_exists) chips.push('<span class="chip stale">not generated</span>');
+  if (l.override) chips.push('<span class="chip pk">picked</span>');
+  el.innerHTML=`
+    <div class="row1">${badge}<span class="src">${l.source}</span>${chips.join('')}</div>
+    <div class="line">${escapeHtml(l.text)}</div>
+    <div class="ctl">
+      <div class="grp"><label>Voice</label>
+        <select class="v"></select></div>
+      <div class="grp"><label>stability</label>
+        <input type="range" class="rs" min="0" max="1" step="0.05" value="${st.stability}">
+        <span class="val vs">${fmt(st.stability)}</span></div>
+      <div class="grp"><label>style</label>
+        <input type="range" class="ry" min="0" max="1" step="0.05" value="${st.style}">
+        <span class="val vy">${fmt(st.style)}</span></div>
+    </div>
+    <div class="custom hidden"><input type="text" class="cid" placeholder="ElevenLabs voice ID"
+      style="width:280px"></div>
+    <div class="acts">
+      <button class="btn prev">▶ Preview</button>
+      <button class="btn ghost save" disabled>Save pick ✓</button>
+      <button class="btn ghost reset" ${l.override?'':'disabled'}>Reset ↺</button>
+      ${l.clip_exists?'<button class="btn ghost ship">▶ Shipping</button>':''}
+      <span class="status"></span>
+    </div>
+    <div class="takes"></div>`;
+
+  // voice select
+  const vsel=el.querySelector('.v');
+  vsel.innerHTML=STATE.voices.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')
+    +`<option value="__custom__">Custom ID…</option>`;
+  const known=STATE.voices.some(v=>v.id===st.voice_id);
+  vsel.value=known?st.voice_id:'__custom__';
+  const custom=el.querySelector('.custom'), cid=el.querySelector('.cid');
+  if(!known){ custom.classList.remove('hidden'); cid.value=st.voice_id; }
+
+  const rs=el.querySelector('.rs'), ry=el.querySelector('.ry');
+  const vs=el.querySelector('.vs'), vy=el.querySelector('.vy');
+  const save=el.querySelector('.save'), status=el.querySelector('.status');
+  const takes=el.querySelector('.takes');
+
+  function curVoice(){ return vsel.value==='__custom__'?cid.value.trim():vsel.value; }
+  function cur(){ return {voice_id:curVoice(),
+    stability:+rs.value, style:+ry.value}; }
+  function changed(){
+    const c=cur(), s=lineState(l);
+    return c.voice_id!==s.voice_id || c.stability!==s.stability || c.style!==s.style
+      || (!l.override);
+  }
+  function refreshStatus(){
+    const c=cur();
+    status.innerHTML = l.override
+      ? `picked: <b>${voiceName(c.voice_id)}</b> · s${fmt(c.stability)}/st${fmt(c.style)}`
+      : `cast: ${voiceName(c.voice_id)} · s${fmt(c.stability)}/st${fmt(c.style)}`;
+    save.disabled = !changed() || !STATE.have_key;
+  }
+  vsel.onchange=()=>{ custom.classList.toggle('hidden', vsel.value!=='__custom__'); refreshStatus(); };
+  cid.oninput=refreshStatus;
+  rs.oninput=()=>{ vs.textContent=fmt(rs.value); refreshStatus(); };
+  ry.oninput=()=>{ vy.textContent=fmt(ry.value); refreshStatus(); };
+  refreshStatus();
+
+  // preview
+  el.querySelector('.prev').onclick=async(e)=>{
+    const btn=e.target; const c=cur();
+    if(!c.voice_id){ status.textContent='pick a voice first'; return; }
+    btn.disabled=true; btn.innerHTML='<span class="spin"></span> synth…';
+    try{
+      const r=await fetch('/api/preview',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({speaker:l.speaker,text:l.text,voice_id:c.voice_id,
+          voice_settings:{stability:c.stability,style:c.style},prev:l.prev,next:l.next})});
+      if(!r.ok){ const er=await r.json().catch(()=>({error:r.statusText}));
+        status.textContent='error: '+er.error; return; }
+      const url=URL.createObjectURL(await r.blob());
+      addTake(takes,url,`${voiceName(c.voice_id)} s${fmt(c.stability)}/st${fmt(c.style)}`,c);
+      playURL(url,null);
+      status.textContent='previewed';
+    }catch(err){ status.textContent='error: '+err; }
+    finally{ btn.disabled=false; btn.textContent='▶ Preview'; }
+  };
+
+  // use-a-take -> load its params into controls
+  function useTake(c){
+    const known=STATE.voices.some(v=>v.id===c.voice_id);
+    vsel.value=known?c.voice_id:'__custom__';
+    custom.classList.toggle('hidden',known); if(!known) cid.value=c.voice_id;
+    rs.value=c.stability; vs.textContent=fmt(c.stability);
+    ry.value=c.style; vy.textContent=fmt(c.style);
+    refreshStatus();
+  }
+  el._useTake=useTake;
+
+  // save pick
+  save.onclick=async()=>{
+    const c=cur();
+    const r=await fetch('/api/pick',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({hash:l.hash,speaker:l.speaker,text:l.text,voice_id:c.voice_id,
+        voice_settings:{stability:c.stability,style:c.style}})});
+    if(!r.ok){ status.textContent='save failed'; return; }
+    l.override={voice_id:c.voice_id,voice_settings:{stability:c.stability,style:c.style}};
+    el.classList.add('picked');
+    render();
+  };
+  // reset
+  el.querySelector('.reset').onclick=async()=>{
+    await fetch('/api/pick',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({hash:l.hash,clear:true})});
+    l.override=null; render();
+  };
+  const shipBtn=el.querySelector('.acts .ship');
+  if(shipBtn) shipBtn.onclick=()=>playURL('/api/clip?hash='+l.hash+'&t='+Date.now(),null);
+
+  // attach take-use handler via delegation
+  takes.addEventListener('click',ev=>{
+    const u=ev.target.closest('.use'); if(u&&u._c) el._useTake(u._c);
+  });
+  return el;
+}
+
+function addTake(takes,url,label,c){
+  const t=document.createElement('div'); t.className='take';
+  t.innerHTML=`<button title="play">▶</button><span>${label}</span><button class="use" title="load these settings">use</button>`;
+  const btns=t.querySelectorAll('button');
+  btns[0].onclick=()=>playURL(url,btns[0]);
+  btns[1]._c=c;
+  takes.prepend(t);
+  while(takes.children.length>4) takes.lastChild.remove();
+}
+
+function escapeHtml(s){ return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+// generate
+$('#genBtn').onclick=async()=>{
+  const picks=STATE.lines.filter(l=>l.override);
+  if(!picks.length) return;
+  const chars=picks.reduce((a,l)=>a+l.text.length,0);
+  if(!confirm(`Generate ${picks.length} shipping clip(s)? (~${chars} characters of ElevenLabs synthesis)`)) return;
+  const btn=$('#genBtn'); btn.disabled=true;
+  const msg=$('#genMsg');
+  const items=picks.map(l=>({speaker:l.speaker,text:l.text,prev:l.prev,next:l.next}));
+  msg.innerHTML='<span class="spin"></span> generating '+items.length+'…';
+  try{
+    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({items})});
+    const d=await r.json();
+    if(!r.ok){ msg.textContent='error: '+(d.error||r.statusText); return; }
+    const ok=d.results.filter(x=>x.status!=='failed').length;
+    const bad=d.results.filter(x=>x.status==='failed').length;
+    const done=new Set(d.results.filter(x=>x.status!=='failed').map(x=>x.hash));
+    STATE.lines.forEach(l=>{ if(done.has(l.hash)) l.clip_exists=true; });
+    render();
+    msg.textContent=`generated ${ok}${bad?', '+bad+' failed':''}. Reimport in Godot (or clear .godot/imported) to hear them in-game.`;
+  }catch(err){ msg.textContent='error: '+err; }
+  finally{ btn.disabled=false; }
+};
+
+['#fSpeaker','#fSource'].forEach(s=>$(s).onchange=render);
+['#fPicked','#fUnship'].forEach(s=>$(s).onchange=render);
+$('#fSearch').oninput=render;
+$('#reload').onclick=load;
+load();
+</script>
+</body>
+</html>

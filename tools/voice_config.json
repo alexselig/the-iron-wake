@@ -8,16 +8,17 @@
     "style": 0.45,
     "use_speaker_boost": true
   },
-  "_speaker_settings_comment": "Optional per-speaker overrides merged over voice_settings. ROWAN = Rowan's spoken dialogue (expressive base, no override). ROWAN_VO = the SAME voice as ROWAN but his narration/voiceover style (used by _say lines): steadier and less theatrical. Tuned via blind A/B review (2026-07-06): PINDLE flat/deadpan (style 0.0); TIBBIT expressive. Lower stability = more emotional variation, higher style = more expressive delivery.",
+  "_speaker_settings_comment": "Optional per-speaker overrides merged over voice_settings (and in turn overridden by per-line picks in voice_overrides.json). Derived from Casting Studio picks (median of saved beach-room picks, 2026-07-09): ROWAN spoken = Daniel, low stability/expressive; ROWAN_VO = Antoni narration (a DELIBERATELY different actor from spoken ROWAN, confirmed 2026-07-09); PINDLE deadpan; TIBBIT expressive. Lower stability = more emotional variation, higher style = more expressive delivery.",
   "speaker_settings": {
-    "ROWAN_VO": { "stability": 0.55, "style": 0.25 },
-    "PINDLE": { "stability": 0.5, "style": 0.0 },
-    "TIBBIT": { "stability": 0.35, "style": 0.60 },
+    "ROWAN": { "stability": 0.05, "style": 0.45 },
+    "ROWAN_VO": { "stability": 0.45, "style": 0.40 },
+    "PINDLE": { "stability": 0.05, "style": 0.05 },
+    "TIBBIT": { "stability": 0.05, "style": 0.60 },
     "CALIGO": { "stability": 0.30, "style": 0.60 }
   },
   "default_voice": "ErXwobaYiN019PkySvjV",
   "speakers": {
-    "ROWAN": "ErXwobaYiN019PkySvjV",
+    "ROWAN": "onwK4e9ZLuTAKqWW03F9",
     "ROWAN_VO": "ErXwobaYiN019PkySvjV",
     "TIBBIT": "TxGEqnHWrfWFTfGW9XjX",
     "PINDLE": "pNInz6obpgDQGcFmaJgB",
@@ -32,8 +33,8 @@
     "WOMAN": "21m00Tcm4TlvDq8ikWAM"
   },
   "_casting_notes": {
-    "ROWAN": "Antoni \u2014 versatile mid male, dry sarcasm (protagonist)",
-    "ROWAN_VO": "Antoni (same voice as ROWAN) \u2014 Rowan's narration/voiceover style: steadier, less theatrical than his spoken dialogue",
+    "ROWAN": "Daniel \u2014 British mature; recast from Antoni via Casting Studio picks (2026-07-09, 5/5). Rowan's spoken dialogue. DELIBERATELY a different voice from his narration (ROWAN_VO) \u2014 confirmed by Alex 2026-07-09, do not unify.",
+    "ROWAN_VO": "Antoni \u2014 Rowan's narration/voiceover voice. Intentionally a DIFFERENT actor from spoken ROWAN (Daniel): Daniel when talking to characters, Antoni for 'look at' narration. Confirmed split 2026-07-09.",
     "TIBBIT": "Josh \u2014 brighter young male, enthusiastic tinkerer",
     "PINDLE": "Adam \u2014 deep authoritative male, pompous bureaucrat",
     "MARROW": "Arnold \u2014 crisp, oracular",

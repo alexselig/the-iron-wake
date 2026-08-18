@@ -6,7 +6,6 @@ extends Area2D
 
 signal clicked(node: Clickable)
 signal right_clicked(node: Clickable)
-signal item_used(node: Clickable, item_name: String)
 
 @export var description: String = ""
 @export var walk_to_offset: Vector2 = Vector2.ZERO  ## Where Elara walks to (relative to this node)

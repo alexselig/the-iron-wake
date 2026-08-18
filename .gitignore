@@ -13,6 +13,9 @@ __pycache__/
 *.pyc
 .env
 
+# Voice studio preview cache (audition clips; regenerated on demand)
+tools/.voice_preview/
+
 # Archives (keep in repo but ignore future temp ones)
 *.tmp
 

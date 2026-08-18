@@ -87,9 +87,8 @@ This project is built in parallel across 4 Claude terminal windows. Each termina
 - Full plan: `PARALLEL_PLAN.md`
 
 ## Known Issues (remaining)
-- `player.gd` has dead code: `speech_finished` signal, `is_talking` variable, stale "Elara Voss" comment
-- `clickable.gd` has unused `item_used` signal
-- Missing inventory icons for `blank_form` and `filled_form`
+- (none currently tracked — `player.gd` dead code, `clickable.gd` `item_used`, and the
+  `blank_form`/`filled_form` inventory icons were all resolved.)
 
 ## Voiceover (ElevenLabs)
 Dialogue is voiced with **pre-generated** ElevenLabs TTS. The API key is used only
@@ -98,6 +97,11 @@ by the build-time generator and **never ships in the game** — only the resulti
 
 - **Key**: `tools/.env` → `ELEVENLABS_API_KEY=...` (gitignored — NEVER commit the key).
 - **Casting**: `tools/voice_config.json` maps speaker → premade voice ID (no secrets).
+- **Per-line picks**: `python3 tools/voice_studio.py` opens a local Casting Studio
+  (http://127.0.0.1:8778) to pick the voice + stability/style of EACH line, audition
+  it live, and save to `tools/voice_overrides.json` (keyed by the same hash, committed,
+  no secrets). The generator applies these over per-character casting; the game is
+  unchanged. Full docs: `tools/README.md`.
 - **Generate**: `python3 tools/generate_voiceover.py` (default = opening + beach room).
   `--dry-run` previews lines/char count; `--all` does every room; `--force` re-renders.
   Idempotent — existing clips are skipped.

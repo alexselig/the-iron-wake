@@ -1,15 +1,13 @@
 extends CharacterBody2D
 
-## Player character - Elara Voss
+## Player character - Rowan Vale
 
 signal arrived()
-signal speech_finished()
 
 var sprite: AnimatedSprite2D
 
 var target_position: Vector2 = Vector2.ZERO
 var is_walking := false
-var is_talking := false
 var walk_speed := 80.0  # pixels per second
 var facing_right := true
 

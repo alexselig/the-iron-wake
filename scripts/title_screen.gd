@@ -23,7 +23,7 @@ func _ready() -> void:
 
 	# Connect buttons
 	$VBox/StartButton.pressed.connect(_on_start_pressed)
-	_style_title_button($VBox/StartButton)
+	_style_start_button($VBox/StartButton)
 
 	# Add Continue button if save exists
 	if FileAccess.file_exists("user://savegame.dat"):
@@ -80,6 +80,35 @@ func _make_button(text: String) -> Button:
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", hover)
 	return btn
+
+func _style_start_button(btn: Button) -> void:
+	# Start button: styled to match the title placard — parchment-cream
+	# background with dark engraved-brown serif text.
+	var bg := {"normal": Color("eccd7f"), "hover": Color("f3d992"),
+			"pressed": Color("e0bb6a"), "focus": Color("eccd7f")}
+	for state in bg:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = bg[state]
+		sb.set_corner_radius_all(3)
+		sb.set_border_width_all(2)
+		sb.border_color = Color("8a6a34")
+		sb.set_content_margin(SIDE_LEFT, 18)
+		sb.set_content_margin(SIDE_RIGHT, 18)
+		sb.set_content_margin(SIDE_TOP, 5)
+		sb.set_content_margin(SIDE_BOTTOM, 9)
+		btn.add_theme_stylebox_override(state, sb)
+	var brown := Color("2f1d11")
+	btn.add_theme_color_override("font_color", brown)
+	btn.add_theme_color_override("font_hover_color", brown)
+	btn.add_theme_color_override("font_pressed_color", brown)
+	btn.add_theme_color_override("font_focus_color", brown)
+	# Slab-serif font to match the baked "THE IRON WAKE" title lettering.
+	var font := FontFile.new()
+	font.load_dynamic_font("res://assets/fonts/ZillaSlab-Medium.ttf")
+	if font.get_font_name() != "":
+		btn.add_theme_font_override("font", font)
+	btn.add_theme_font_size_override("font_size", 17)
+	btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 func _style_title_button(btn: Button) -> void:
 	if not GameState.use_new_assets:
